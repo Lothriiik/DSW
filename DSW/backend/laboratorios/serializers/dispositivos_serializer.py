@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from .models import  Dispositivos
-from software_serializer import SoftwareSerializer
+from ..models import  Dispositivos
+from .software_serializer import SoftwareSerializer
 
 class DispositivosSerializer(serializers.ModelSerializer):
  

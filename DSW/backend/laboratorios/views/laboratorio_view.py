@@ -4,6 +4,8 @@ from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from django.urls import path
+
 
 class LaboratorioListView(APIView):
 	permission_classes = [permissions.IsAuthenticated]
@@ -59,7 +61,7 @@ class LaboratorioDeleteView(APIView):
         
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
-class PedidoUpdateView(generics.UpdateAPIView):
+class LaboratorioUpdateView(generics.UpdateAPIView):
     queryset = Laboratorio.objects.all()
     serializer_class = LaboratorioSerializer
     permission_classes = [permissions.IsAuthenticated]
