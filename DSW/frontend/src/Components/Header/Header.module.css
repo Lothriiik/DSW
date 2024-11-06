@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+    
+}
+
+.principal {
+    display: flex;
+    flex-direction: column;
+    width: 233px;
+    height: 100vh;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #0095DA;
+
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    flex-grow: 1;
+}
+
+.usuario {
+    display: flex;
+    flex-direction: column;
+}
+
+.ambiente {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.sair {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    
+}
+
+.menu {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    padding-left: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.lecc {
+    width: 233px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    
+    list-style: Text - Normal Bold;
+    font-family: Inter;
+    text-align: left;
+    font-size: 14px;
+    line-height: 22.4px;
+    
+    color: #FFFFFF;
+    padding-left: 17px;
+}
+
+.menu:hover {
+    background-color: #00AEFF;
+}
+
+.body {
+    width: 181px;
+    height: 22;
+
+    font-family: Inter;
+    text-align: left;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 22.4px;
+
+    color: #E0E0E0;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.linha{
+    width: 215px;
+    top: 626px;
+    left: 9px;
+    border: 1px solid #FFFFFF47;
+    margin-left: 10px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+

@@ -1,0 +1,64 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Open Sans", sans-serif;
+}
+
+.classe-principal {
+    background-color: #FFFFFF;
+    display: inline-flex;
+    gap: 0;
+}
+
+.form-container {
+    margin-top: 60px;
+    margin-left: 70px;
+}
+
+.form-titulo {
+    width: 483px;
+    height: 39px;
+    
+    font-family: Inter;
+    font-size: 32px;
+    font-weight: 500;
+    line-height: 38.73px;
+    text-align: left;
+    margin-bottom: 47px;
+    color: #4f4f4f;
+}
+
+.formularios {
+    display: inline-flex;
+    
+}
+
+.form-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 250px;
+    height: 47px;
+    margin-right: 10px;
+    border-radius: 8px;
+
+    list-style: Text - Normal Bold;
+    font-family: Inter;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 22.4px;
+    font-weight: 550;
+
+    background-color: #0095DA;
+    color: #FFFFFF;
+
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.form-link:hover {
+    background-color: #092C4C;
+}
