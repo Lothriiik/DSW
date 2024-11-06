@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.popupteste {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 254px;
+    height: 194px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: left;
+    z-index: 1000;
+}
+
+
+.card-title{
+    font-size: 16px;
+    color: #0095DA;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.card-sala{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 20px;
+    color: #4F4F4F;
+
+}
+.card-dispositivos{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 20px;
+    color: #4F4F4F;
+}
+
+.side3424{
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-actions-buttons{
+    position: absolute; 
+    bottom: 16px; 
+    right: 16px; 
+}
+.blue{
+    background-color: #0095DA;
+    border: none;
+    color: #FFFFFF;
+}
+
+.blue:not([disabled]):hover{
+    background-color: #092C4C;
+}
+.blue:not([disabled]):active{
+    background-color: #526b81;
+}
+
+.red{
+    background-color: #ED1C24;
+    border: none;
+    color: #FFFFFF;
+}
+
+.red:hover{
+    background-color: #532321;
+}
+.red:active{
+    background-color: #904343;
+}

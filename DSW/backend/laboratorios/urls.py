@@ -8,7 +8,8 @@ from django.conf import settings
 
 urlpatterns = [
     
-    path('lab/', LaboratorioListView.as_view(), name='lab')
+    path('lab-view/', LaboratorioListView.as_view(), name='lab-view'),
+    path('lab-create/', LaboratorioCreateView.as_view(), name='lab-create'),
     
   
 ]

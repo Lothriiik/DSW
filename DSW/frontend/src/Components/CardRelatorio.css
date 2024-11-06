@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.card-relatorio {
+    display: flex;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    width: 916px;
+    height: 81px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    align-items: center;
+}
+
+
+.card-lab{
+    font-size: 16px;
+    text-align: left;
+    color: #4F4F4F;
+    margin-left: 16px;
+    font-weight: bold;
+}
+.card-especificacao{
+    font-size: 16px;
+    text-align: left;
+    color: #4F4F4F;
+    margin-left: 20px;
+    font-weight: bold;
+
+}
+
+.side3424{
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    margin: 5px;
+}
+
+.popup-actions-buttons{
+    position: absolute; 
+    bottom: 8px; 
+    right: 18px; 
+}
+.blue{
+    background-color: #0095DA;
+    border: none;
+    color: #FFFFFF;
+}
+
+.blue:not([disabled]):hover{
+    background-color: #092C4C;
+}
+.blue:not([disabled]):active{
+    background-color: #526b81;
+}
+
+.green{
+    background-color: #2ECC40;
+    border: none;
+    color: #FFFFFF;
+}
+
+.green:not([disabled]):hover{
+    background-color: #176220;
+}
+.green:not([disabled]):active{
+    background-color: #4b8a4f;
+}
+
+.red{
+    background-color: #ED1C24;
+    border: none;
+    color: #FFFFFF;
+}
+
+.red:hover{
+    background-color: #532321;
+}
+.red:active{
+    background-color: #904343;
+}
