@@ -31,6 +31,11 @@ const HomeAlmoxADM = () => {
         <CircleButton iconType="calendar" />
 
 
+
+        
+        <CardLECC lab="Lecc 3" numsala="20" blocosala="C" numdisp="35"/>
+
+
       </main>
       <Calendary/>
       <CardRelatorioPC lab="Lecc 1" especificacao="Professor"/>
