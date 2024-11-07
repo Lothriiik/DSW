@@ -1,4 +1,4 @@
-from ..serializers.laboratorio_serializer import (LaboratorioSerializer, DispositivosLabSerializer)
+from ..serializers.laboratorio_serializer import (LaboratorioSerializer)
 from ..models import Laboratorio
 from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
@@ -37,7 +37,7 @@ class LaboratorioByIDView(APIView):
 
         if id_sala is not None:
             
-            pedidos = Laboratorio.objects.filter(sala=id_sala)
+            pedidos = Laboratorio.objects.filter(id_sala=id_sala)
             serializer = LaboratorioSerializer(pedidos, many=True)
             return Response({'laboratorio': serializer.data}, status=status.HTTP_200_OK)
             
@@ -47,13 +47,11 @@ class LaboratorioDeleteView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def delete(self, request):
-        # Obtém o ID da query string (por exemplo: ?id=1)
         sala_id = request.query_params.get('id_sala', None)
 
         if sala_id is not None:
             try:
-                # Obtém o pedido com o ID fornecido e verifica se pertence ao usuário autenticado
-                laboratorio = Laboratorio.objects.get(id=sala_id, usuario=request.user)
+                laboratorio = Laboratorio.objects.get(id_sala=sala_id)
                 laboratorio.delete()
                 return Response({'message': 'Laboratorio deletado com sucesso'}, status=status.HTTP_204_NO_CONTENT)
             except Laboratorio.DoesNotExist:

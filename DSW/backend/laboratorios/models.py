@@ -10,15 +10,20 @@ class Laboratorio(models.Model):
 
 
 class Dispositivos(models.Model):
+    STATUS_CHOICES = (
+        ('Funcionando', 'Funcionando'),
+        ('Com Defeito', 'Com Defeito'),
+    )
+
     id_dispositivo = models.AutoField(primary_key=True)
     id_sala = models.ForeignKey(Laboratorio, on_delete=models.CASCADE, related_name='dispositivos')
-    marca = models.CharField(max_length=255)
-    modelo = models.CharField(max_length=255)
+    marca = models.CharField(max_length=255, null=True, blank=True)
+    modelo = models.CharField(max_length=255, null=True, blank=True)
     patrimonio = models.CharField(max_length=255)
     is_computador = models.BooleanField(default=False)
-    configuracao = models.TextField()
-    descricao = models.TextField()
-    status = models.CharField(max_length=50)
+    configuracao = models.TextField(null=True, blank=True)
+    descricao = models.TextField(null=True, blank=True)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default='Funcionando')
     data_verificacao = models.DateField()
 
     def __str__(self):
