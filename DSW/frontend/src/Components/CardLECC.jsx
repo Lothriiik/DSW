@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './CardLECC.css'; 
 
 
-export default function CardLECC({lab, numsala, blocosala, numdisp, onClick }) {
+export default function CardLECC({lab, sala, numdisp, onClick }) {
     return (
         
                 <div className="cardlecc">
@@ -10,7 +10,7 @@ export default function CardLECC({lab, numsala, blocosala, numdisp, onClick }) {
                         {lab}
                     </p>
                     <p className="textlecc-sala">
-                        Sala {numsala} - Bloco {blocosala}
+                        {sala}
                     </p>
                     <p className="textlecc-dispositivos">
                         Dispositivos: {numdisp}
