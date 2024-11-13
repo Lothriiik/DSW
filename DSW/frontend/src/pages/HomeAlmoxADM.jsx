@@ -11,15 +11,20 @@ import CardComputador from '../components/CardComputador';
 import CardRelatorioPC from '../components/CardRelatorio';
 import Calendary from '../components/Calendary';
 import React, { useState } from 'react';
+import LabCreatePopUp from '../components/LabCreatePopUp'
+import CustomSelect from '../components/CustomSelect';
 
 
 const HomeAlmoxADM = () => {
+
+  const handleDateSelect = (formattedDate) => {
+    console.log('Data selecionada:', formattedDate); 
+  };
 
 
   return(
     <body class="body">
       <main class="container">
-
 
         <CustomInput label="Nome" placeholder="Digite o Nome" className="input-field" />
         <CustomButton label="Negar" className="red size108" />
@@ -29,16 +34,20 @@ const HomeAlmoxADM = () => {
         <CustomButton label="Confirmar" className="borderred size147" />
         <CircleButton iconType="add" />
         <CircleButton iconType="calendar" />
-
-
-
-        
-        <CardLECC lab="Lecc 3" numsala="20" blocosala="C" numdisp="35"/>
-
+        <CustomSelect 
+            label="Ano" 
+            labelSelect="Selecione o Ano"
+            options={[
+                { label: "2020", value: "2020" },
+                { label: "2021", value: "2021" },
+                { label: "2022", value: "2022" },
+            ]}
+        />
 
       </main>
-      <Calendary/>
-      <CardRelatorioPC lab="Lecc 1" especificacao="Professor"/>
+      <Calendary onDateSelect={handleDateSelect} />
+      <LabCreatePopUp/>
+
       
       
     </body>

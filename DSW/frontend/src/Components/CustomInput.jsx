@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import './CustomInput.css'; // Importe o CSS
+import React from 'react';
+import './CustomInput.css'; 
 
-const CustomInput = ({ label, placeholder, className }) => {
-    const [inputValue, setInputValue] = useState('');
-    const [isActive, setIsActive] = useState(false);
+const CustomInput = ({ label, placeholder, className, value, onChange }) => {
+    const [isActive, setIsActive] = React.useState(false);
 
     const handleInputChange = (event) => {
-        setInputValue(event.target.value);
+        onChange(event);  
         setIsActive(event.target.value.trim() !== '');
     };
 
     return (
-        <div>
-            <label htmlFor="customInput">{label}</label>
+        <div className='container-input'>
+            {label && <label htmlFor="customInput" className="input-label">{label}</label>}
             <input
                 id="customInput"
                 type="text"
                 placeholder={placeholder}
-                className={`input-field ${isActive ? 'active' : ''} ${className}`}
-                value={inputValue}
+                className={`${isActive ? 'active' : ''} ${className}`}
+                value={value}  
                 onChange={handleInputChange}
             />
         </div>

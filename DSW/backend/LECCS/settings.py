@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'problemas',
     'rest_framework',
     'corsheaders',
+    'rest_framework_simplejwt',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware', 
 ]
 
 ROOT_URLCONF = 'LECCS.urls'
@@ -96,7 +98,7 @@ DATABASES = {
 
 REST_FRAMEWORK = { 
     'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework.permissions.IsAuthenticated'
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_AUTHENTICATION_CLASSES': ( 
     'rest_framework.authentication.SessionAuthentication',

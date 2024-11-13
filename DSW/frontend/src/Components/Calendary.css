@@ -1,25 +1,35 @@
-/* StyledCalendar.css */
+
 .styled-calendar {
-    width: 280px;
-    margin: auto;
+    width: 300px;
+    min-height: 140px;
     font-family: Arial, sans-serif;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2);
     z-index: 1000;
-    transform: scale(0.9); /* Reduz o tamanho em 10% */
-    transform-origin: top left; /* Mantém o calendário alinhado ao topo esquerdo */
+    transform: scale(0.9); 
+    transform-origin: top left; 
+    height: auto;
+}
+
+.firstheader{
+    padding-top: 20px;
+    padding-bottom: 10px;
+}
+
+.secondheader{
+    padding: 10px 0;
 }
 
 .calendar-header {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     font-size: 16px;
     color: #0095DA;
-    padding: 10px 0;
     font-weight: bold;
     margin-left: 18px;
     margin-right: 18px;
+
 }
 
 .calendar-header button {
@@ -33,6 +43,7 @@
 
 .calendar-body {
     padding: 5px;
+
 }
 
 .calendar-weekdays, .calendar-days {
@@ -75,4 +86,53 @@
 
 .calendar-days .day.empty {
     color: #D3D3D3;
+}
+
+.label-selector {
+
+    color: #0095DA;
+    font-size: 16px;
+    font-weight: 500;
+    display: inline-block; 
+    padding: 4px 0 8px 0;
+    box-sizing: border-box;
+    margin-right: 8px; 
+}
+
+.select-160 {
+    color: #4F4F4F;
+    height: 36px;
+    width: 200px !important;
+    padding-left: 16px;
+    padding-right: 12px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px solid #BDBDBD;
+    background-color: #fff;
+    display: inline-block;
+
+
+    padding-right: 30px;       
+    padding-left: 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none; 
+    appearance: none;     
+    background-image: url('data:image/svg+xml,%3Csvg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11.5198 1L6.47978 6.04L1.43978 1" stroke="%234F4F4F" stroke-width="1.296" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E'); /* SVG inline como background */
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 13px 7px;
+    transition: transform 0.3s ease;
+}
+
+select:open {
+    background-image: url('data:image/svg+xml,%3Csvg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M1.43978 6.04004L6.47978 1.00004L11.5198 6.04004" stroke="%234F4F4F" stroke-width="1.296" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E'); /* Inverter a seta */
+  }
+
+.select-160 option {
+    padding-right: 24px;
+}
+
+.select-160::placeholder {
+    color: #939393;
+    font-size: 16px;
 }

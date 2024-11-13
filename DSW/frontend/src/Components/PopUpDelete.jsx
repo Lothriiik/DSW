@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import './popupDelete.css'; // O arquivo de estilo
 import CustomButton from './CustomButton'
 
-export default function PopUpDelete() {
+export default function PopUpDelete({onConfirm, onClose, text}) {
     const [isOpen, setIsOpen] = useState(true); 
 
     const closePopup = () => {
         setIsOpen(false); 
     };
+
+
 
     return (
         <>
@@ -26,11 +28,14 @@ export default function PopUpDelete() {
                     </div>
                     <h2 className="popup-title">Tem certeza?</h2>
                     <p className="popup-message">
-                        Essa ação removerá o Laboratorio do sistema. Essa ação não é reversível.
+                        Essa ação removerá o {text}. Essa ação não é reversível.
                     </p>
                     <div className="popup-actions">
-                        <CustomButton label="Sim, deletar" className="red size189"/>
-                        <CustomButton label="Cancelar" className="borderred size108" onClick={closePopup}/>
+                        <CustomButton label="Sim, deletar" className="red size189" onClick={onConfirm}/>
+                        <CustomButton label="Cancelar" className="borderred size108" onClick={() => { 
+                            closePopup();
+                            onClose();  
+                        }} />
                     </div>
                 </div>
             )}
