@@ -8,6 +8,7 @@ import Feedback from "./pages/Forms/Feedback";
 import Laboratories from "./pages/Laboratories";
 import HomeAlmoxADM from "./pages/HomeAlmoxADM"
 import ChartWithTable from "./pages/ChartWithTable";
+import LoginPage from "./pages/LoginPage";
 
 
 
@@ -22,7 +23,8 @@ function AppRoutes() {
                 <Route path="/infraatructure" element={<Infrastructure/>}></Route>
                 <Route path="/feedback" element={<Feedback/>}></Route>
                 <Route path="/teste" element={<HomeAlmoxADM/>}></Route>
-                <Route path="/tabela" element={<ChartWithTable/>}></Route>
+                <Route path="/tabela" element={<ChartWithTable idDispositivo={'2'}/>}></Route>
+                <Route path="/login" element={<LoginPage/>}></Route>
 
             </Routes>
         </BrowserRouter>

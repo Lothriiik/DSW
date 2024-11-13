@@ -1,95 +1,136 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import moment from 'moment';
-import './Calendary.css'; 
+import 'moment/locale/pt-br';
 
+import './Calendary.css';
+import CustomSelect from './CustomSelect';
 
-const Calendary = ({onDateSelect}) => {
-    const [currentDate, setCurrentDate] = useState(moment());
-    const [selectedDate, setSelectedDate] = useState(moment()); // Define a data de hoje como a data selecionada inicial
+const Calendary = ({ onDateSelect }) => {
+  moment.locale('pt_br');
+  const currentYear = moment().year();
+  const [selectedYear, setSelectedYear] = useState(currentYear);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(null);
 
-    const prevMonth = () => setCurrentDate(prev => prev.clone().subtract(1, 'month'));
-    const nextMonth = () => setCurrentDate(prev => prev.clone().add(1, 'month'));
+  const handleYearChange = (year) => {
+    const newYear = year === selectedYear ? null : year;
+    setSelectedYear(newYear);
+    setSelectedDate(null);
+    onDateSelect({ 
+      year: selectedYear,
+      month: selectedMonth,
+      day: selectedDate,
+    });
+  };
 
-    const monthName = currentDate.format('MMMM');
-    const year = currentDate.format('YYYY');
-    const startOfMonth = currentDate.clone().startOf('month');
-    const daysInMonth = currentDate.daysInMonth();
+  const handleMonthChange = (month) => {
+    const newMonth = month === selectedMonth ? null : month;
+    setSelectedMonth(newMonth);
+    setSelectedDate(null);
+
+    const monthData = { year: selectedYear };
+
+    if (!isNaN(newMonth) && newMonth !== null && newMonth !== "") {
+      monthData.month = newMonth;
+    }
+
+    onDateSelect(monthData);
+  };
+
+  const handleDateSelect = (date) => {
+    const newDate = selectedDate && selectedDate.isSame(date, 'day') ? null : date;
+    setSelectedDate(newDate);
+
+    onDateSelect({
+      year: selectedYear,
+      month: selectedMonth,
+      day: newDate ? newDate.date() : null,
+    });
+  };
+
+  const renderDays = () => {
+    if (selectedMonth === null) {
+      return null;
+    }
+
+    const days = [];
+    const startOfMonth = moment({ year: selectedYear, month: selectedMonth }).startOf('month');
+    const daysInMonth = startOfMonth.daysInMonth();
     const startDay = startOfMonth.day();
 
-    const renderDays = () => {
-        const days = [];
+    for (let i = 0; i < startDay; i++) {
+      days.push(<div key={`empty-${i}`} className="day empty" />);
+    }
 
-        for (let i = 0; i < startDay; i++) {
-        days.push(<div key={`empty-${i}`} className="day empty" />);
-        }
+    for (let day = 1; day <= daysInMonth; day++) {
+      const dayDate = startOfMonth.clone().date(day);
+      const isSelected = selectedDate && selectedDate.isSame(dayDate, 'day');
 
-        for (let day = 1; day <= daysInMonth; day++) {
-        const dayDate = currentDate.clone().date(day);
-        const isSelected = selectedDate && selectedDate.isSame(dayDate, 'day');
-
-        days.push(
-            <div
-            key={day}
-            className={`day ${isSelected ? 'selected' : ''}`}
-            onClick={() => handleDateSelect(dayDate)}
-            >
-            {day}
-            </div>
-        );
-        }
-
-        return days;
-    };
-
-    const handleDateSelect = (date) => {
-        setSelectedDate(date);
-        onDateSelect(date); // Chama a função passada pelo componente pai com a data selecionada
-    };
-
-    return (
-        <div className="styled-calendar">
-        <div className="calendar-header">
-            <button onClick={prevMonth}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_329_2702)">
-                    <path d="M10.6942 16L4.3562 9.65333C3.92011 9.21519 3.67529 8.62218 3.67529 8.004C3.67529 7.38582 3.92011 6.79281 4.3562 6.35467L10.7015 0L12.1135 1.414L5.7682 7.768C5.70571 7.83051 5.67061 7.91528 5.67061 8.00367C5.67061 8.09205 5.70571 8.17682 5.7682 8.23933L12.1055 14.586L10.6942 16Z" fill="#0095DA"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_329_2702">
-                    <rect width="16" height="16" fill="white"/>
-                    </clipPath>
-                    </defs>
-                </svg>
-
-            </button>
-            <span>{`${monthName} ${year}`}</span>
-            <button onClick={nextMonth}>
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <g clip-path="url(#clip0_329_2703)">
-                    <path d="M5.418 16L11.756 9.65333C12.1921 9.21519 12.4369 8.62218 12.4369 8.004C12.4369 7.38582 12.1921 6.79281 11.756 6.35467L5.41067 0L4 1.414L10.3453 7.768C10.4078 7.83051 10.4429 7.91528 10.4429 8.00367C10.4429 8.09205 10.4078 8.17682 10.3453 8.23933L4.00667 14.586L5.418 16Z" fill="#0095DA"/>
-                    </g>
-                    <defs>
-                    <clipPath id="clip0_329_2703">
-                    <rect width="16" height="16" fill="white"/>
-                    </clipPath>
-                    </defs>
-                </svg>
-
-
-            </button>
+      days.push(
+        <div
+          key={day}
+          className={`day ${isSelected ? 'selected' : ''}`}
+          onClick={() => handleDateSelect(dayDate)}
+        >
+          {day}
         </div>
+      );
+    }
+
+    return days;
+  };
+
+  return (
+    <div className="styled-calendar">
+      <div className="calendar-header firstheader">
+        <label className="label-selector">Ano:</label>
+        <CustomSelect
+          labelSelect="Todos"
+          tamanho="w200h36"
+          optionMargin="h36"
+          options={[
+            { label: "Todos", value: 0 },
+            ...Array.from({ length: 10 }, (_, i) => ({
+              label: (currentYear - 5 + i).toString(),
+              value: currentYear - 5 + i,
+            })),
+          ]}
+          onChange={(value) => handleYearChange(parseInt(value, 10))}
+        />
+      </div>
+
+        <div className="calendar-header secondheader">
+          <label className="label-selector">Mês:</label>
+          <CustomSelect
+            labelSelect="Selecione o mês"
+            tamanho="w200h36"
+            optionMargin="h36"
+            value={selectedMonth !== null ? selectedMonth : ""}
+            options={[
+              { label: "Selecione o mês", value: null },
+              ...moment.months().map((month, index) => ({
+                label: month,
+                value: index,
+              })),
+            ]}
+            onChange={(value) => handleMonthChange(parseInt(value, 10))}
+
+          />
+        </div>
+
+
+      {selectedMonth !== null && !isNaN(selectedMonth) && (
         <div className="calendar-body">
-            <div className="calendar-weekdays">
-            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map(day => (
-                <div key={day} className="weekday">{day}</div>
+          <div className="calendar-weekdays">
+            {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day) => (
+              <div key={day} className="weekday">{day}</div>
             ))}
-            </div>
-            <div className="calendar-days">{renderDays()}</div>
+          </div>
+          <div className="calendar-days">{renderDays()}</div>
         </div>
-        </div>
-    );
+      )}
+    </div>
+  );
 };
-  
-  export default Calendary;
 
-
+export default Calendary;

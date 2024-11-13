@@ -2,25 +2,87 @@ import React, { useState, useEffect } from 'react';
 import { useTable } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
-import CustomButton from '../components/CustomButton.jsx';
 import './ChartWithTable.css';
+import CustomInput from '../components/CustomInput.jsx';
+import PopUpDelete from '../components/PopUpDelete.jsx';
+import PopUpSucess from '../components/PopUpSucess.jsx';
 
-const ChartWithTable = () => {
+const ChartWithTable = ({ idDispositivo }) => {
     const navigate = useNavigate();
+    const [data, setData] = useState([]);
+    const [error, setError] = useState(null);
+    const [newSoftware, setNewSoftware] = useState({ nome: '', versao: '', link: '' });
+    const [showSuccessPopUp, setShowSuccessPopUp] = useState(false);
+    const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
+    const [softwareToDelete, setSoftwareToDelete] = useState(null); 
 
-    const [data] = useState([
-        { nome: 'Produto 1', versao: '1.0', link: 'https://link1.com', id: 1 },
-        { nome: 'Produto 2', versao: '1.1', link: 'https://link2.com', id: 2 },
-        { nome: 'Produto 3', versao: '2.0', link: 'https://link3.com', id: 3 },
-        { nome: 'Produto 4', versao: '1.2', link: 'https://link4.com', id: 4 },
-        { nome: 'Produto 5', versao: '1.5', link: 'https://link5.com', id: 5 },
-        { nome: 'Produto 6', versao: '3.0', link: 'https://link6.com', id: 6 },
-        { nome: 'Produto 7', versao: '2.5', link: 'https://link7.com', id: 7 },
-        { nome: 'Produto 8', versao: '1.6', link: 'https://link8.com', id: 8 },
-    ]);
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    };
 
-    const handleRedirect = (row) => {
-        navigate(`/teste`);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const csrfToken = getCookie('csrftoken');
+                const response = await axios.get(`http://127.0.0.1:8000/api/soft-by-disp/?id_dispositivo=${idDispositivo}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                        'X-CSRFToken': csrfToken,
+                    }
+                });
+                setData(response.data.Software);
+            } catch (error) {
+                setError(error.message);
+            }
+        };
+        fetchData();
+    }, [idDispositivo]);
+
+    const handleDelete = (id) => {
+        setSoftwareToDelete(id);
+        setShowDeletePopUp(true);
+    };
+
+    const confirmDelete = async () => {
+        try {
+            const csrfToken = getCookie('csrftoken');
+            await axios.delete(`http://127.0.0.1:8000/api/soft-delete/${softwareToDelete}/`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                    'X-CSRFToken': csrfToken,
+                }
+            });
+            setData(prevData => prevData.filter(software => software.id_software !== softwareToDelete));
+            setShowDeletePopUp(false); 
+        } catch (error) {
+            setError("Erro ao excluir software: " + (error.response?.data?.detail || error.message));
+        }
+    };
+
+    const handleAddSoftware = async () => {
+        try {
+            const csrfToken = getCookie('csrftoken');
+            const response = await axios.post('http://127.0.0.1:8000/api/soft-create/', {
+                nome: newSoftware.nome,
+                versao: newSoftware.versao,
+                link: newSoftware.link,
+                id_dispositivo: idDispositivo
+            }, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                    'X-CSRFToken': csrfToken,
+                }
+            });
+
+            setData(prevData => [...prevData, response.data]);
+            setNewSoftware({ nome: '', versao: '', link: '' });
+            setShowSuccessPopUp(true);
+
+        } catch (error) {
+            setError("Erro ao adicionar software: " + (error.response?.data?.detail || error.message));
+        }
     };
 
     const columns = React.useMemo(
@@ -43,7 +105,7 @@ const ChartWithTable = () => {
                 Cell: ({ row }) => (
                     <button
                         className="svg-button"
-                        onClick={() => handleRedirect(row)}
+                        onClick={() => handleDelete(row.original.id_software)}
                     >
                         <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_295_2906)">
@@ -56,7 +118,6 @@ const ChartWithTable = () => {
                             </clipPath>
                             </defs>
                         </svg>
-
                     </button>
                 ),
             },
@@ -69,7 +130,6 @@ const ChartWithTable = () => {
         data,
     });
 
-    // Lógica de paginação
     const [currentPage, setCurrentPage] = useState(1);
     const rowsPerPage = 7;
     const totalPages = Math.ceil(rows.length / rowsPerPage);
@@ -106,7 +166,6 @@ const ChartWithTable = () => {
                 );
             }
         } else {
-            // Always show the first page
             buttons.push(
                 <button 
                     key={1} 
@@ -117,12 +176,11 @@ const ChartWithTable = () => {
                 </button>
             );
 
-            // Show ellipsis if necessary
+
             if (currentPage > 3) {
                 buttons.push(<span key="ellipsis-start">...</span>);
             }
 
-            // Show current page and surrounding pages
             const startPage = Math.max(2, currentPage - 1);
             const endPage = Math.min(totalPages - 1, currentPage + 1);
             for (let i = startPage; i <= endPage; i++) {
@@ -137,12 +195,10 @@ const ChartWithTable = () => {
                 );
             }
 
-            // Show ellipsis if necessary
             if (currentPage < totalPages - 2) {
                 buttons.push(<span key="ellipsis-end">...</span>);
             }
 
-            // Always show the last page
             buttons.push(
                 <button 
                     key={totalPages} 
@@ -157,7 +213,6 @@ const ChartWithTable = () => {
         return buttons;
     };
 
-    // Adicionando linhas vazias se não houver dados suficientes
     const emptyRows = Array.from({ length: rowsPerPage - currentRows.length }, (_, index) => (
         <tr key={`empty-${index}`} className="table-row-light">
             <td colSpan={columns.length}>&nbsp;</td>
@@ -194,14 +249,71 @@ const ChartWithTable = () => {
                             </tr>
                         );
                     })}
-                    {emptyRows} {/* Adiciona as linhas vazias */}
+                    {emptyRows}
+                    <tr>
+                        <td class="table-cell">
+                        <CustomInput 
+                            type="text"
+                            placeholder="Nome"
+                            value={newSoftware.nome}
+                            onChange={(e) => setNewSoftware({ ...newSoftware, nome: e.target.value })}
+                            className="input-field220"
+                        />
+                        </td>
+                        <td class="table-cell">
+                        <CustomInput 
+                            type="text"
+                            placeholder="Versão"
+                            value={newSoftware.versao}
+                            onChange={(e) => setNewSoftware({ ...newSoftware, versao: e.target.value })}
+                            className="input-field220"
+                        />
+                        </td>
+                        <td class="table-cell">
+                        <CustomInput 
+                            type="text"
+                            placeholder="Link"
+                            value={newSoftware.link}
+                            onChange={(e) => setNewSoftware({ ...newSoftware, link: e.target.value })}
+                            className="input-field220"
+                        />
+                        </td>
+                        <td class="table-cell">
+                            <button onClick={handleAddSoftware}
+                                    className="svg-button">
+                                
+                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <g clip-path="url(#clip0_2069_1079)">
+                                        <path d="M12.5 0C10.0277 0 7.61099 0.733112 5.55538 2.10663C3.49976 3.48015 1.89761 5.43238 0.951511 7.71646C0.00541608 10.0005 -0.242126 12.5139 0.24019 14.9386C0.722505 17.3634 1.91301 19.5907 3.66117 21.3388C5.40933 23.087 7.63661 24.2775 10.0614 24.7598C12.4861 25.2421 14.9995 24.9946 17.2835 24.0485C19.5676 23.1024 21.5199 21.5002 22.8934 19.4446C24.2669 17.389 25 14.9723 25 12.5C24.9964 9.18589 23.6783 6.00855 21.3349 3.66512C18.9915 1.3217 15.8141 0.00358446 12.5 0V0ZM12.5 22.9167C10.4398 22.9167 8.42583 22.3057 6.71282 21.1611C4.9998 20.0165 3.66467 18.3897 2.87626 16.4863C2.08785 14.5829 1.88156 12.4884 2.28349 10.4678C2.68542 8.44717 3.67751 6.5911 5.13431 5.1343C6.59111 3.67751 8.44718 2.68542 10.4678 2.28349C12.4885 1.88156 14.5829 2.08784 16.4863 2.87626C18.3897 3.66467 20.0165 4.9998 21.1611 6.71281C22.3057 8.42582 22.9167 10.4398 22.9167 12.5C22.9136 15.2617 21.8152 17.9095 19.8624 19.8623C17.9095 21.8152 15.2617 22.9136 12.5 22.9167V22.9167ZM13.5417 11.4583H17.7083V13.5417H13.5417V17.7083H11.4583V13.5417H7.29167V11.4583H11.4583V7.29167H13.5417V11.4583Z" fill="#4F4F4F"/>
+                                        </g>
+                                        <defs>
+                                        <clipPath id="clip0_2069_1079">
+                                        <rect width="25" height="25" fill="white"/>
+                                        </clipPath>
+                                        </defs>
+                                    </svg>
+
+
+
+                            </button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
 
-            {/* Controles de paginação */}
             <div className="pagination-controls">
                 {renderPaginationButtons()}
             </div>
+            {showSuccessPopUp && <PopUpSucess 
+            onClose={() => setShowSuccessPopUp(false)}
+            text={'Software'}/>}
+            {showDeletePopUp && (
+                <PopUpDelete
+                    onConfirm={confirmDelete}
+                    onClose={() => setShowDeletePopUp(false)}
+                    text={'software do dispositivo'}
+                />
+            )}
         </div>
     );
 };

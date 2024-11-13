@@ -5,17 +5,18 @@ from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
+from rest_framework.permissions import IsAuthenticated
 
 class DispositivosListView(APIView):
-	permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     
-	def get(self, request):
-		dispositivos = Dispositivos.objects.all()
-		serializer = DispositivosSerializer(dispositivos, many=True)
-		return Response({'dispositivos': serializer.data}, status=status.HTTP_200_OK)
+    def get(self, request):
+        dispositivos = Dispositivos.objects.all()
+        serializer = DispositivosSerializer(dispositivos, many=True)
+        return Response({'dispositivos': serializer.data}, status=status.HTTP_200_OK)
 	
 class DispositivosCreateView(generics.CreateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Dispositivos.objects.all()
     serializer_class = DispositivosSerializer
 
@@ -29,7 +30,7 @@ class DispositivosCreateView(generics.CreateAPIView):
     
  
 class DispositivosByLeccView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         id_sala = request.query_params.get('id_sala', None)
@@ -43,7 +44,7 @@ class DispositivosByLeccView(APIView):
         return Response({'error': 'id da sala não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class DispositivosDeleteView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request):
         dispositivos_id = request.query_params.get('id_dispositivo', None)
@@ -59,16 +60,16 @@ class DispositivosDeleteView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class DispositivosUpdateView(generics.UpdateAPIView):
+    permission_classes = [IsAuthenticated]
     queryset = Dispositivos.objects.all()
     serializer_class = DispositivosSerializer
-    permission_classes = [permissions.IsAuthenticated]
     lookup_field = 'pk'
 
     def patch(self, request, *args, **kwargs):
         return self.partial_update(request, *args, **kwargs)
     
 class SoftwaresByDispositivosView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         id_dispositivo = request.query_params.get('id_dispositivo', None)
@@ -82,7 +83,7 @@ class SoftwaresByDispositivosView(APIView):
 
     
 class SoftwareCreateView(generics.CreateAPIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
 
@@ -95,17 +96,12 @@ class SoftwareCreateView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class SoftwareDeleteView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsAuthenticated]
 
-    def delete(self, request):
-        software_id = request.query_params.get('id_software', None)
-
-        if software_id is not None:
-            try:
-                software = Software.objects.get(id_software=software_id)
-                software.delete()
-                return Response({'message': 'Software deletado com sucesso'}, status=status.HTTP_204_NO_CONTENT)
-            except Dispositivos.DoesNotExist:
-                raise NotFound('Software não encontrado.')
-        
-        return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
+    def delete(self, request, id_software):
+        try:
+            software = Software.objects.get(id_software=id_software)
+            software.delete()
+            return Response({'message': 'Software deletado com sucesso'}, status=204)
+        except Software.DoesNotExist:
+            raise NotFound('Software não encontrado.')

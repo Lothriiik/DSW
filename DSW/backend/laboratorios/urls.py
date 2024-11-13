@@ -23,7 +23,7 @@ urlpatterns = [
     path('disp-update/<int:pk>/', DispositivosUpdateView.as_view(), name='disp-update'),
     path('disp-create/', DispositivosCreateView.as_view(), name='disp-create'),
     
-    path('soft-delete/', SoftwareDeleteView.as_view(), name='soft-delete'),
+    path('soft-delete/<int:id_software>/', SoftwareDeleteView.as_view(), name='soft-delete'),
     path('soft-by-disp/', SoftwaresByDispositivosView.as_view(), name='soft-by-disp'),
     path('soft-create/', SoftwareCreateView.as_view(), name='soft-create'),
   
