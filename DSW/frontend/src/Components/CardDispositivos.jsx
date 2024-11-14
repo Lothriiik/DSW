@@ -3,28 +3,29 @@ import './CardDispositivos.css';
 
 
 export default function CardComputador({tipo, patrimonio, modelo, status, data, onClickDeletar, onClickEditar, onClickDetalhamento }) {
+    console.log("Rendering CardComputador with props:", { tipo, patrimonio, status, data });
     return (
         
-                <div className="popupteste">
-                    <p className="card-tipo">
+                <div className="card-dispositivos">
+                    <p className="text-disp-tipo">
                         Tipo: {tipo}
                     </p>
-                    <p className="card-patrimonio">
+                    <p className="text-disp-patrimonio">
                         Patrimônio: {patrimonio} 
                     </p>
-                    <p className="card-modelo">
+                    <p className="text-disp-modelo">
                         Marca/Modelo: {modelo}
                     </p>
-                    <p className="card-status">
+                    <p className="text-disp-status">
                         Status: {status}
                     </p>
-                    <p className="card-data">
+                    <p className="text-disp-data">
                         Data de Verificação:<br/>
                         {data}
                     </p>
-                    <div className="popup-actions-buttons">
+                    <div className="card-disp-actions-buttons">
                     
-                         <button className="side3424 blue" onClick={onClickEditar}>
+                         <button className="tam3424 blue" onClick={onClickEditar}>
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <title>Editar</title>
                                 <g clip-path="url(#clip0_314_2914)">
@@ -38,7 +39,7 @@ export default function CardComputador({tipo, patrimonio, modelo, status, data, 
                             </svg>
                          </button>
 
-                         <button className="side3424 red" onClick={onClickDeletar}>
+                         <button className="tam3424 red" onClick={onClickDeletar}>
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <title>Apagar</title>
                                 <g clip-path="url(#clip0_314_2937)">

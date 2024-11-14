@@ -5,18 +5,18 @@ import './CardLECC.css';
 export default function CardLECC({lab, numsala, blocosala, numdisp, onClick }) {
     return (
         
-                <div className="popupteste">
-                    <p className="card-title">
+                <div className="cardlecc">
+                    <p className="textlecc-title">
                         {lab}
                     </p>
-                    <p className="card-sala">
+                    <p className="textlecc-sala">
                         Sala {numsala} - Bloco {blocosala}
                     </p>
-                    <p className="card-dispositivos">
+                    <p className="textlecc-dispositivos">
                         Dispositivos: {numdisp}
                     </p>
-                    <div className="popup-actions-buttons">
-                         <button className="side3424 blue" onClick="{onClick}">
+                    <div className="cardlecc-actions-buttons">
+                         <button className="tam3424 blue" onClick="{onClick}">
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <title>Editar</title>
                                 <g clip-path="url(#clip0_314_2914)">
@@ -30,7 +30,7 @@ export default function CardLECC({lab, numsala, blocosala, numdisp, onClick }) {
                             </svg>
 
                          </button>
-                         <button className="side3424 red" onClick={onClick}>
+                         <button className="tam3424 red" onClick={onClick}>
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <title>Apagar</title>
                                 <g clip-path="url(#clip0_314_2937)">

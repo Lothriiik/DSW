@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import style from './Ingrastructure.module.css';
-import Header from '../../../Components/Header';
+import Sidebar from '../../../Components/Sidebar';
 
 function Ingrastructure() {
     const {register, handleSubmit, formState: {errors}, setValue, clearErrors} = useForm()
@@ -62,7 +62,7 @@ function Ingrastructure() {
     return(
         <main className={style.Ingrastructure}>
             <section className={style["main"]}>
-                <Header/>
+                <Sidebar/>
                 <form onSubmit={handleSubmit(onSubmit)} className={style["form"]}>
                     <div className={style["conteiner"]}>
                         <div className={style["conteiner01"]}>

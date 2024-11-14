@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import style from './Machines.module.css';
-import Header from '../../../Components/Header';
+import Sidebar from '../../../Components/Sidebar';
 
 
 function Machines() {
@@ -88,7 +88,7 @@ const handleSoftwareClick = (optionText) => {
   return (
     <main className={style.Machines}>
       <section className={style["main"]}>
-        <Header/>
+        <Sidebar/>
         <form onSubmit={handleSubmit(onSubmit)} className={style["form"]}>
           <div className={style["conteiner"]}>
             <div className={style["conteiner01"]}>

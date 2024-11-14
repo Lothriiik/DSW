@@ -1,11 +1,11 @@
 import React from "react";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
-import Components  from "./Components/Header";
+import Components  from "./Components/Sidebar";
 import Options from "./pages/Forms/Options";
 import Machines from "./pages/Forms/Machines";
 import Infrastructure from "./pages/Forms/Infrastructure";
 import Feedback from "./pages/Forms/Feedback";
-import Laboratories from "./pages/Laboratories";
+import DispByLab from "./pages/DispByLab";
 import HomeAlmoxADM from "./pages/HomeAlmoxADM"
 import ChartWithTable from "./pages/ChartWithTable";
 import LoginPage from "./pages/LoginPage";
@@ -16,8 +16,8 @@ function AppRoutes() {
     return(
         <BrowserRouter>
             <Routes>
-                <Route path="/header" element={<Components/>}></Route>
-                <Route path="/" element={<Laboratories/>}></Route> 
+                <Route path="/sidebar" element={<Components/>}></Route>
+                <Route path="/" element={<DispByLab/>}></Route> 
                 <Route path="/options" element={<Options/>}></Route>
                 <Route path="/machines" element={<Machines/>}></Route>
                 <Route path="/infraatructure" element={<Infrastructure/>}></Route>
