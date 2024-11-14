@@ -6,7 +6,7 @@
 
 .Laboratories {
     display: flex;
-    height: 100vh; /* O projeto vai ocupar 100% da altura da tela */
+    height: 100vh; 
 }
 
 .principal {
@@ -22,7 +22,7 @@
 }
 
 .header {
-    height: 120px;
+    height: 130px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -64,12 +64,17 @@
 .formContainer {
     flex-grow: 1;
     margin-left: 67px;
+    padding-bottom: 70px;
 }
 
 .containerCard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); /* 3 colunas */
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas por linha */
     gap: 15px 10px;
+    grid-template-rows: repeat(2, 1fr); /* 2 linhas por página */
+    height: 100%; /* Faz com que a altura da grade ocupe 100% do container */
+    transition: opacity 0.5s ease-in-out; /* Anima a opacidade para transição suave */
+    margin-bottom: 12px;
 
 }
 
@@ -84,10 +89,14 @@
     min-height: 250px;
 }
 
-.pagination-container {
+.paginationContainer {
+    position: sticky;
+    bottom: 0;
+    background-color: white; 
+    z-index: 1;
     display: flex;
     justify-content: center;
-    margin-top: 22px;
+
 }
 
 .pagination {
@@ -97,26 +106,38 @@
 }
 
 .paginationButton {
-    padding: 8px 16px;
-    background-color: #0095DA;
-    color: white;
-    border: none;
-    border-radius: 4px;
+    border: 1px solid #282828;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #282828;
+    margin: 0 5px;
     cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, border-color 0.3s;
 }
 
 .paginationButton:hover {
-    background-color: #0078B5;
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #282828;
 }
 
+.pagination-button.active {
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #282828;
+}
+
+/* Responsividade */
 @media (max-width: 768px) {
-    .container {
+    .containerCard {
         grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas menores */
     }
 }
 
 @media (max-width: 480px) {
-    .container {
+    .containerCard {
         grid-template-columns: 1fr; /* 1 coluna em telas muito pequenas */
     }
 }

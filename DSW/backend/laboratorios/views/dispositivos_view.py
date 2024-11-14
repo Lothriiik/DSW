@@ -5,10 +5,10 @@ from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 class DispositivosListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get(self, request):
         dispositivos = Dispositivos.objects.all()
@@ -16,7 +16,7 @@ class DispositivosListView(APIView):
         return Response({'dispositivos': serializer.data}, status=status.HTTP_200_OK)
 	
 class DispositivosCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Dispositivos.objects.all()
     serializer_class = DispositivosSerializer
 
@@ -30,7 +30,7 @@ class DispositivosCreateView(generics.CreateAPIView):
     
  
 class DispositivosByLeccView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         id_sala = request.query_params.get('id_sala', None)
@@ -44,7 +44,7 @@ class DispositivosByLeccView(APIView):
         return Response({'error': 'id da sala não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class DispositivosDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def delete(self, request):
         dispositivos_id = request.query_params.get('id_dispositivo', None)
@@ -60,7 +60,7 @@ class DispositivosDeleteView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class DispositivosUpdateView(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Dispositivos.objects.all()
     serializer_class = DispositivosSerializer
     lookup_field = 'pk'
@@ -69,7 +69,7 @@ class DispositivosUpdateView(generics.UpdateAPIView):
         return self.partial_update(request, *args, **kwargs)
     
 class SoftwaresByDispositivosView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         id_dispositivo = request.query_params.get('id_dispositivo', None)
@@ -83,7 +83,7 @@ class SoftwaresByDispositivosView(APIView):
 
     
 class SoftwareCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Software.objects.all()
     serializer_class = SoftwareSerializer
 
@@ -96,7 +96,7 @@ class SoftwareCreateView(generics.CreateAPIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class SoftwareDeleteView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def delete(self, request, id_software):
         try:
