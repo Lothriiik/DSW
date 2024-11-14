@@ -26,7 +26,7 @@ const HomeAlmoxADM = () => {
     <body class="body">
       <main class="container">
 
-        <CustomInput label="Nome" placeholder="Digite o Nome" className="input-field" />
+        <CustomInput label="Nome" placeholder="Digite o Nome" className="input-field320" />
         <CustomButton label="Negar" className="red size108" />
         <CustomButton label="Salvar" className="blue size108" />
         <CustomButton label="Confirmar" className="blue size138" />
@@ -45,6 +45,21 @@ const HomeAlmoxADM = () => {
         />
 
       </main>
+      <CardDispositivos
+      tipo='Computador' 
+      patrimonio='211110' 
+      modelo='Lenovo' 
+      status='Funcionando' 
+      data='13/01/2004'
+      />
+
+      <CardComputador
+      tipo='Computador' 
+      patrimonio='211110' 
+      descrisao='Pc 1' 
+      status='Funcionando' 
+      data='13/01/2004'
+      />
       <Calendary onDateSelect={handleDateSelect} />
       <LabCreatePopUp/>
 

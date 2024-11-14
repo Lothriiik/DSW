@@ -6,37 +6,36 @@
     font-size: 14px;
 }
 
-.popupteste {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+.card-computador {
     background-color: white;
     width: 236px;
-    height: 244px;
+    height: 224px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: left;
-    z-index: 1000;
+
 }
 
 
-.card-tipo{
+.text-comp-tipo{
     color: #4F4F4F;
-    margin-top: 30px;
+    margin-top: 15px;
     margin-left: 16px;
 }
-.card-patrimonio,
-.card-descricao,
-.card-status,
-.card-data{
+.text-comp-patrimonio,
+.text-comp-descricao,
+.text-comp-status,
+.text-comp-data{
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
     color: #4F4F4F;
     margin-top: 10px;
     margin-left: 16px;
 
 }
 
-.side3424{
+.tam3424{
     width: 34px;
     height: 24px;
     border-radius: 5px;
@@ -45,10 +44,13 @@
     margin: 5px;
 }
 
-.popup-actions-buttons{
-    position: absolute; 
-    bottom: 16px; 
-    right: 16px; 
+.comp-actions-buttons{
+
+    margin-top: 25px;
+    margin-left: 90px;
+    margin-bottom: 13px;
+    margin-right: 13px;
+
 }
 .blue{
     background-color: #0095DA;
