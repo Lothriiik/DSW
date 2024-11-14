@@ -5,18 +5,18 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.exceptions import NotFound
 from django.urls import path
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class LaboratorioListView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     def get(self, request):
         laboratorio = Laboratorio.objects.all()
         serializer = LaboratorioSerializer(laboratorio, many=True)
         return Response({'Laboratorio': serializer.data}, status=status.HTTP_200_OK)
         
 class LaboratorioCreateView(generics.CreateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     queryset = Laboratorio.objects.all()
     serializer_class = LaboratorioSerializer
@@ -31,7 +31,7 @@ class LaboratorioCreateView(generics.CreateAPIView):
  
     
 class LaboratorioByIDView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def get(self, request):
         id_sala = request.query_params.get('id_sala', None)
@@ -45,7 +45,7 @@ class LaboratorioByIDView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class LaboratorioDeleteView(APIView):
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [AllowAny]
 
     def delete(self, request):
         sala_id = request.query_params.get('id_sala', None)
@@ -61,7 +61,7 @@ class LaboratorioDeleteView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class LaboratorioUpdateView(generics.UpdateAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     queryset = Laboratorio.objects.all()
     serializer_class = LaboratorioSerializer
     lookup_field = 'pk'

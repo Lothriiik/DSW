@@ -7,8 +7,8 @@ import Infrastructure from "./pages/Forms/Infrastructure";
 import Feedback from "./pages/Forms/Feedback";
 import DispByLab from "./pages/DispByLab";
 import HomeAlmoxADM from "./pages/HomeAlmoxADM"
-import ChartWithTable from "./pages/ChartWithTable";
 import LoginPage from "./pages/LoginPage";
+import LabAdd from "./pages/LabAdd";
 
 
 
@@ -16,14 +16,15 @@ function AppRoutes() {
     return(
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Machines />} />
+                <Route path="/LabAdd" element={<LabAdd />} />
                 <Route path="/sidebar" element={<Components/>}></Route>
-                <Route path="/" element={<DispByLab/>}></Route> 
+                <Route path="/dispositivos/:idSala" element={<DispByLab/>}></Route> 
                 <Route path="/options" element={<Options/>}></Route>
                 <Route path="/machines" element={<Machines/>}></Route>
                 <Route path="/infraatructure" element={<Infrastructure/>}></Route>
                 <Route path="/feedback" element={<Feedback/>}></Route>
-                <Route path="/teste" element={<HomeAlmoxADM/>}></Route>
-                <Route path="/tabela" element={<ChartWithTable idDispositivo={'2'}/>}></Route>
+                <Route path="/tabela" element={<HomeAlmoxADM/>}></Route>
                 <Route path="/login" element={<LoginPage/>}></Route>
 
             </Routes>

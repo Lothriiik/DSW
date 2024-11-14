@@ -49,6 +49,9 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000', 
 ]
 
+CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'https://seu-dominio.com']
+
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
@@ -61,6 +64,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware', 
+
 ]
 
 ROOT_URLCONF = 'LECCS.urls'
@@ -96,15 +100,11 @@ DATABASES = {
     }
 }
 
-REST_FRAMEWORK = { 
-    'DEFAULT_PERMISSION_CLASSES':(
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
-    ),
-    'DEFAULT_AUTHENTICATION_CLASSES': ( 
-    'rest_framework.authentication.SessionAuthentication',
-    'rest_framework.authentication.BasicAuthentication', 
-      ) 
-    
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',  
+    ]
 }
 
 
@@ -125,6 +125,8 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+
 
 
 # Internationalization

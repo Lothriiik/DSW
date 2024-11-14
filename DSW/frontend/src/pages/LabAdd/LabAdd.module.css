@@ -1,0 +1,208 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.Laboratories {
+    display: flex;
+    height: 100vh; 
+}
+
+.principal {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.mainContent {
+    flex-grow: 1;
+
+    overflow-y: auto;
+}
+
+.header {
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-left: 67px;
+    background-color: #fff;
+}
+
+.headerTitle {
+    color: #4F4F4F;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 19px;
+}
+
+.controlsContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.deviceInputContainer {
+    display: flex;
+    align-items: center;
+    margin-right: 100px;
+}
+
+.deviceInfo {
+    font-size: 1rem;
+    color: #666;
+    margin-right: 38px;
+}
+
+.addButton {
+    margin-left: auto;
+    margin-right: 122px;
+}
+
+.formContainer {
+    flex-grow: 1;
+    margin-left: 67px;
+    padding-bottom: 70px;
+}
+
+.containerCard {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 colunas por linha */
+    gap: 15px 10px;
+    grid-template-rows: repeat(2, 1fr); /* 2 linhas por página */
+    height: 100%; /* Faz com que a altura da grade ocupe 100% do container */
+    transition: opacity 0.5s ease-in-out; /* Anima a opacidade para transição suave */
+    margin-bottom: 12px;
+
+}
+
+.card {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+}
+
+.paginationContainer {
+    position: sticky;
+    bottom: 0;
+    background-color: white; 
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+
+}
+
+.pagination {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.paginationButton {
+    border: 1px solid #282828;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #282828;
+    margin: 0 5px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.paginationButton:hover {
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #282828;
+}
+
+.pagination-button.active {
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #282828;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .containerCard {
+        grid-template-columns: repeat(2, 1fr); /* 2 colunas em telas menores */
+    }
+}
+
+@media (max-width: 480px) {
+    .containerCard {
+        grid-template-columns: 1fr; /* 1 coluna em telas muito pequenas */
+    }
+}
+
+.Laboratories {
+    display: flex;
+    height: 100vh;
+}
+
+.principal {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.mainContent {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.input-field320 {
+    width: 320px;
+}
+
+.textarea-field {
+    width: 320px;
+    height: 100px;
+    resize: none;
+}
+
+.radioContainer {
+    display: flex;
+    gap: 20px;
+}
+
+
+textarea {
+    margin-top: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .input-field320,
+    .textarea-field {
+        width: 100%;
+    }
+}

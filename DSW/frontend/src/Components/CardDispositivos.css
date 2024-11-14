@@ -8,7 +8,7 @@
 .card-dispositivos {
     background-color: white;
     width: 236px;
-    height: 224px;
+    height: 214px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: left;
@@ -47,7 +47,7 @@
 
 .card-disp-actions-buttons{
 
-    margin-top: 25px;
+    margin-top: 15px;
     margin-left: 130px;
     margin-bottom: 13px;
     margin-right: 13px;

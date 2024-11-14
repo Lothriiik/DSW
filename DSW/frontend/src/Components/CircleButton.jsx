@@ -17,7 +17,7 @@ const CalendarIcon = () => (
 
 )
 
-const CircleButton = ({ iconType }) => {
+const CircleButton = ({ iconType, onClick }) => {
     const renderIcon = () => {
         switch (iconType) {
             case 'add':
@@ -30,7 +30,7 @@ const CircleButton = ({ iconType }) => {
     };
 
     return (
-        <button className="circle blue">
+        <button className="circle blue" onClick={onClick}>
             {renderIcon()}
         </button>
     );
