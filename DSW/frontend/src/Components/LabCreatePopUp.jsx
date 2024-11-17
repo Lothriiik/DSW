@@ -4,7 +4,7 @@ import CustomButton from './CustomButton';
 import axios from 'axios'; 
 import './LabCreatePopUp.css'; 
 
-const LabCreatePopUp = () => {
+const LabCreatePopUp = ({ closePopup }) => {
     const [nome, setNome] = useState('');
     const [sala, setSala] = useState('');
     const [newLab, setNewLab] = useState({ nome: '', sala_ou_bloco: '' });
@@ -14,9 +14,6 @@ const LabCreatePopUp = () => {
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false); 
 
-    const closePopup = () => {
-        setIsOpen(false);
-    };
 
     const getCookie = (name) => {
         const value = `; ${document.cookie}`;

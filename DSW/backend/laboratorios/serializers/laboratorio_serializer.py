@@ -3,14 +3,13 @@ from ..models import Laboratorio, Dispositivos, Software
 from .dispositivos_serializer import DispositivosSerializer
 
 class LaboratorioSerializer(serializers.ModelSerializer):
+    numdisp = serializers.SerializerMethodField()
     
     class Meta:
         model = Laboratorio
-        fields = ['id_sala', 'nome', 'sala_ou_bloco']
+        fields = ['id_sala', 'nome', 'sala_ou_bloco', 'numdisp']
+    
+    def get_numdisp(self, obj):
+        
+        return Dispositivos.objects.filter(id_sala=obj.id_sala).count()
 
-class DispositivosLabSerializer(serializers.ModelSerializer):
-    dispositivos = DispositivosSerializer(many=True)
-    
-    class Meta:
-        model = Laboratorio
-        fields = ['id_sala', 'nome', 'sala_ou_bloco','dispositivos']

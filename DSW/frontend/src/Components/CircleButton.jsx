@@ -25,7 +25,7 @@ const CircleButton = ({ iconType, onClick }) => {
             case 'calendar':
                 return <CalendarIcon />;
             default:
-                return null; // ou um ícone padrão, se preferir
+                return null;
         }
     };
 
