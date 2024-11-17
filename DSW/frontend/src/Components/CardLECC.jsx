@@ -7,7 +7,6 @@ export default function CardLECC({ lab, sala, numdisp, onClickCard, onClickEdit,
         onClickCard();
     };
 
-<<<<<<< HEAD
     return (
         <div className="cardlecc" onClick={handleCardClick}>
             <p className="textlecc-title">{lab}</p>
@@ -22,30 +21,6 @@ export default function CardLECC({ lab, sala, numdisp, onClickCard, onClickEdit,
                         </g>
                         <defs>
                             <clipPath id="clip0_314_2914">
-=======
-export default function CardLECC({lab, sala, numdisp, onClick }) {
-    return (
-        
-                <div className="cardlecc">
-                    <p className="textlecc-title">
-                        {lab}
-                    </p>
-                    <p className="textlecc-sala">
-                        {sala}
-                    </p>
-                    <p className="textlecc-dispositivos">
-                        Dispositivos: {numdisp}
-                    </p>
-                    <div className="cardlecc-actions-buttons">
-                         <button className="tam3424 blue" onClick="{onClick}">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <title>Editar</title>
-                                <g clip-path="url(#clip0_314_2914)">
-                                <path d="M11.47 0.529055C11.1301 0.189653 10.6694 -0.000976562 10.189 -0.000976562C9.70864 -0.000976562 9.24792 0.189653 8.908 0.529055L0 9.43705V11.9991H2.562L11.47 3.09105C11.8093 2.75107 11.9998 2.29037 11.9998 1.81006C11.9998 1.32974 11.8093 0.869043 11.47 0.529055V0.529055ZM2.15 10.9991H1V9.84906L7.655 3.19905L8.805 4.34905L2.15 10.9991ZM10.763 2.38405L9.5095 3.63755L8.362 2.48756L9.615 1.23606C9.7675 1.08356 9.97433 0.997882 10.19 0.997882C10.4057 0.997882 10.6125 1.08356 10.765 1.23606C10.9175 1.38855 11.0032 1.59539 11.0032 1.81106C11.0032 2.02672 10.9175 2.23356 10.765 2.38605L10.763 2.38405Z" fill="white"/>
-                                </g>
-                                <defs>
-                                <clipPath id="clip0_314_2914">
->>>>>>> e7743fcac50cd6e8e9f3b8ed96b91aeb025f5786
                                 <rect width="12" height="12" fill="white"/>
                             </clipPath>
                         </defs>
