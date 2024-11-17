@@ -91,7 +91,7 @@ function DispByLab() {
       );
 
       if (currentPage > 3) {
-        buttons.push(<span key="ellipsis-start">...</span>);
+        buttons.push(<span className={styles['ellipsis-pagination']} key="ellipsis-start">...</span>);
       }
 
       const startPage = Math.max(2, currentPage - 1);
@@ -109,7 +109,7 @@ function DispByLab() {
       }
 
       if (currentPage < totalPages - 2) {
-        buttons.push(<span key="ellipsis-end">...</span>);
+        buttons.push(<span className={styles['ellipsis-pagination']} key="ellipsis-end">...</span>);
       }
 
       buttons.push(
@@ -177,10 +177,9 @@ function DispByLab() {
                 })}
               </div>
             ) : (
-              <p>Carregando dispositivos...</p>
+              <p></p>
             )}
-
-            {/* Paginação */}
+            
             <div className={styles.paginationContainer}>
               <div className={styles.pagination}>
                 {renderPaginationButtons()}

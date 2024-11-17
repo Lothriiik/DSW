@@ -9,6 +9,7 @@ import DispByLab from "./pages/DispByLab";
 import HomeAlmoxADM from "./pages/HomeAlmoxADM"
 import LoginPage from "./pages/LoginPage";
 import LabAdd from "./pages/LabAdd";
+import Laboratories from "./pages/Laboratories"
 
 
 
@@ -17,6 +18,7 @@ function AppRoutes() {
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Machines />} />
+                <Route path="/Laboratories" element={<Laboratories />} />
                 <Route path="/LabAdd" element={<LabAdd />} />
                 <Route path="/sidebar" element={<Components/>}></Route>
                 <Route path="/dispositivos/:idSala" element={<DispByLab/>}></Route> 
