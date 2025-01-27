@@ -2,12 +2,12 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import style from './Machines.module.css';
-import Sidebar from '../../../Components/Sidebar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 
 
 function Machines() {
   const {register, handleSubmit, formState: { errors }, setValue, clearErrors} = useForm()
-  const [formEnviado, setFormEnviado] = useState(false); // Estado para controlar a mensagem de sucesso
+  const [formEnviado, setFormEnviado] = useState(false);
 
     const onSubmit = (data) => {
         console.log(data);

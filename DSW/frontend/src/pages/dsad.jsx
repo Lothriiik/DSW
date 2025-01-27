@@ -3,7 +3,7 @@ import { useTable } from 'react-table';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import './ChartWithTable.css';
-import CustomInput from '../components/CustomInput.jsx';
+import CustomInput from '../components/CustomInput/CustomInput.jsx';
 
 const ChartWithTable = ({ idDispositivo }) => {
     const navigate = useNavigate();

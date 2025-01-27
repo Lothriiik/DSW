@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Options.module.css';
-import Sidebar from '../../../Components/Sidebar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 import { Link } from 'react-router-dom';
 
 function Options() {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import style from './Feedback.module.css'
-import Sidebar from '../../../Components/Sidebar';
+import Sidebar from '../../../components/Sidebar/Sidebar';
 
 function Feedback() {
     const {register, handleSubmit, formState: {errors}, setValue, clearErrors} = useForm()

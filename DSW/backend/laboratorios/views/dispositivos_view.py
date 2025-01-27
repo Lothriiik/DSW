@@ -1,4 +1,4 @@
-from ..serializers.dispositivos_serializer import (DispositivosSerializer)
+from ..serializers.dispositivos_serializer import (DispositivosSerializer, DispositivosSoftwaresSerializer)
 from ..serializers.software_serializer import (SoftwareSerializer)
 from ..models import Dispositivos, Software
 from rest_framework import permissions, status, generics
@@ -12,7 +12,7 @@ class DispositivosListView(APIView):
     
     def get(self, request):
         dispositivos = Dispositivos.objects.all()
-        serializer = DispositivosSerializer(dispositivos, many=True)
+        serializer = DispositivosSoftwaresSerializer(dispositivos, many=True)
         return Response({'dispositivos': serializer.data}, status=status.HTTP_200_OK)
 	
 class DispositivosCreateView(generics.CreateAPIView):
@@ -26,7 +26,9 @@ class DispositivosCreateView(generics.CreateAPIView):
             self.perform_create(serializer)
             headers = self.get_success_headers(serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            print("Erro de validação:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
  
 class DispositivosByLeccView(APIView):
@@ -42,6 +44,20 @@ class DispositivosByLeccView(APIView):
             return Response({'Dispositivos': serializer.data}, status=status.HTTP_200_OK)
             
         return Response({'error': 'id da sala não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
+    
+class DispositivosByIDView(APIView):
+    permission_classes = [AllowAny]
+
+    def get(self, request):
+        id_dispositivo = request.query_params.get('id_dispositivo', None)
+
+        if id_dispositivo is not None:
+            
+            dispositivos = Dispositivos.objects.filter(id_dispositivo=id_dispositivo)
+            serializer = DispositivosSerializer(dispositivos, many=True)
+            return Response({'Dispositivos': serializer.data}, status=status.HTTP_200_OK)
+            
+        return Response({'error': 'id do dispositivo não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class DispositivosDeleteView(APIView):
     permission_classes = [AllowAny]

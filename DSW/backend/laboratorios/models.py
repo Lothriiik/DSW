@@ -17,7 +17,7 @@ class Dispositivos(models.Model):
 
     id_dispositivo = models.AutoField(primary_key=True)
     id_sala = models.ForeignKey(Laboratorio, on_delete=models.CASCADE, related_name='dispositivos')
-    marca = models.CharField(max_length=255, null=True, blank=True)
+    tipo = models.CharField(max_length=255, null=True, blank=True)
     modelo = models.CharField(max_length=255, null=True, blank=True)
     patrimonio = models.CharField(max_length=255)
     is_computador = models.BooleanField(default=False)
@@ -27,7 +27,7 @@ class Dispositivos(models.Model):
     data_verificacao = models.DateField()
 
     def __str__(self):
-        return f"{self.marca} {self.modelo}"
+        return f" {self.modelo}"
 
 
 class Software(models.Model):

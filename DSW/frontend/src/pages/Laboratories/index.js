@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Laboratories.module.css';
-import Sidebar from '../../Components/Sidebar';
-import CardLECC from '../../components/CardLECC';
-import CircleButton from '../../components/CircleButton';
-import CustomInput from '../../components/CustomInput';
-import PopUpDelete from '../../components/PopUpDelete.jsx';
-import LabCreatePopUp from '../../components/LabCreatePopUp'
-import LabEditPopUp from '../../components/LabEditPopUp'
+import Sidebar from '../../components/Sidebar/Sidebar';
+import CardLECC from '../../components/CardLECC/CardLECC';
+import CircleButton from '../../components/CircleButton/CircleButton';
+import CustomInput from '../../components/CustomInput/CustomInput';
+import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
+import LabCreatePopUp from '../../components/LabCreatePopUp/LabCreatePopUp'
+import LabEditPopUp from '../../components/LabEditPopUp/LabEditPopUp'
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -217,7 +217,7 @@ function Laboratories() {
                   numdisp={laboratorios.numdisp}
                   onClickDelete={() => handleDelete(laboratorios.id_sala)} 
                   onClickEdit={() => openEditPopup(laboratorios.id_sala)}
-                  onClickCard={() => navigate(`/dispositivos/${laboratorios.id_sala}`)}
+                  onClickCard={() => navigate(`/laboratorio/${laboratorios.id_sala}`)}
                 />
               ))}
             </div>

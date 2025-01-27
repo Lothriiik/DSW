@@ -5,7 +5,7 @@ from .models import Dispositivos, Software, Laboratorio
 
 @admin.register(Dispositivos)
 class DispositivosAdmin(admin.ModelAdmin):
-    list_display = ('id_dispositivo', 'marca', 'modelo', 'patrimonio', 'is_computador', 'status', 'data_verificacao')
+    list_display = ('id_dispositivo', 'tipo', 'modelo', 'patrimonio', 'is_computador', 'status', 'data_verificacao')
     list_filter = ('status', 'is_computador', 'id_sala')
     search_fields = ('marca', 'modelo', 'patrimonio', 'descricao')
     ordering = ('-data_verificacao',)

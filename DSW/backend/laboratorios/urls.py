@@ -2,7 +2,7 @@ from django.urls import path
 from laboratorios.views.laboratorio_view import  (LaboratorioUpdateView, LaboratorioDeleteView, LaboratorioByIDView,
                                                   LaboratorioCreateView, LaboratorioListView)
 from laboratorios.views.dispositivos_view import (DispositivosByLeccView, DispositivosCreateView, DispositivosDeleteView,
-                                                  DispositivosListView,  DispositivosUpdateView,
+                                                  DispositivosListView,  DispositivosUpdateView, DispositivosByIDView,
                                                   SoftwareDeleteView, SoftwaresByDispositivosView, SoftwareCreateView)
 
 from django.conf.urls.static import static
@@ -19,6 +19,7 @@ urlpatterns = [
 
     path('disp-list/', DispositivosListView.as_view(), name='lab-create'),
     path('disp-by-lecc/', DispositivosByLeccView.as_view(), name='disp-by-lecc'),
+    path('disp-by-id/', DispositivosByIDView.as_view(), name='disp-by-id'),
     path('disp-delete/', DispositivosDeleteView.as_view(), name='disp-delete'),
     path('disp-update/<int:pk>/', DispositivosUpdateView.as_view(), name='disp-update'),
     path('disp-create/', DispositivosCreateView.as_view(), name='disp-create'),

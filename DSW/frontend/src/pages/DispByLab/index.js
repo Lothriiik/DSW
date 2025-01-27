@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // Importando useParams
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './DispByLab.module.css';
-import Sidebar from '../../components/Sidebar';
-import CircleButton from '../../components/CircleButton';
-import CustomInput from '../../components/CustomInput';
-import CardComputador from '../../components/CardComputador';
-import CardDispositivos from '../../components/CardDispositivos';
+import Sidebar from '../../components/Sidebar/Sidebar';
+import CircleButton from '../../components/CircleButton/CircleButton';
+import CustomInput from '../../components/CustomInput/CustomInput';
+import CardComputador from '../../components/CardComputador/CardComputador';
+import CardDispositivos from '../../components/CardDispositivos/CardDispositivos';
+import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
+import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -23,6 +25,33 @@ function DispByLab() {
   const itemsPerPage = 6;
   const [labName, setLabName] = useState('');
   const [filterText, setFilterText] = useState('');
+  const navigate = useNavigate();
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [popupDispositivoId, setPopupDispositivoId] = useState('');
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
+  const [dispositivoToDelete, setDispositivoToDelete] = useState(null); 
+
+  const handleAdd = () => {
+    navigate('/LabDispAdd', { state: { deviceId: idSala } });
+  };
+  
+  const handleEdit = (idDisp) => {
+  navigate('/LabDispEdit', { state: { dispId: idDisp } });
+  };
+
+  const handleOpenPopup = (idDispositivo) => {
+    setIsPopupOpen(true);
+    setPopupDispositivoId(idDispositivo)
+  };
+
+  const closePopup = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handleDelete = (id) => {
+    setDispositivoToDelete(id);
+    setShowDeletePopUp(true);
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +84,23 @@ function DispByLab() {
     fetchData();
   }, [idSala]); 
 
+  const confirmDelete = async () => {
+    try {
+        const csrfToken = getCookie('csrftoken');
+        await axios.delete(`http://127.0.0.1:8000/api/disp-delete/?id_dispositivo=${dispositivoToDelete}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                'X-CSRFToken': csrfToken,
+            }
+        });
+        setDispositivos(prevData => prevData.filter(dispositivos => dispositivos.id_dispositivo !== dispositivoToDelete));
+        setShowDeletePopUp(false); 
+    } catch (error) {
+        setError("Erro ao excluir dispositivo: " + (error.response?.data?.detail || error.message));
+    }
+  };
+
+
   const filteredDispositivos = dispositivos.filter((dispositivo) => {
     return dispositivo.descricao.toLowerCase().includes(filterText.toLowerCase());
   });
@@ -65,7 +111,10 @@ function DispByLab() {
   const totalPages = Math.ceil(filteredDispositivos.length / itemsPerPage);
 
   const renderPaginationButtons = () => {
+    
     const buttons = [];
+
+    
     
     if (totalPages <= 3) {
       for (let i = 1; i <= totalPages; i++) {
@@ -144,7 +193,7 @@ function DispByLab() {
                 />
               </div>
               <div className={styles.addButton}>
-                <CircleButton iconType="add"/>
+                <CircleButton iconType="add" onClick={handleAdd}/>
               </div>
             </div>
           </div>
@@ -163,15 +212,20 @@ function DispByLab() {
                       descricao={dispositivo.descricao}
                       status={dispositivo.status}
                       data={dispositivo.data_verificacao}
+                      onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
+                      onClickSoftware={() => handleOpenPopup(dispositivo.id_dispositivo)}
+                      onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)} 
                     />
                   ) : (
                     <CardDispositivos
                       key={dispositivo.id_dispositivo}
-                      tipo={dispositivo.descricao}
+                      tipo={dispositivo.tipo}
                       patrimonio={dispositivo.patrimonio}
                       modelo={dispositivo.modelo}
                       status={dispositivo.status}
                       data={dispositivo.data_verificacao}
+                      onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
+                      onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)} 
                     />
                   );
                 })}
@@ -188,6 +242,19 @@ function DispByLab() {
           </div>
         </div>
       </section>
+      {isPopupOpen && (
+        <PopUpTableSoftware
+          idDispositivo={popupDispositivoId}
+          closePopup={closePopup}
+        />
+      )}
+      {showDeletePopUp && (
+                      <PopUpDelete
+                          onConfirm={confirmDelete}
+                          onClose={() => setShowDeletePopUp(false)}
+                          text={'dispositivo'}
+                      />
+                  )}
     </main>
   );
 }
