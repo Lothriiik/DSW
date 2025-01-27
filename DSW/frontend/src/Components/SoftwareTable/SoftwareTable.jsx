@@ -306,7 +306,7 @@ const SoftwareTable = ({ idDispositivo }) => {
             </div>
             {showSuccessPopUp && <PopUpSucess 
             onClose={() => setShowSuccessPopUp(false)}
-            text={'Software'}/>}
+            text={'Software adicionado'}/>}
             {showDeletePopUp && (
                 <PopUpDelete
                     onConfirm={confirmDelete}
