@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './styles.css'; 
 
 
-export default function CardComputador({tipo, patrimonio, descricao, status, data, onClickDeletar, onClickEditar, onClickSoftware }) {
+export default function CardObservacao({tipo, patrimonio, descricao, status, data, onClickDeletar, onClickEditar, onClickSoftware }) {
     return (
         
                 <div className="card-computador">
