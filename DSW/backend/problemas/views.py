@@ -34,7 +34,7 @@ class ObservacaoByIDView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
-        id_observacao = request.query_params.get('id_Observacao', None)
+        id_observacao = request.query_params.get('id_observacao', None)
 
         if id_observacao is not None:
             

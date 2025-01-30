@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from laboratorios.models import Laboratorio, Dispositivos  
+from django.core.exceptions import ValidationError
 
 DEFAULT_USER_ID = 1
 
 class Observacao(models.Model):
+
     id_observacao = models.AutoField(primary_key=True)
     id_sala = models.ForeignKey(Laboratorio, on_delete=models.CASCADE, related_name='observacoes')
     id_usuario = models.ForeignKey(User, on_delete=models.CASCADE, related_name='observacoes', default=DEFAULT_USER_ID)
@@ -12,5 +14,11 @@ class Observacao(models.Model):
     observacao = models.TextField()
     data = models.DateField()
 
-    def __str__(self):
-        return f"Observação de {self.id_usuario.nome} na sala {self.id_sala.nome}"
+    def clean(self):
+
+        if self.id_dispositivo.id_sala != self.id_sala:
+            raise ValidationError("O dispositivo selecionado não pertence à sala escolhida.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)

@@ -11,11 +11,4 @@ class ObservacaoAdmin(admin.ModelAdmin):
     ordering = ('data',)
     date_hierarchy = 'data'
 
-    def formfield_for_foreignkey(self, db_field, request, **kwargs):
-        if db_field.name == "id_dispositivo" and 'id_sala' in request.GET:
-            sala_id = request.GET.get('id_sala')
-            kwargs["queryset"] = Dispositivos.objects.filter(laboratorio_id=sala_id)
-        elif db_field.name == "id_dispositivo":
-            kwargs["queryset"] = Dispositivos.objects.none() 
-        return super().formfield_for_foreignkey(db_field, request, **kwargs)
 
