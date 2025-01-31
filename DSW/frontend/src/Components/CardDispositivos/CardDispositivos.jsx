@@ -3,7 +3,6 @@ import './styles.css';
 
 
 export default function CardComputador({tipo, patrimonio, modelo, status, data, onClickDeletar, onClickEditar, onClickDetalhamento }) {
-    console.log("Rendering CardComputador with props:", { tipo, patrimonio, status, data });
     return (
         
                 <div className="card-dispositivos">

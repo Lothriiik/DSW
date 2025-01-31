@@ -19,7 +19,7 @@ const LabEditPopUp = ({ closePopup, labId }) => {
     useEffect(() => {
         const fetchLabData = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/lab-by-id/?id_sala=${labId}`, {
+                const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-by-id/?id_sala=${labId}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                     },
@@ -41,7 +41,7 @@ const LabEditPopUp = ({ closePopup, labId }) => {
         setIsLoading(true);
         try {
             const csrfToken = getCookie('csrftoken');
-            await axios.put(`http://127.0.0.1:8000/api/lab-update/${labId}/`, {
+            await axios.put(`http://127.0.0.1:8000/api/laboratorios/lab-update/${labId}/`, {
                 nome: laboratorios.nome,
                 sala_ou_bloco: laboratorios.sala_ou_bloco,
             }, {

@@ -92,7 +92,7 @@ function LabDispAdd() {
   useEffect(() => {
     const fetchSalas = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/lab-list/');
+        const response = await axios.get('http://127.0.0.1:8000/api/laboratorios/lab-list/');
         const data = response.data.Laboratorio;
         const formattedSalas = data.map((sala) => ({
         value: sala.id_sala,
@@ -111,19 +111,7 @@ function LabDispAdd() {
     setIsLoading(true);
     try {
       const csrfToken = getCookie('csrftoken');
-
-      console.log("Dados enviados:", {
-        id_sala: inputIdsala,
-        tipo: inputTipo,
-        modelo: inputModelo,
-        patrimonio: inputPatrimonio,
-        is_computador: isComputador,
-        configuracao: inputConfiguracao,
-        descricao: inputDescricao,
-        status: selectedStatus,
-        data_verificacao: selectedDate,
-      });
-      await axios.post(`http://127.0.0.1:8000/api/disp-create/`, {
+      await axios.post(`http://127.0.0.1:8000/api/laboratorios/disp-create/`, {
         id_sala: inputIdsala,
         tipo: inputTipo,
         modelo: inputModelo,

@@ -58,15 +58,16 @@ function DispByLab() {
       try {
         const csrfToken = getCookie('csrftoken');
         
-        const dispositivosResponse = await axios.get(`http://127.0.0.1:8000/api/disp-by-lecc/?id_sala=${idSala}`, {
+        const dispositivosResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/disp-by-lecc/?id_sala=${idSala}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'X-CSRFToken': csrfToken,
           }
         });
         setDispositivos(dispositivosResponse.data.Dispositivos);
+        console.log(dispositivos)
         
-        const labResponse = await axios.get(`http://127.0.0.1:8000/api/lab-by-id/?id_sala=${idSala}`, {
+        const labResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-by-id/?id_sala=${idSala}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'X-CSRFToken': csrfToken,
@@ -75,6 +76,7 @@ function DispByLab() {
 
         const nomeSala = labResponse.data.laboratorio[0].nome;
         setLabName(nomeSala);
+        console.log(labName)
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
         setError('Erro ao carregar dados');
@@ -87,7 +89,7 @@ function DispByLab() {
   const confirmDelete = async () => {
     try {
         const csrfToken = getCookie('csrftoken');
-        await axios.delete(`http://127.0.0.1:8000/api/disp-delete/?id_dispositivo=${dispositivoToDelete}`, {
+        await axios.delete(`http://127.0.0.1:8000/api/laboratorios/disp-delete/?id_dispositivo=${dispositivoToDelete}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                 'X-CSRFToken': csrfToken,

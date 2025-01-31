@@ -27,7 +27,7 @@ const LabCreatePopUp = ({ closePopup }) => {
         setIsLoading(true);
         try {
             const csrfToken = getCookie('csrftoken');
-            const response = await axios.post('http://127.0.0.1:8000/api/lab-create/', {
+            const response = await axios.post('http://127.0.0.1:8000/api/laboratorios/lab-create/', {
                 nome: newLab.nome,
                 sala_ou_bloco: newLab.sala_ou_bloco,
             }, {

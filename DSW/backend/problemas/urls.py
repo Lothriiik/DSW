@@ -12,7 +12,6 @@ urlpatterns = [
     path('obs-create/', ObservacaoCreateView.as_view(), name='obs-create'),
     path('obs-by-id/', ObservacaoByIDView.as_view(), name='obs-by-id'),
     path('obs-by-disp/', ObservacaoByDispView.as_view(), name='obs-by-disp'),
-    path('obs-delete/', ObservacaoDeleteView.as_view(), name='obs-delete'),
     path('obs-update/<int:pk>/', ObservacaoUpdateView.as_view(), name='obs-update'),
 
 ]

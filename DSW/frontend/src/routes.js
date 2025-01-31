@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import LabDispAdd from "./pages/LabDispAdd";
 import LabDispEdit from "./pages/LabDispEdit";
 import Laboratories from "./pages/Laboratories"
+import Observacao from "./pages/Observacao"
 
 
 
@@ -22,6 +23,7 @@ function AppRoutes() {
                 <Route path="/LabDispAdd" element={<LabDispAdd />} />
                 <Route path="/LabDispEdit" element={<LabDispEdit/>}/>
                 <Route path="/laboratorio/:idSala" element={<DispByLab/>}></Route> 
+                <Route path="/observacao" element={<Observacao/>}></Route> 
                 <Route path="/options" element={<Options/>}></Route>
                 <Route path="/machines" element={<Machines/>}></Route>
                 <Route path="/infraatructure" element={<Infrastructure/>}></Route>

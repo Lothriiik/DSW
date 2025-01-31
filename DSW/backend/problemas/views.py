@@ -1,4 +1,4 @@
-from .serializer import (ObservacaoSerializer)
+from .serializer import (ObservacaoSerializer, ObservacaoCreateSerializer)
 from .models import Observacao
 from rest_framework import permissions, status, generics
 from rest_framework.views import APIView
@@ -19,7 +19,7 @@ class ObservacaoCreateView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
     queryset = Observacao.objects.all()
-    serializer_class = ObservacaoSerializer
+    serializer_class = ObservacaoCreateSerializer
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)

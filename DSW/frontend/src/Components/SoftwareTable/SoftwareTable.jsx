@@ -26,7 +26,7 @@ const SoftwareTable = ({ idDispositivo }) => {
         const fetchData = async () => {
             try {
                 const csrfToken = getCookie('csrftoken');
-                const response = await axios.get(`http://127.0.0.1:8000/api/soft-by-disp/?id_dispositivo=${idDispositivo}`, {
+                const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/soft-by-disp/?id_dispositivo=${idDispositivo}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                         'X-CSRFToken': csrfToken,
@@ -48,7 +48,7 @@ const SoftwareTable = ({ idDispositivo }) => {
     const confirmDelete = async () => {
         try {
             const csrfToken = getCookie('csrftoken');
-            await axios.delete(`http://127.0.0.1:8000/api/soft-delete/${softwareToDelete}/`, {
+            await axios.delete(`http://127.0.0.1:8000/api/laboratorios/soft-delete/${softwareToDelete}/`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                     'X-CSRFToken': csrfToken,
@@ -64,7 +64,7 @@ const SoftwareTable = ({ idDispositivo }) => {
     const handleAddSoftware = async () => {
         try {
             const csrfToken = getCookie('csrftoken');
-            const response = await axios.post('http://127.0.0.1:8000/api/soft-create/', {
+            const response = await axios.post('http://127.0.0.1:8000/api/laboratorios/soft-create/', {
                 nome: newSoftware.nome,
                 versao: newSoftware.versao,
                 link: newSoftware.link,

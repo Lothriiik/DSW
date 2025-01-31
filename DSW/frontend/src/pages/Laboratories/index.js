@@ -33,7 +33,7 @@ function Laboratories() {
     const fetchData = async () => {
       try {
         const csrfToken = getCookie('csrftoken');
-        const response = await axios.get(`http://127.0.0.1:8000/api/lab-list/`, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-list/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'X-CSRFToken': csrfToken,
@@ -50,7 +50,7 @@ function Laboratories() {
     const fetchDispositivos = async () => {
       try {
         const csrfToken = getCookie('csrftoken');
-        const response = await axios.get(`http://127.0.0.1:8000/api/disp-list/`, {
+        const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/disp-list/`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
             'X-CSRFToken': csrfToken,
@@ -76,7 +76,7 @@ function Laboratories() {
   const confirmDelete = async () => {
     try {
         const csrfToken = getCookie('csrftoken');
-        await axios.delete(`http://127.0.0.1:8000/api/lab-delete/?id_sala=${laboratorioToDelete}`, {
+        await axios.delete(`http://127.0.0.1:8000/api/laboratorios/lab-delete/?id_sala=${laboratorioToDelete}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                 'X-CSRFToken': csrfToken,

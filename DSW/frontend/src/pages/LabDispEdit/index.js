@@ -49,7 +49,7 @@ function LabDispEdit() {
   useEffect(() => {
     const fetchDispData = async () => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/disp-by-id/?id_dispositivo=${dispIdNumber}`, {
+            const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/disp-by-id/?id_dispositivo=${dispIdNumber}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('access_token')}`,
                 },
@@ -77,7 +77,7 @@ function LabDispEdit() {
   useEffect(() => {
     const fetchSalas = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/lab-list/');
+        const response = await axios.get('http://127.0.0.1:8000/api/laboratorios/lab-list/');
         const data = response.data.Laboratorio;
         const formattedSalas = data.map((sala) => ({
         value: sala.id_sala,
@@ -95,7 +95,7 @@ function LabDispEdit() {
     setIsLoading(true);
     try {
       const csrfToken = getCookie('csrftoken');
-      await axios.put(`http://127.0.0.1:8000/api/disp-update/${dispIdNumber}/`, {
+      await axios.put(`http://127.0.0.1:8000/api/laboratorios/disp-update/${dispIdNumber}/`, {
         id_sala: inputIdsala,
         tipo: inputTipo,
         modelo: inputModelo,
