@@ -15,19 +15,19 @@ export default function CardObservacaoDisp({sala, patrimonio, tipo, descricao, s
                         </p>
                     </div>
                     <p className="text-obs-tipdesc">
-                            {tipo} {descricao}
+                            {tipo} <b>-</b> {descricao}
                     </p>
 
                     <p className="text-obs-dispositivo">
-                        Patrimonio: {patrimonio} 
+                        <b>Patrimonio:</b> {patrimonio} 
                     </p>
                     
                     <p className="text-obs-data">
-                        Data de Verificação: {data}
+                        <b>Data de Verificação:</b> {data}
                     </p>
 
                     <p className="text-obs-obs">
-                        Observação: {observacao}
+                        <b>Observação:</b> {observacao}
                     </p>
                     <div className="cardobs-actions-buttons">
                         <button className="tam3424 blue" onClick={onClickEditar}>

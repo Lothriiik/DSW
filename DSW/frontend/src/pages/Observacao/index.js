@@ -4,7 +4,8 @@ import axios from 'axios';
 import styles from './Observacao.module.css';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import CircleButton from '../../components/CircleButton/CircleButton';
-import CardObservacao from '../../components/CardObservacaoDisp/CardObservacaoDisp';
+import CardObservacaoDisp from '../../components/CardObservacaoDisp/CardObservacaoDisp';
+import CardObservacaoLab from '../../components/CardObservacaoLab/CardObservacaoLab';
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -23,63 +24,18 @@ function Observacao() {
   const [idUsuario, setIdUsuario] = useState('');
   const [idDisp, setIdDisp] = useState('');
   const [observacao, setObservacao] = useState('');
-  const [status, setStatus] = useState('');
-  const [prioridade, setPrioridade] = useState('');
+  const [tipo, setTipo] = useState('');
   const [data, setData] = useState(null);
   const itemsPerPage = 6;
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    navigate('/LabDispAdd', { state: { deviceId: idObs } });
+    navigate('/observacaoadd');
   };
   
 
 
   useEffect(() => {
-    const createObservacao = async (observacaoData) => {
-      try {
-        const csrfToken = getCookie('csrftoken');
-        const response = await axios.post('http://127.0.0.1:8000/api/problemas/obs-create/', {
-          id_observacao: idObservacao,
-          id_sala: idSala,
-          id_usuario: idUsuario,
-          id_dispositivo: idDisp,
-          observacao: observacao,
-          status:status,
-          prioridade:prioridade,
-          data: data,
-        }
-          , {
-            headers: {
-              'X-CSRFToken': csrfToken, 
-            }
-          });
-        console.log('Observação criada com sucesso:', response.data);
-      } catch (error) {
-        if (error.response) {
-          console.log('Erro ao criar a observação:', error.response.data);
-        } else {
-          console.log('Erro de rede ou outro:', error);
-        }
-      }
-    };
-    
-
-        
-    const fetchDispositivosPorSala = async (salaId) => {
-      try {
-        const csrfToken = getCookie('csrftoken');
-        const response = await axios.get(`http://127.0.0.1:8000/api/problemas/disp-by-sala/`, {
-          params: { id_sala: salaId },
-        });
-    
-        console.log('Dispositivos encontrados:', response.data);
-      } catch (error) {
-        console.log('Erro ao buscar dispositivos', error);
-      }
-    };
-    
-
 
     const updateObservacaoStatus = async (observacaoId, statusData) => {
       try {
@@ -100,9 +56,6 @@ function Observacao() {
       }
     };
     
-    
-
-
     const fetchObservacoes = async () => {
       try {
         const csrfToken = getCookie('csrftoken');
@@ -207,20 +160,31 @@ function Observacao() {
           <div className={styles.formContainer}>
             {error && <p>{error}</p>}
 
-              <div className={styles.containerCard}>
-                {currentItems.map((observacoes) => (
-                  <CardObservacao
+            <div className={styles.containerCard}>
+              {currentItems.map((observacoes) =>
+                observacoes.tipo === "Laboratorio" ? (
+                  <CardObservacaoLab
+                    key={observacoes.id_observacao}
+                    sala={observacoes.nome_sala}
+                    solicitante={observacoes.nome_usuario}
+                    descricao={observacoes.descricao_dispositivo}
+                    data={observacoes.data}
+                    observacao={observacoes.observacao}
+                  />
+                ) : (
+                  <CardObservacaoDisp
                     key={observacoes.id_observacao}
                     sala={observacoes.nome_sala}
                     solicitante={observacoes.nome_usuario}
                     tipo={observacoes.tipo_dispositivo}
                     descricao={observacoes.descricao_dispositivo}
-                    patrimonio={observacoes.patrimonio_dispositivo}            
+                    patrimonio={observacoes.patrimonio_dispositivo}
                     data={observacoes.data}
                     observacao={observacoes.observacao}
                   />
-                ))}
-              </div>
+                )
+              )}
+            </div>
             
             
             <div className={styles.paginationContainer}>

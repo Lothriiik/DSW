@@ -16,12 +16,13 @@ export default function CardObservacaoLab({sala, patrimonio, tipo, descricao, so
                     </div>
                     
                     <p className="text-obs-data">
-                        Data de Verificação: {data}
+                        <b>Data de Verificação:</b> {data}
                     </p>
 
-                    <p className="text-obs-obs">
-                        Observação: {observacao}
+                    <p className="text-obs1-obs">
+                        <b>Observação:</b> {observacao}
                     </p>
+
                     <div className="cardobs-actions-buttons">
                         <button className="tam3424 blue" onClick={onClickEditar}>
                             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">

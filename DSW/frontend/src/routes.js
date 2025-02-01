@@ -9,8 +9,9 @@ import HomeAlmoxADM from "./pages/HomeAlmoxADM"
 import LoginPage from "./pages/LoginPage";
 import LabDispAdd from "./pages/LabDispAdd";
 import LabDispEdit from "./pages/LabDispEdit";
-import Laboratories from "./pages/Laboratories"
-import Observacao from "./pages/Observacao"
+import Laboratories from "./pages/Laboratories";
+import Observacao from "./pages/Observacao";
+import ObservacaoAdd from "./pages/ObservacaoAdd";
 
 
 
@@ -24,6 +25,7 @@ function AppRoutes() {
                 <Route path="/LabDispEdit" element={<LabDispEdit/>}/>
                 <Route path="/laboratorio/:idSala" element={<DispByLab/>}></Route> 
                 <Route path="/observacao" element={<Observacao/>}></Route> 
+                <Route path="/observacaoadd" element={<ObservacaoAdd/>}></Route> 
                 <Route path="/options" element={<Options/>}></Route>
                 <Route path="/machines" element={<Machines/>}></Route>
                 <Route path="/infraatructure" element={<Infrastructure/>}></Route>

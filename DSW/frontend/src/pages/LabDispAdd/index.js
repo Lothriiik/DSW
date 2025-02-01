@@ -43,13 +43,19 @@ function LabDispAdd() {
   const { deviceId } = location.state || {};
   const deviceIdNumber = parseInt(deviceId, 10)
 
+  useEffect(() => {
+    if (deviceIdNumber !== null){
+      setInputIdsala(deviceIdNumber)
+    }
+  },[]);
+
   const handleDateChange = (value) => {
     const formattedDate = value.format('YYYY-MM-DD');
     setSelectedDate(formattedDate);
   };
 
 
-  const isButtonDisabled = !(selectedStatus && inputIdsala && inputTipo && inputModelo && inputPatrimonio && selectedDate);
+  const isButtonDisabled = !(selectedStatus && inputTipo && inputModelo && inputPatrimonio && selectedDate && inputIdsala);
 
   const CustomRadio = styled(Radio)(({ theme }) => ({
     "& .MuiSvgIcon-root": {
@@ -235,12 +241,13 @@ function LabDispAdd() {
                       borderradius: '4px ',
                       width: 270,
                       height: 50,
-                      fontSize: 'clamp(10px, 2vw, 14px)',
+                      fontSize: 'clamp(10px, 2vw, 14px)',                     
 
                     }}
                     value={deviceIdNumber || null}
                     onChange={handleSalaChange}
                     options={salas}
+                    disabled={true}
                 />
               </div>
               <CustomInput
@@ -339,7 +346,7 @@ function LabDispAdd() {
                         )}
                         {showSuccess && (
                         <PopUpSucess
-                        onClose={() => navigate(`/dispositivos/${inputIdsala}`)}
+                        onClose={() => navigate(`/laboratorio/${inputIdsala}`)}
                         text= 'Dispositivo cadastrado'
                         />
                         )}
