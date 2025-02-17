@@ -160,7 +160,7 @@ function ObservacaoView() {
         <Sidebar />
         <div className='mainContentLabAdd'>
           <div className='headerLabAdd'>
-            <h1 className='headerTitleLabAdd'>Editar Observação</h1>
+            <h1 className='headerTitleLabAdd'>Visualizar Observação</h1>
           </div>
           <div className='addDiv'>
 

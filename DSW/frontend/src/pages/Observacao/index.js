@@ -7,6 +7,7 @@ import CircleButton from '../../components/CircleButton/CircleButton';
 import CardObservacaoDisp from '../../components/CardObservacaoDisp/CardObservacaoDisp';
 import CardObservacaoLab from '../../components/CardObservacaoLab/CardObservacaoLab';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
+import CustomInput from '../../components/CustomInput/CustomInput';
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -19,13 +20,7 @@ function Observacao() {
   const [observacoes, setObservacoes] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [idSala, setIdSala] = useState('');
-  const [idObservacao, setIdObservacao] = useState('');
-  const [idUsuario, setIdUsuario] = useState('');
-  const [idDisp, setIdDisp] = useState('');
-  const [observacao, setObservacao] = useState('');
-  const [tipo, setTipo] = useState('');
-  const [data, setData] = useState(null);
+  const [filterText, setFilterText] = useState('');
   const itemsPerPage = 6;
   const navigate = useNavigate();
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
@@ -84,9 +79,13 @@ function Observacao() {
     }
   };
 
+  const filteredObservacoes = observacoes.filter((observacao) => {
+    return observacao.nome_sala.toLowerCase().includes(filterText.toLowerCase());
+  });
+
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = observacoes.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = filteredObservacoes.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(observacoes.length / itemsPerPage);
 
   const renderPaginationButtons = () => {
@@ -161,6 +160,13 @@ function Observacao() {
             <h1 className={styles.headerTitle}>Observações</h1> 
             <div className={styles.controlsContainer}>
               <div className={styles.deviceInputContainer}>
+                <span className={styles.deviceInfo}>Observações: {filteredObservacoes.length}</span>
+                  <CustomInput
+                    placeholder={`Pesquisar por ${'Sala'}`}
+                    value={filterText} 
+                    onChange={(e) => setFilterText(e.target.value)}
+                    className={`${styles.inputField} input-field320`}
+                  />
               </div>
               <div className={styles.addButton}>
                 <CircleButton iconType="add" onClick={handleAdd}/>

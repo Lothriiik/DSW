@@ -11,19 +11,19 @@ export default function CardComputador({tipo, patrimonio, modelo, status, data, 
         
                 <div className="card-dispositivos" onClick={handleCardClick}>
                     <p className="text-disp-tipo">
-                        Tipo: {tipo}
+                        <b>Tipo:</b> {tipo}
                     </p>
                     <p className="text-disp-patrimonio">
-                        Patrimônio: {patrimonio} 
+                        <b>Patrimônio:</b> {patrimonio} 
                     </p>
                     <p className="text-disp-modelo">
-                        Marca/Modelo: {modelo}
+                        <b>Marca/Modelo:</b> {modelo}
                     </p>
                     <p className="text-disp-status">
-                        Status: {status}
+                        <b>Status:</b> {status}
                     </p>
                     <p className="text-disp-data">
-                        Data de Verificação:<br/>
+                        <b>Data de Verificação:</b><br/>
                         {data}
                     </p>
                     <div className="card-disp-actions-buttons">

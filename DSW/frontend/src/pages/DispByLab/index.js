@@ -32,15 +32,15 @@ function DispByLab() {
   const [dispositivoToDelete, setDispositivoToDelete] = useState(null); 
 
   const handleAdd = () => {
-    navigate('/LabDispAdd', { state: { deviceId: idSala } });
+    navigate('/dispadd', { state: { deviceId: idSala } });
   };
   
   const handleEdit = (idDisp) => {
-  navigate('/LabDispEdit', { state: { dispId: idDisp } });
+  navigate('/dispedit', { state: { dispId: idDisp } });
   };
 
   const handleView = (idDisp) => {
-    navigate('/LabDispView', { state: { dispId: idDisp } });
+    navigate('/dispview', { state: { dispId: idDisp } });
     };
 
   const handleOpenPopup = (idDispositivo) => {
