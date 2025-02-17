@@ -305,6 +305,8 @@ function LabDispEdit() {
                   style={{
                     width: 416,
                     height: 172,
+                    border: '1px solid #BDBDBD',
+                    borderRadius: '4px',
                     resize: 'none',
                   }}
                 /> 
@@ -349,6 +351,7 @@ function LabDispEdit() {
                     onChange={handleDateChange} 
                     format="YYYY-MM-DD" 
                     placeholder="Escolha a data"
+                    value={dayjs(selectedDate, "YYYY-MM-DD" )}
                     style={{
                       width: "200PX",
                       height: "50px",
@@ -380,7 +383,7 @@ function LabDispEdit() {
                                 <path d="M25.5 12C26.6046 12 27.5 11.1046 27.5 10C27.5 8.89543 26.6046 8 25.5 8C24.3954 8 23.5 8.89543 23.5 10C23.5 11.1046 24.3954 12 25.5 12Z" fill="#0095DA"/>
                             </svg>
                         ) : (
-                            <CustomButton disabled={isButtonDisabled} onClick={handleSave} label="Salvar" className="blue size138"></CustomButton>
+                            <CustomButton disabled={isButtonDisabled || isLoading}  onClick={handleSave} label="Salvar" className="blue size138"></CustomButton>
                         )}
                         {showSuccess && (
                         <PopUpSucess

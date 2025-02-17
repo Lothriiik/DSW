@@ -2,10 +2,14 @@ import React, { useState } from 'react';
 import './styles.css'; 
 
 
-export default function CardComputador({tipo, patrimonio, modelo, status, data, onClickDeletar, onClickEditar, onClickDetalhamento }) {
+export default function CardComputador({tipo, patrimonio, modelo, status, data, onClickDeletar, onClickEditar, onClickCard }) {
+    const handleCardClick = (e) => {
+        if (e.target.closest('.card-disp-actions-buttons')) return;
+        onClickCard();
+    };
     return (
         
-                <div className="card-dispositivos">
+                <div className="card-dispositivos" onClick={handleCardClick}>
                     <p className="text-disp-tipo">
                         Tipo: {tipo}
                     </p>

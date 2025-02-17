@@ -39,6 +39,10 @@ function DispByLab() {
   navigate('/LabDispEdit', { state: { dispId: idDisp } });
   };
 
+  const handleView = (idDisp) => {
+    navigate('/LabDispView', { state: { dispId: idDisp } });
+    };
+
   const handleOpenPopup = (idDispositivo) => {
     setIsPopupOpen(true);
     setPopupDispositivoId(idDispositivo)
@@ -65,7 +69,7 @@ function DispByLab() {
           }
         });
         setDispositivos(dispositivosResponse.data.Dispositivos);
-        console.log(dispositivos)
+
         
         const labResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-by-id/?id_sala=${idSala}`, {
           headers: {
@@ -217,6 +221,7 @@ function DispByLab() {
                       onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
                       onClickSoftware={() => handleOpenPopup(dispositivo.id_dispositivo)}
                       onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)} 
+                      onClickCard={() => handleView(dispositivo.id_dispositivo)}
                     />
                   ) : (
                     <CardDispositivos
@@ -228,6 +233,7 @@ function DispByLab() {
                       data={dispositivo.data_verificacao}
                       onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
                       onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)} 
+                      onClickCard={() => handleView(dispositivo.id_dispositivo)}
                     />
                   );
                 })}

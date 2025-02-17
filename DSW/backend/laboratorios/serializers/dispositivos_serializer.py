@@ -8,7 +8,7 @@ class DispositivosSoftwaresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dispositivos
         fields = [
-            'id_dispositivo', 'id_sala', 'tipo', 'modelo', 'patrimonio',
+            'id_dispositivo','nome_sala', 'id_sala', 'tipo', 'modelo', 'patrimonio',
             'is_computador', 'configuracao', 'descricao', 'status',
             'data_verificacao', 'softwares'  
         ]
@@ -18,7 +18,7 @@ class DispositivosSerializer(serializers.ModelSerializer):
     class Meta:
         model = Dispositivos
         fields = [
-            'id_dispositivo', 'id_sala', 'tipo', 'modelo', 'patrimonio',
+            'id_dispositivo','nome_sala', 'id_sala', 'tipo', 'modelo', 'patrimonio',
             'is_computador', 'configuracao', 'descricao', 'status',
             'data_verificacao'
         ]

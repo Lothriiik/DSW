@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import './styles.css'; 
 
 
-export default function CardObservacaoDisp({sala, patrimonio, tipo, descricao, solicitante, observacao, data, onClickDeletar, onClickEditar}) {
+export default function CardObservacaoDisp({sala, patrimonio, tipo, descricao, solicitante, observacao, data, onClickDeletar, onClickEditar, onClickCard}) {
+    
+    const handleCardClick = (e) => {
+        if (e.target.closest('.cardobs-actions-buttons')) return;
+        onClickCard();
+    };
     return (
         
-                <div className="card-obs">
+                <div className="card-obs" onClick={handleCardClick}>
                     <div className='titlediv'>
                         <p className="text-obs-sala">
                         {sala}

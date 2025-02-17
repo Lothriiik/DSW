@@ -9,9 +9,13 @@ import HomeAlmoxADM from "./pages/HomeAlmoxADM"
 import LoginPage from "./pages/LoginPage";
 import LabDispAdd from "./pages/LabDispAdd";
 import LabDispEdit from "./pages/LabDispEdit";
+import LabDispView from "./pages/LabDispView";
 import Laboratories from "./pages/Laboratories";
 import Observacao from "./pages/Observacao";
 import ObservacaoAdd from "./pages/ObservacaoAdd";
+import ObservacaoEdit from "./pages/ObservacaoEdit";
+import ObservacaoView from "./pages/ObservacaoView";
+import DispAll from "./pages/DispAll";
 
 
 
@@ -23,9 +27,13 @@ function AppRoutes() {
                 <Route path="/Laboratories" element={<Laboratories />} />
                 <Route path="/LabDispAdd" element={<LabDispAdd />} />
                 <Route path="/LabDispEdit" element={<LabDispEdit/>}/>
+                <Route path="/LabDispView" element={<LabDispView/>}/>
+                <Route path="/dispositivos" element={<DispAll/>}/>
                 <Route path="/laboratorio/:idSala" element={<DispByLab/>}></Route> 
                 <Route path="/observacao" element={<Observacao/>}></Route> 
-                <Route path="/observacaoadd" element={<ObservacaoAdd/>}></Route> 
+                <Route path="/observacaoadd" element={<ObservacaoAdd/>}></Route>
+                <Route path="/observacaoedit" element={<ObservacaoEdit/>}></Route> 
+                <Route path="/observacaoview" element={<ObservacaoView/>}></Route> 
                 <Route path="/options" element={<Options/>}></Route>
                 <Route path="/machines" element={<Machines/>}></Route>
                 <Route path="/infraatructure" element={<Infrastructure/>}></Route>

@@ -28,6 +28,9 @@ class Dispositivos(models.Model):
 
     def __str__(self):
         return f" {self.modelo}"
+    
+    def nome_sala(self):
+        return self.id_sala.nome
 
 
 class Software(models.Model):

@@ -66,7 +66,7 @@ class ObservacaoDeleteView(APIView):
 
         if observacao_id is not None:
             try:
-                observacao = Observacao.objects.get(id_sala=observacao_id)
+                observacao = Observacao.objects.get(id_observacao=observacao_id)
                 observacao.delete()
                 return Response({'message': 'Observacao deletado com sucesso'}, status=status.HTTP_204_NO_CONTENT)
             except Observacao.DoesNotExist:
@@ -77,7 +77,7 @@ class ObservacaoDeleteView(APIView):
 class ObservacaoUpdateView(generics.UpdateAPIView):
     permission_classes = [AllowAny]
     queryset = Observacao.objects.all()
-    serializer_class = ObservacaoSerializer
+    serializer_class = ObservacaoCreateSerializer
     lookup_field = 'pk'
 
     def patch(self, request, *args, **kwargs):

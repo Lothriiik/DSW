@@ -5,6 +5,10 @@
     font-family: 'Inter', sans-serif;
 }
 
+.untouchable {
+    pointer-events: none;
+}
+
 .container-input{
     display: flex;
     flex-direction: column;

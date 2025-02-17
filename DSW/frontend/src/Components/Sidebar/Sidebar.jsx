@@ -57,22 +57,8 @@ function Header() {
                         </svg>
                         <span className='lecc'>Dispositivos</span>
                     </Link>
-
-                    <Link to="/options" className='menu'>
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_84_2585)">
-                                <path d="M24 18.999V3.99902C24 3.20337 23.6839 2.44031 23.1213 1.8777C22.5587 1.31509 21.7956 0.999023 21 0.999023H3C2.20435 0.999023 1.44129 1.31509 0.87868 1.8777C0.31607 2.44031 0 3.20337 0 3.99902L0 18.999H11V20.999H6V22.999H18V20.999H13V18.999H24ZM2 3.99902C2 3.73381 2.10536 3.47945 2.29289 3.29192C2.48043 3.10438 2.73478 2.99902 3 2.99902H21C21.2652 2.99902 21.5196 3.10438 21.7071 3.29192C21.8946 3.47945 22 3.73381 22 3.99902V16.999H2V3.99902ZM14.965 8.99902H20V10.999H16.035L13.376 14.987L10.376 8.98702L9.035 10.999H4V8.99902H7.965L10.624 5.01102L13.624 11.011L14.965 8.99902Z" fill="white"/>
-                            </g>
-                            <defs>
-                                <clipPath id="clip0_84_2585">
-                                    <rect width="24" height="24" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
-                        <span className='lecc'>Manuteção</span> 
-                    </Link>
                     
-                    <Link to="#" className='menu'>
+                    <Link to="/observacao" className='menu'>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_84_2399)">
                                 <path d="M7.00015 12H17.0002V14H7.00015V12ZM7.00015 18H14.0002V16H7.00015V18ZM22.0002 7.586V24H2.00015V3C2.00015 2.20435 2.31622 1.44129 2.87883 0.87868C3.44144 0.31607 4.2045 0 5.00015 0L14.4142 0L22.0002 7.586ZM15.0002 7H18.5862L15.0002 3.414V7ZM20.0002 22V9H13.0002V2H5.00015C4.73494 2 4.48058 2.10536 4.29305 2.29289C4.10551 2.48043 4.00015 2.73478 4.00015 3V22H20.0002Z" fill="white"/>

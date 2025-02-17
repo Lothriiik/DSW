@@ -2,7 +2,7 @@ import React, { useEffect }  from 'react';
 import './styles.css'; 
 
 
-const CustomInput = ({ label, placeholder, className, value, onChange, disabled, defaultValue }) => {
+const CustomInput = ({ label, placeholder, className, value, onChange, disabled, defaultValue, isUntouchable }) => {
     const [isActive, setIsActive] = React.useState(false);
 
     useEffect(() => {
@@ -23,7 +23,7 @@ const CustomInput = ({ label, placeholder, className, value, onChange, disabled,
                 id="customInput"
                 type="text"
                 placeholder={placeholder}
-                className={`${isActive ? 'active' : ''} ${className}`}
+                className={`${isActive ? 'active' : ''} ${className} ${isUntouchable ? 'untouchable' : ''}`}
                 value={value}  
                 onChange={handleInputChange}
                 disabled={disabled}

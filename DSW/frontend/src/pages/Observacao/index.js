@@ -6,6 +6,7 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import CircleButton from '../../components/CircleButton/CircleButton';
 import CardObservacaoDisp from '../../components/CardObservacaoDisp/CardObservacaoDisp';
 import CardObservacaoLab from '../../components/CardObservacaoLab/CardObservacaoLab';
+import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -15,7 +16,6 @@ const getCookie = (name) => {
 };
 
 function Observacao() {
-  const { idObs } = useParams();
   const [observacoes, setObservacoes] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -28,33 +28,28 @@ function Observacao() {
   const [data, setData] = useState(null);
   const itemsPerPage = 6;
   const navigate = useNavigate();
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
+  const [observacaoToDelete, setObservacaoToDelete] = useState(null); 
 
   const handleAdd = () => {
     navigate('/observacaoadd');
   };
   
+  const handleEdit = (idObs) => {
+    navigate('/observacaoedit', { state: { obsId: idObs } });
+    };
+  
+  const handleView = (idObs) => {
+      navigate('/observacaoview', { state: { obsId: idObs } });
+      };
+
+  const handleDelete = (id) => {
+      setObservacaoToDelete(id);
+      setShowDeletePopUp(true);
+  };
 
 
   useEffect(() => {
-
-    const updateObservacaoStatus = async (observacaoId, statusData) => {
-      try {
-        const csrfToken = getCookie('csrftoken');
-        const response = await axios.patch(`http://127.0.0.1:8000/api/problemas/obs-update/${observacaoId}/`, statusData
-          , {
-            headers: {
-              'X-CSRFToken': csrfToken, 
-            }
-          });
-        console.log('Observação atualizada com sucesso:', response.data);
-      } catch (error) {
-        if (error.response) {
-          console.log('Erro ao atualizar a observação:', error.response.data);
-        } else {
-          console.log('Erro de rede ou outro:', error);
-        }
-      }
-    };
     
     const fetchObservacoes = async () => {
       try {
@@ -72,6 +67,22 @@ function Observacao() {
     };
     fetchObservacoes();
   }, []);
+
+  const confirmDelete = async () => {
+    try {
+        const csrfToken = getCookie('csrftoken');
+        await axios.delete(`http://127.0.0.1:8000/api/problemas/obs-delete/?id_observacao=${observacaoToDelete}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+                'X-CSRFToken': csrfToken,
+            }
+        });
+        setObservacoes(prevData => prevData.filter(observacao => observacao.id_observacao !== observacaoToDelete));
+        setShowDeletePopUp(false); 
+    } catch (error) {
+        setError("Erro ao excluir observacao: " + (error.response?.data?.detail || error.message));
+    }
+  };
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
@@ -170,6 +181,9 @@ function Observacao() {
                     descricao={observacoes.descricao_dispositivo}
                     data={observacoes.data}
                     observacao={observacoes.observacao}
+                    onClickEditar={() => handleEdit(observacoes.id_observacao)}
+                    onClickDeletar={() => handleDelete(observacoes.id_observacao)} 
+                    onClickCard={() => handleView(observacoes.id_observacao)}
                   />
                 ) : (
                   <CardObservacaoDisp
@@ -181,6 +195,9 @@ function Observacao() {
                     patrimonio={observacoes.patrimonio_dispositivo}
                     data={observacoes.data}
                     observacao={observacoes.observacao}
+                    onClickEditar={() => handleEdit(observacoes.id_observacao)}
+                    onClickDeletar={() => handleDelete(observacoes.id_observacao)} 
+                    onClickCard={() => handleView(observacoes.id_observacao)}
                   />
                 )
               )}
@@ -195,7 +212,13 @@ function Observacao() {
           </div>
         </div>
       </section>
-
+              {showDeletePopUp && (
+                                    <PopUpDelete
+                                        onConfirm={confirmDelete}
+                                        onClose={() => setShowDeletePopUp(false)}
+                                        text={'observação'}
+                                    />
+                                )}
     </main>
   );
 }

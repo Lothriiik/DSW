@@ -12,7 +12,6 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import { styled } from "@mui/system";
 import PopUpSucess from '../../components/PopUpSucess/PopUpSucess';
-import dayjs from "dayjs";
 import './styles.css';
 
 
@@ -272,6 +271,8 @@ function LabDispAdd() {
                   style={{
                     width: 416,
                     height: 172,
+                    border: '1px solid #BDBDBD',
+                    borderRadius: '4px',
                     resize: 'none',
                   }}
                 /> 
