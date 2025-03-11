@@ -29,6 +29,18 @@
     background-color: #526b81;
 }
 
+.orange{
+    background-color: #E2B93B;
+    border: none;
+    color: #FFFFFF;
+}
+.orange:hover{
+    background-color: #A47F2A;
+}
+.orange:active{
+    background-color: #70581D;
+}
+
 .button-icon {
     width: 20px; 
     height: 20px;

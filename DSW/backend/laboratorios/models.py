@@ -7,6 +7,9 @@ class Laboratorio(models.Model):
 
     def __str__(self):
         return self.nome
+    @property
+    def observacoes(self):
+        return self.observacoes.count()
 
 
 class Dispositivos(models.Model):

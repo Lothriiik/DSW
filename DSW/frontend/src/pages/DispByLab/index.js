@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Tooltip } from 'antd';
 import axios from 'axios';
 import styles from './DispByLab.module.css';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -20,6 +21,7 @@ const getCookie = (name) => {
 function DispByLab() {
   const { idSala } = useParams();
   const [dispositivos, setDispositivos] = useState([]);
+  const [laboratorios, setLaboratorios] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -34,6 +36,10 @@ function DispByLab() {
   const handleAdd = () => {
     navigate('/dispadd', { state: { deviceId: idSala } });
   };
+
+  const handleObserver = () => {
+    navigate('/observacao', { state: {nomeSala: labName}});
+  }
   
   const handleEdit = (idDisp) => {
   navigate('/dispedit', { state: { dispId: idDisp } });
@@ -77,7 +83,7 @@ function DispByLab() {
             'X-CSRFToken': csrfToken,
           }
         });
-
+        setLaboratorios(labResponse.data.laboratorio[0])
         const nomeSala = labResponse.data.laboratorio[0].nome;
         setLabName(nomeSala);
         console.log(labName)
@@ -190,7 +196,9 @@ function DispByLab() {
             <h1 className={styles.headerTitle}>{labName || idSala}</h1> 
             <div className={styles.controlsContainer}>
               <div className={styles.deviceInputContainer}>
-                <span className={styles.deviceInfo}>Dispositivos: {filteredDispositivos.length}</span>
+                <span className={styles.deviceInfo}>
+                  Dispositivos: {filteredDispositivos.length}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                  Observações: {laboratorios.observacoes}</span>
                 <CustomInput
                   placeholder={`Pesquisar em ${labName || 'Sala'}`}
                   value={filterText} 
@@ -199,7 +207,10 @@ function DispByLab() {
                 />
               </div>
               <div className={styles.addButton}>
-                <CircleButton iconType="add" onClick={handleAdd}/>
+
+                  <CircleButton className='orange' iconType="obs" onClick={handleObserver}/>
+                  <CircleButton iconType="add" onClick={handleAdd}/>
+           
               </div>
             </div>
           </div>

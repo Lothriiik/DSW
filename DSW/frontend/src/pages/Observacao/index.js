@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import styles from './Observacao.module.css';
 import Sidebar from '../../components/Sidebar/Sidebar';
@@ -25,6 +25,7 @@ function Observacao() {
   const navigate = useNavigate();
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
   const [observacaoToDelete, setObservacaoToDelete] = useState(null); 
+  const location = useLocation();
 
   const handleAdd = () => {
     navigate('/observacaoadd');
@@ -42,6 +43,12 @@ function Observacao() {
       setObservacaoToDelete(id);
       setShowDeletePopUp(true);
   };
+
+  useEffect(() => {
+    if (location.state?.nomeSala) {
+      setFilterText(location.state.nomeSala);
+    }
+  }, [location.state]);
 
 
   useEffect(() => {

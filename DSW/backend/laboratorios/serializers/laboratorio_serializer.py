@@ -4,10 +4,11 @@ from .dispositivos_serializer import DispositivosSerializer
 
 class LaboratorioSerializer(serializers.ModelSerializer):
     numdisp = serializers.SerializerMethodField()
+    observacoes = serializers.IntegerField(source="observacoes.count", read_only=True)
     
     class Meta:
         model = Laboratorio
-        fields = ['id_sala', 'nome', 'sala_ou_bloco', 'numdisp']
+        fields = ['id_sala', 'nome', 'sala_ou_bloco', 'numdisp', 'observacoes']
     
     def get_numdisp(self, obj):
         
