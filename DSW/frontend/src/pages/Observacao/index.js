@@ -9,6 +9,10 @@ import CardObservacaoLab from '../../components/CardObservacaoLab/CardObservacao
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 import CustomInput from '../../components/CustomInput/CustomInput';
 
+
+import { Layout } from "antd";
+const { Content } = Layout;
+
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -26,6 +30,20 @@ function Observacao() {
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
   const [observacaoToDelete, setObservacaoToDelete] = useState(null); 
   const location = useLocation();
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
+  
+  const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 992);
+  };
+
+  useEffect(() => {
+      window.addEventListener('resize', handleResize);
+      return () => {
+          window.removeEventListener('resize', handleResize);
+      };
+  }, []);
+
+
 
   const handleAdd = () => {
     navigate('/observacaoadd');
@@ -159,10 +177,12 @@ function Observacao() {
   };
 
   return (
-    <main className={styles.Laboratories}>
-      <section className={styles.principal}>
+    <Layout style={{ minHeight: "100vh" }}>
         <Sidebar />
-        <div className={styles.mainContent}>
+        <Layout>
+        <Content
+              className='contentAll'
+            >
           <div className={styles.header}>
             <h1 className={styles.headerTitle}>Observações</h1> 
             <div className={styles.controlsContainer}>
@@ -223,8 +243,7 @@ function Observacao() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+
               {showDeletePopUp && (
                                     <PopUpDelete
                                         onConfirm={confirmDelete}
@@ -232,7 +251,9 @@ function Observacao() {
                                         text={'observação'}
                                     />
                                 )}
-    </main>
+    </Content>
+    </Layout>
+  </Layout>
   );
 }
 

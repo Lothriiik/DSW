@@ -64,6 +64,7 @@ const LabEditPopUp = ({ closePopup, labId }) => {
 
     return (
         <>
+        <div className="popup-overlay">
             <div className="popup-container">
                 <h2 className="popup-title-lab">Editar Laboratório</h2>
                 <button className="close-btn" onClick={closePopup}>
@@ -135,6 +136,7 @@ const LabEditPopUp = ({ closePopup, labId }) => {
                         </div>
                     )}
                 </div>
+            </div>
             </div>
         </>
     );

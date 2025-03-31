@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from "react-router-dom";
-import { ConfigProvider, Select, Input, DatePicker } from 'antd';
+import {  Select, Input, DatePicker, 
+          Form, Radio} from 'antd';
 import axios from 'axios';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import CustomButton from '../../components/CustomButton/CustomButton';
-import CustomInput from '../../components/CustomInput/CustomInput';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import { styled } from "@mui/system";
-import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
-import dayjs from 'dayjs';
 import './styles.css';
+import { FormProvider } from 'antd/es/form/context';
+import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
+import dayjs from "dayjs";
+import { Layout } from "antd";
+
+
+const { Content } = Layout;
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -42,6 +41,31 @@ function DispView() {
   const { dispId } = location.state || {};
   const dispIdNumber = parseInt(dispId, 10);
   const { TextArea } = Input;
+  const [form] = Form.useForm();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
+    
+    const handleResize = () => {
+        setIsSmallScreen(window.innerWidth <= 992);
+    };
+  
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
+
+  const checkFields = () => {
+    const status = form.getFieldValue("status");
+    const modelo = form.getFieldValue("modelo");
+    const tipo = form.getFieldValue("tipo");
+    const patrimonio = form.getFieldValue("patrimonio");
+    const data = form.getFieldValue("data");
+    const sala = form.getFieldValue("sala");
+    setIsButtonDisabled(!(status && sala && modelo && tipo && patrimonio && data));
+    console.log('1')
+  };
 
   useEffect(() => {
     const fetchDispData = async () => {
@@ -52,16 +76,29 @@ function DispView() {
                 },
             });
             const dispositivo = response.data.Dispositivos[0];
+            form.setFieldsValue({
+              sala: dispositivo.id_sala || null,
+              tipo: dispositivo.tipo && dispositivo.tipo.toLowerCase() !== 'computador' ? 'outro' : dispositivo.tipo.toLowerCase() || '',
+              status: dispositivo.status || null,
+              dispositivo: dispositivo.tipo || '',
+              configuracao: dispositivo.configuracao,
+              descricao: dispositivo.descricao,
+              modelo: dispositivo.modelo,
+              patrimonio: dispositivo.patrimonio,
+              data: dayjs(dispositivo.data_verificacao, "YYYY-MM-DD" )
+
+            });
+            setInputIdsala(dispositivo.id_sala);
             setInputConfiguracao(dispositivo.configuracao);
             setInputDescricao(dispositivo.descricao);
-            setInputIdsala(dispositivo.id_sala);
+            
             setInputModelo(dispositivo.modelo);
             setInputPatrimonio(dispositivo.patrimonio);
             setInputTipo(dispositivo.tipo);
             setIsComputador(dispositivo.is_computador);
             setSelectedDate(dispositivo.data_verificacao);
             setSelectedStatus(dispositivo.status);
-       
+            checkFields();
         } catch (error) {
             setError('Erro ao carregar dados do dispositivo.');
         }
@@ -96,22 +133,6 @@ function DispView() {
     }
   };
 
-  const CustomRadio = styled(Radio)(({ theme }) => ({
-    "& .MuiSvgIcon-root": {
-      fontSize: '28px',
-    },
-    "&.Mui-checked": {
-      color: "#0095DA",
-    },
-    "& .MuiTouchRipple-root": {
-      border: "2px solid #0095DA",
-      borderRadius: "50%", 
-    },
-    "&:hover": {
-      backgroundColor: "rgba(0, 149, 218, 0.1)",
-    },
-  }));
-
   const handleRadioChange = (event) => {
     const selectedValue = event.target.value;
     setRadioTipo(selectedValue);
@@ -142,213 +163,268 @@ function DispView() {
   }, [inputTipo]);
   
   return (
-    <main className='LaboratoriesLabAdd'>
-      <section className='principalLabAdd'>
+    <Layout style={{ minHeight: "100vh" }}>
         <Sidebar />
-        <div className='mainContentLabAdd'>
+        <Layout>
+        <Content
+              className='contentAll'
+            >
           <div className='headerLabAdd'>
             <h1 className='headerTitleLabAdd'>Visualizar Dispositivo</h1>
           </div>
           <div className='addDiv'>
+            <Form 
 
-            <div style={{ marginTop:"15px" ,marginBottom: "15px" ,display : 'flex' , gap: '35px' , alignItems: "center" , justifyContent: 'space-between'}}>
-              <div className='tipoContainer'>
-                <div className='radioContainer'>
-                  
-                  <FormControl>
-                    <FormLabel id="demo-radio-buttons-group-label">Tipo</FormLabel>
-                    <RadioGroup
-                      row
-                      aria-labelledby="demo-radio-buttons-group-label"
-                      name="radio-buttons-group"
-                      value={radioTipo}
-                      onChange={handleRadioChange}
-                      sx={{
-                        '& .MuiSvgIcon-root': {
-                            fontSize: 28,
-                          },
-                        gap: '15px',
-                      }}
-                    >
-                      <FormControlLabel value="computador" control={<Radio />} label="Computador" style={{pointerEvents: 'none'}} />
-                      <FormControlLabel value="outro" control={<Radio />} label="Outro"  style={{pointerEvents: 'none'}} />
-                    </RadioGroup>
-                  </FormControl>
-                </div>
-                
-              </div>
-
-              <CustomInput
-                label="Dispositivo"
-                placeholder="Tipo"
-                value={inputTipo}
-                onChange={(e) => setInputTipo(e.target.value)}
-                className="active input-field27050"
-                defaultValue={inputTipo}
-                isUntouchable={true}    
-
-              />
-
-              <CustomInput
-                label="Patrimonio"
-                placeholder="Patrimônio"
-                value={inputPatrimonio}
-                onChange={(e) => setInputPatrimonio(e.target.value)}
-                className="input-field27050"
-                defaultValue={inputPatrimonio}
-                isUntouchable={true}  
-              />
-
-            </div>
-
-            <div style={{ marginTop:"15px" ,marginBottom: "15px" ,display : 'flex' , gap: '35px' , alignItems: "center" , justifyContent: 'space-between'}}>
-              <div className="select-container">
-                <label htmlFor="statusSelect" className="select-label">
-                  Status
-                </label>
-                <Select
-                    className='customSelect'
-                    placeholder="Status"
-                    style={{
-                      color: '#4F4F4F',
-                      border: '1px solid #BDBDBD', 
-                      borderradius: '4px ',
-                      width: 270,
-                      height: 50,
-                      fontSize: 'clamp(10px, 2vw, 14px)',
-                      pointerEvents: 'none'
-
-                    }}
-                    onChange={handleStatusChange}
-                    value={selectedStatus || null}
-                    options={[
-                      {
-                        value: 'Funcionando',
-                        label: 'Funcionando',
-                      },
-                      {
-                        value: 'Com Defeito',
-                        label: 'Com Defeito',  
-                      },
-                    ]}
-                />
-              </div>
-              <div className="select-container">
-                <label htmlFor="statusSelect" className="select-label">
-                  Sala
-                </label>
-                <Select
-                    className='customSelect'
-                    placeholder="Sala"
-                    style={{
-                      color: '#4F4F4F',
-                      border: '1px solid #BDBDBD', 
-                      borderradius: '4px ',
-                      width: 270,
-                      height: 50,
-                      fontSize: 'clamp(10px, 2vw, 14px)',
-                      pointerEvents: 'none'
-
-                    }}
-                    value={inputIdsala || null}
-                    onChange={handleSalaChange}
-                    options={salas}
-                />
-              </div>
-              <CustomInput
-                isUntouchable={true}  
-                defaultValue={inputModelo}
-                label="Marca/Modelo"
-                placeholder="Modelo"
-                value={inputModelo}
-                onChange={(e) => setInputModelo(e.target.value)}
-                className="input-field27050"
-              />
-            </div>
-            
-            <div style={{ marginTop:"15px" ,marginBottom: "15px" ,display : 'flex' , gap: '30px' , alignItems: "center" , justifyContent: 'space-between'}}>
-              <div className="select-container">
-              <label htmlFor="statusSelect" className="select-label">
-                  Configurações
-                </label>
-                <TextArea 
-                  rows={7} 
-
-                  placeholder="Configurações" 
-                  value={inputConfiguracao}
-                  onChange={(e) => setInputConfiguracao(e.target.value)}
-                  style={{
-                    width: 416,
-                    height: 172,
-                    border: '1px solid #BDBDBD',
-                    borderRadius: '4px',
-                    resize: 'none',
-                    pointerEvents: 'none'
-                  }}
-                /> 
-              </div>        
-              
-              <div className="select-container">
-                <label htmlFor="statusSelect" className="select-label">
-                  Descrição
-                </label>    
-                <TextArea 
-                  rows={7} 
-                  placeholder="Descrição" 
-                  value={inputDescricao}
-                  onChange={(e) => setInputDescricao(e.target.value)}
-                  style={{
-                    width: 416,
-                    height: 172,
-                    border: '1px solid #BDBDBD',
-                    borderRadius: '4px',
-                    resize: 'none',
-                    pointerEvents: 'none'
-                  }}
-                />  
-              </div>    
-
-            </div>
-
-            <div style={{ marginTop:"15px", marginBottom: "15px", display : 'flex', gap: '30px', alignItems: "flex-end", justifyContent: 'space-between'}}>
-              <div style={{ display:'flex', alignItems: "flex-end", justifyContent: 'space-between', width:'419px'}}>
-              <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxWidth: "250px" }}>
-                  <label
-                          htmlFor="custom-date-picker"
-                          style={{
-                            fontSize: 'clamp(10px, 2vw, 14px)',
-                            color: '#4F4F4F',
-                            fontWeight: 'bold',
-                            display: 'block',
-                          }}
+              form={form}
+              layout="vertical" 
+              onValuesChange={checkFields}
+              initialValues={{ 
+                sala: parseInt(inputIdsala, 10) || null,
+                tipo: radioTipo, 
+                status: selectedStatus || null,
+                dispositivo: inputTipo || '', 
+              }}> 
+                    <div style={{ marginTop:"15px", height:'105px', marginBottom: "30px", display : 'flex', gap: '35px', alignItems: "center", justifyContent: 'space-between'}}>
+                      <div className='tipoContainer'>
+                        <div className='radioContainer'>
+                          
+                        <Form.Item 
+                        label="Tipo" name="tipo" 
                         >
-                          Data
-                  </label>
-                  <DatePicker 
-                    onChange={handleDateChange} 
-                    value={dayjs(selectedDate, "YYYY-MM-DD" )}
-                    format="YYYY-MM-DD" 
-                    placeholder="Escolha a data"
-                    style={{
-                      width: "200PX",
-                      height: "50px",
-                      borderRadius: "4px",
-                      border: "1px solid #BDBDBD",
-                      fontSize: "clamp(14px, 2vw, 16px)",
-                      pointerEvents: 'none'
-                    }}
-                  />
-                </div>
-                <CustomButton onClick={openPopup} disabled={!isComputador} label="Softwares" className="blue size138"></CustomButton>
-                {isPopupOpen && <PopUpTableSoftware idDispositivo={dispIdNumber} closePopup={closePopup} />}
+                          <Radio.Group
+
+                            value={radioTipo}
+                            size='large'
+                            buttonStyle="solid"
+                            onChange={handleRadioChange}
+                            style={{ display: "flex", gap: "20px", pointerEvents: 'none' }}
+                            className="custom-radio"
+                          >
+                            <Radio.Button value="computador">Computador</Radio.Button>
+                            <Radio.Button value="outro">Outro</Radio.Button>
+                          </Radio.Group>
+                        </Form.Item>
+                        </div>
+                        
+                      </div>
+      
+                      <Form.Item  
+                        label="Dispositivo" 
+                        name="dispositivo" 
+                        rules={[{ required: true, message: "Digite o tipo de dispositivo!" }]}
+      
+                      >
+                        <Input
+                          placeholder="Tipo"
+                          style={{ pointerEvents: 'none' }}
+                          value={inputTipo}
+                          onChange={(e) => setInputTipo(e.target.value)}
+                          className="input-field27050"
+                          disabled={isComputador}
+                        />
+                      </Form.Item>
+      
+                      <Form.Item  
+                        label="Patrimonio" 
+                        name="patrimonio" 
+                        rules={[{ required: true, message: "Digite o Patrimonio" }]}
+      
+                      >
+                        <Input
+                          type="number"
+                          style={{ pointerEvents: 'none' }}
+                          placeholder="Patrimônio"
+                          value={inputPatrimonio}
+                          onChange={(e) => setInputPatrimonio(e.target.value)}
+                          className="input-field27050"
+                        />
+                      </Form.Item>
+      
+                    </div>
+      
+                    <div style={{ marginTop:"15px", height:'105px' ,marginBottom: "30px" ,display : 'flex' , gap: '35px' , alignItems: "center" , justifyContent: 'space-between'}}>
+                      <div className="select-container">
+                        <Form.Item  
+                            label="Status" 
+                            name="status" 
+                            labelCol={{ span: 6 }}  
+                            wrapperCol={{ span: 18 }}
+                            rules={[{ required: true, message: "Selecione o Status" }]}
+                        >
+                          <Select
+                            
+                            className='customSelect'
+                            placeholder="Status"                           
+                            style={{
+                              color: '#4F4F4F',
+                              border: '1px solid #BDBDBD', 
+                              borderradius: '4px ',
+                              width: 270,
+                              height: 50,
+                              fontSize: 'clamp(10px, 2vw, 14px)',
+                              pointerEvents: 'none' 
+                            }}
+                            onChange={handleStatusChange}
+                            options={[
+                              {
+                                value: 'Funcionando',
+                                label: 'Funcionando',
+                              },
+                              {
+                                value: 'Com Defeito',
+                                label: 'Com Defeito',  
+                              },
+                            ]}
+                          />
+                        </Form.Item>
+                        
+                      </div>
+                      <div className="select-container">
+                        <Form.Item  
+                            label="Sala" 
+                            name="sala" 
+                            rules={[{ required: true, message: "Selecione a Sala" }]}
+                            labelCol={{ span: 6 }}  
+                            wrapperCol={{ span: 18 }}
+                        >
+                          <Select                 
+                            className='customSelect'
+                            readOnly 
+                            placeholder="Sala"
+                            style={{
+                              color: '#4F4F4F',
+                              border: '1px solid #BDBDBD', 
+                              borderradius: '4px ',
+                              width: 270,
+                              height: 50,
+                              fontSize: 'clamp(10px, 2vw, 14px)',                     
+                              pointerEvents: 'none' 
+                            }}
+                            onChange={handleSalaChange}
+                            options={salas}
+                          />
+                        </Form.Item>
+                        
+                      </div>
+      
+                      <Form.Item  
+                        label="Modelo" 
+                        name="modelo" 
+                        rules={[{ required: true, message: "Digite o Modelo" }]}
+                        labelCol={{ span: 6 }}  
+                        wrapperCol={{ span: 18 }}
+      
+                      >
+                        <Input
+                        style={{ pointerEvents: 'none' }}
+                          placeholder="Modelo"
+                          readOnly 
+                          value={inputModelo}
+                          onChange={(e) => setInputModelo(e.target.value)}
+                          className="input-field27050"
+                        />
+                      </Form.Item>
+      
+                    </div>
+                    
+                    <div style={{ marginTop:"15px", marginBottom: "30px" ,display : 'flex' , gap: '30px' , alignItems: "center" , justifyContent: 'space-between'}}>
+                      <div className="select-container">
+                          <Form.Item  
+                            label="Configurações" 
+                            name="configurações" 
+                            labelCol={{ span: 6 }}  
+                            wrapperCol={{ span: 18 }}
+      
+                          >
+                            <TextArea 
+                              rows={7} 
+                              readOnly 
+                              placeholder="Configurações" 
+                              value={inputConfiguracao}
+                              onChange={(e) => setInputConfiguracao(e.target.value)}
+                              style={{
+                                width: 416,
+                                height: 172,
+                                border: '1px solid #BDBDBD',
+                                borderRadius: '4px',
+                                resize: 'none',
+                                pointerEvents: 'none' 
+                              }}
+                            /> 
+                          </Form.Item>
+                        
+                      </div>        
+                      
+                      <div className="select-container">
+                      <Form.Item  
+                            label="Descrição" 
+                            name="descrição" 
+                            labelCol={{ span: 6 }}  
+                            wrapperCol={{ span: 18 }}
+      
+                          >
+                            <TextArea 
+                              rows={7} 
+                              readOnly 
+                              placeholder="Descrição" 
+                              value={inputDescricao}
+                              onChange={(e) => setInputDescricao(e.target.value)}
+                              style={{
+                                width: 416,
+                                height: 172,
+                                border: '1px solid #BDBDBD',
+                                borderRadius: '4px',
+                                resize: 'none',
+                                pointerEvents: 'none' 
+                              }}
+                            />  
+                        </Form.Item>     
+                        
+                      </div>    
+      
+                    </div>
+      
+                    <div style={{ marginTop:"15px", marginBottom: "15px", display : 'flex', gap: '30px', alignItems: "flex-end", justifyContent: 'space-between'}}>
+                        <div style={{ display:'flex', alignItems: "flex-end", justifyContent: 'space-between', width:'419px'}}>
+                            <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxWidth: "250px" }}>
+                                <Form.Item  
+                                                    label="Data" 
+                                                    name="data" 
+                                                    rules={[{ required: true, message: "Selecione a Data" }]}
+                                                    labelCol={{ span: 6 }}  
+                                                    wrapperCol={{ span: 18 }}
+                                
+                                                    >
+                                    <DatePicker 
+                                        onChange={handleDateChange} 
+                                        readOnly 
+                                        format="YYYY-MM-DD" 
+                                        placeholder="Escolha a data"
+                                        value={dayjs(selectedDate, "YYYY-MM-DD" )}
+                                        style={{
+                                        width: "200PX",
+                                        height: "50px",
+                                        borderRadius: "4px",
+                                        border: "1px solid #BDBDBD",
+                                        fontSize: "clamp(14px, 2vw, 16px)",
+                                        pointerEvents: 'none' 
+                                        }}
+                                    />
+                                </Form.Item>    
+                                    </div>
+
+                                        <CustomButton onClick={openPopup} disabled={!isComputador} label="Softwares" className="blue size138" type="button" ></CustomButton>
+
+                                    {isPopupOpen && <PopUpTableSoftware idDispositivo={dispIdNumber} closePopup={closePopup} />}
+                          
+                        </div>
+                                          
               </div>
-                
-              
-            </div>
+            </Form>
           </div>
-        </div>
-      </section>
-    </main>
+        </Content>
+        </Layout>
+      </Layout>
   );
 }
 

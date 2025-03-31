@@ -6,7 +6,7 @@ import { Tooltip } from 'antd';
 export default function CardComputadorAll({ tipo, patrimonio, descricao, status, data, sala,  onClickDeletar, onClickEditar, onClickCard}) {
     
     const handleCardClick = (e) => {
-        if (e.target.closest('.cardcomp-actions-buttons')) return;
+        if (e.target.closest('.cardcompall-actions-buttons')) return;
         onClickCard();
     };
     return (

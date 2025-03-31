@@ -15,7 +15,6 @@
 
 .mainContent {
     flex-grow: 1;
-
     overflow-y: auto;
 }
 
@@ -143,11 +142,26 @@
     line-height: normal; 
 }
 
+.contentAll{
+    padding: 24px;
+    margin: 0;
+    min-height: 280px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: margin-left 0.3s ease;
+    margin-left: 200px;
+  }
+
+
 
 @media (max-width: 768px) {
     .containerCard {
         grid-template-columns: repeat(2, 1fr);
     }
+    .contentAll {
+      margin-left: 0px;
+
+    }    
 }
 
 @media (max-width: 480px) {

@@ -9,6 +9,10 @@ import CardComputadorAll from '../../components/CardComputadorAll/CardComputador
 import CardDispositivosAll from '../../components/CardDispositivosAll/CardDispositivosAll';
 import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
+import { Layout } from "antd";
+
+
+const { Content } = Layout;
 
 
 const getCookie = (name) => {
@@ -31,6 +35,18 @@ function DispAll() {
   const [popupDispositivoId, setPopupDispositivoId] = useState('');
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
   const [dispositivoToDelete, setDispositivoToDelete] = useState(null); 
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
+    
+    const handleResize = () => {
+        setIsSmallScreen(window.innerWidth <= 992);
+    };
+  
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
 
 
@@ -175,10 +191,12 @@ function DispAll() {
   };
 
   return (
-    <main className={styles.Laboratories}>
-      <section className={styles.principal}>
-        <Sidebar />
-        <div className={styles.mainContent}>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sidebar />
+      <Layout>
+      <Content
+              className='contentAll'
+            >
           <div className={styles.header}>
             <h1 className={styles.headerTitle}>Dispositivos</h1> 
             <div className={styles.controlsContainer}>
@@ -245,8 +263,7 @@ function DispAll() {
               </div>
             </div>
           </div>
-        </div>
-        </section>
+        
       {isPopupOpen && (
         <PopUpTableSoftware
           idDispositivo={popupDispositivoId}
@@ -260,7 +277,9 @@ function DispAll() {
                           text={'dispositivo'}
                       />
                   )}
-    </main>
+      </Content>
+    </Layout>
+  </Layout>
   );
 }
 

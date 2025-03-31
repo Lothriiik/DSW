@@ -39,14 +39,14 @@
 
 }
 
-.tipoContainer{
+.tipoContainerObs{
     display: flex;
     flex-direction: column;
     height: 79px;
     width: 300px;
 }
 
-.radioContainer{
+.radioContainerObs{
     display: flex;
     gap: 20px;
     align-items: center;
@@ -112,6 +112,24 @@
     font-size: clamp(10px, 2vw, 14px);
     color: #4F4F4F;
     font-weight: bold;
+  }
+
+  .contentAll{
+    padding: 24px;
+    margin: 0;
+    min-height: 280px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    transition: margin-left 0.3s ease;
+    margin-left: 200px;
+  }
+
+
+  @media (max-width: 768px) {
+    .contentAll {
+      margin-left: 0px;
+
+    }
   }
 
   

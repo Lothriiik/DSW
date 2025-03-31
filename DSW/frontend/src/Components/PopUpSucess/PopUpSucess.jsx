@@ -12,6 +12,7 @@ export default function PopUpSucess({onClose, text}) {
     return (
         <>
             {isOpen && (
+                <div className="popup-overlay">
                 <div className="popup">
                     <div className="popup-header">
                         <span className="popup-icon">
@@ -41,6 +42,8 @@ export default function PopUpSucess({onClose, text}) {
                             onClose();  
                         }}/>
                     </div>
+                </div>
+
                 </div>
             )}
         </>

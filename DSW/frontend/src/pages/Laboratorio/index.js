@@ -9,6 +9,10 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 import LabCreatePopUp from '../../components/LabCreatePopUp/LabCreatePopUp'
 import LabEditPopUp from '../../components/LabEditPopUp/LabEditPopUp'
+import { Layout } from "antd";
+
+
+const { Content } = Layout;
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -28,6 +32,18 @@ function Laboratorio() {
   const [filterText, setFilterText] = useState('');
   const itemsPerPage = 6;
   const navigate = useNavigate();
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
+    
+    const handleResize = () => {
+        setIsSmallScreen(window.innerWidth <= 992);
+    };
+  
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -179,10 +195,12 @@ function Laboratorio() {
   };
 
   return (
-    <main className={styles.Laboratories}>
-      <section className={styles['principal']}>
-        <Sidebar />
-        <div className={styles.mainContent}>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sidebar />
+        <Layout>
+        <Content
+              className='contentAll'
+            >
           <div className={styles.header}>
             <h1 className={styles.headerTitle}>Laboratórios</h1>
             <div className={styles.controlsContainer}>
@@ -241,9 +259,9 @@ function Laboratorio() {
               <div className={styles.pagination}>{renderPaginationButtons()}</div>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </Content>
+        </Layout>
+      </Layout>
   );
 }
 

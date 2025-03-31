@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
+    'social_django',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -164,3 +165,15 @@ CORS_ORIGIN_ALLOW_ALL = True
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '374451070201-ri3jkd7j407o9jqrh69cgofncsvi3mhp.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'django.contrib.auth.backends.ModelBackend',  # Backends padrão do Django
+)
+
+LOGIN_URL = 'login'
+LOGIN_REDIRECT_URL = '/'

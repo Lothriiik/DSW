@@ -38,20 +38,19 @@
 
 }
 
-.principal {
-    display: flex;
-    flex-direction: column;
+.sidebar {
+    left: 0;
+    top: 0;
+    position: fixed;
     width: 233px;
-    height: 100vh;
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     background-color: #0095DA;
-
-    position: sticky;
-    top: 0;
+    overflow: hidden;
+    z-index: 1000;
     height: 100vh;
-    flex-grow: 1;
 }
+
 
 .usuario {
     display: flex;
@@ -103,7 +102,6 @@
     width: 181px;
     height: 22;
 
-    font-family: Inter;
     text-align: left;
     font-size: 10px;
     font-weight: 400;
@@ -124,3 +122,66 @@
     margin-top: 3px;
 }
 
+.endMenu{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ant-menu {
+    background-color: #0095DA;
+    border-right: none;
+    color: #FFFFFF;
+  }
+  
+  .ant-menu-item {
+    text-align: left;
+    font-size: 14px;
+    line-height: 22.4px;
+    color: #FFFFFF!important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+
+  
+  .ant-menu-item:hover {
+    background-color: #00AEFF!important;
+  }
+  .ant-menu-item .anticon {
+    margin-right: 8px; 
+  }
+  
+
+  .ant-menu-item span {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .ant-menu-item-selected {
+    background-color: #009FE7 !important;
+    color: #fff !important;
+}
+
+    .buttonSider{
+        position: absolute;
+        transition: left 0.3s;
+        background: #0095DA;
+        border: none;
+        color: #fff;
+        display: none;
+        top: 16;
+    }
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display:block
+
+    }
+    .buttonSider{
+        display: block;
+
+    }
+  }

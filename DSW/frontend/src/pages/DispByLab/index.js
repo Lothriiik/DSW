@@ -10,6 +10,10 @@ import CardComputador from '../../components/CardComputador/CardComputador';
 import CardDispositivos from '../../components/CardDispositivos/CardDispositivos';
 import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
+import { Layout } from "antd";
+
+
+const { Content } = Layout;
 
 const getCookie = (name) => {
   const value = `; ${document.cookie}`;
@@ -32,6 +36,18 @@ function DispByLab() {
   const [popupDispositivoId, setPopupDispositivoId] = useState('');
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
   const [dispositivoToDelete, setDispositivoToDelete] = useState(null); 
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
+    
+    const handleResize = () => {
+        setIsSmallScreen(window.innerWidth <= 992);
+    };
+  
+    useEffect(() => {
+        window.addEventListener('resize', handleResize);
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
   const handleAdd = () => {
     navigate('/dispadd', { state: { deviceId: idSala } });
@@ -188,10 +204,12 @@ function DispByLab() {
   };
 
   return (
-    <main className={styles.Laboratories}>
-      <section className={styles.principal}>
-        <Sidebar />
-        <div className={styles.mainContent}>
+    <Layout style={{ minHeight: "100vh" }}>
+      <Sidebar />
+      <Layout>
+      <Content
+              className='contentAll'
+            >
           <div className={styles.header}>
             <h1 className={styles.headerTitle}>{labName || idSala}</h1> 
             <div className={styles.controlsContainer}>
@@ -259,8 +277,7 @@ function DispByLab() {
               </div>
             </div>
           </div>
-        </div>
-      </section>
+
       {isPopupOpen && (
         <PopUpTableSoftware
           idDispositivo={popupDispositivoId}
@@ -274,7 +291,9 @@ function DispByLab() {
                           text={'dispositivo'}
                       />
                   )}
-    </main>
+    </Content>
+    </Layout>
+  </Layout>
   );
 }
 

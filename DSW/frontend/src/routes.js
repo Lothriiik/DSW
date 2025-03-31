@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Routes, Route} from "react-router-dom";
 import DispByLab from "./pages/DispByLab";
-import LoginPage from "./pages/LoginPage";
 import DispAdd from "./pages/DispAdd";
 import DispEdit from "./pages/DispEdit";
 import DispView from "./pages/DispView";
@@ -11,6 +10,7 @@ import ObservacaoAdd from "./pages/ObservacaoAdd";
 import ObservacaoEdit from "./pages/ObservacaoEdit";
 import ObservacaoView from "./pages/ObservacaoView";
 import DispAll from "./pages/DispAll";
+import LoginPage from "./pages/LoginPage"
 
 
 
