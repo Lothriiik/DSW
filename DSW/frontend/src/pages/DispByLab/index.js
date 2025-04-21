@@ -82,12 +82,10 @@ function DispByLab() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const csrfToken = getCookie('csrftoken');
         
         const dispositivosResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/disp-by-lecc/?id_sala=${idSala}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            'X-CSRFToken': csrfToken,
           }
         });
         setDispositivos(dispositivosResponse.data.Dispositivos);
@@ -96,7 +94,6 @@ function DispByLab() {
         const labResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-by-id/?id_sala=${idSala}`, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            'X-CSRFToken': csrfToken,
           }
         });
         setLaboratorios(labResponse.data.laboratorio[0])
@@ -114,11 +111,10 @@ function DispByLab() {
 
   const confirmDelete = async () => {
     try {
-        const csrfToken = getCookie('csrftoken');
+
         await axios.delete(`http://127.0.0.1:8000/api/laboratorios/disp-delete/?id_dispositivo=${dispositivoToDelete}`, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                'X-CSRFToken': csrfToken,
             }
         });
         setDispositivos(prevData => prevData.filter(dispositivos => dispositivos.id_dispositivo !== dispositivoToDelete));
@@ -214,22 +210,28 @@ function DispByLab() {
             <h1 className={styles.headerTitle}>{labName || idSala}</h1> 
             <div className={styles.controlsContainer}>
               <div className={styles.deviceInputContainer}>
+
                 <span className={styles.deviceInfo}>
                   Dispositivos: {filteredDispositivos.length}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                   Observações: {laboratorios.observacoes}</span>
-                <CustomInput
+
+                <div className={styles.containerInput}>
+                  <CustomInput
                   placeholder={`Pesquisar em ${labName || 'Sala'}`}
                   value={filterText} 
                   onChange={(e) => setFilterText(e.target.value)}
                   className={`${styles.inputField} input-field320`}
                 />
-              </div>
-              <div className={styles.addButton}>
+                </div>
+                
+                <div className={styles.addButton}>
 
                   <CircleButton className='orange' iconType="obs" onClick={handleObserver}/>
                   <CircleButton iconType="add" onClick={handleAdd}/>
            
+                </div>
               </div>
+              
             </div>
           </div>
 

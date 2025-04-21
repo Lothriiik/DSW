@@ -24,7 +24,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    padding-left: 67px;
+    margin-left: 67px;
     background-color: #fff;
 }
 
@@ -32,6 +32,8 @@
     color: #4F4F4F;
     font-size: 32px;
     font-weight: bold;
+    justify-content: space-between;
+    flex-wrap: wrap;
     margin-bottom: 19px;
 }
 
@@ -45,7 +47,8 @@
 .deviceInputContainer {
     display: flex;
     align-items: center;
-    margin-right: 100px;
+    width: 100%;
+    justify-content: space-between;
 }
 
 .deviceInfo {
@@ -55,28 +58,30 @@
 }
 
 .addButton {
-    margin-left: auto;
-    margin-right: 122px;
+
+    margin-right: 60px;
     display: flex;
     gap: 10px;
 }
 
 .formContainer {
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     margin-left: 67px;
-    padding-bottom: 70px;
-    height: 494px;
+    min-height: 70vh;
 }
 
 .containerCard {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 15px 10px;
-    grid-template-rows: repeat(2, 1fr);
-    height: 100%;
-    transition: opacity 0.5s ease-in-out;
-    margin-bottom: 12px;
+    min-height: 70vh;
+    transition: opacity 0.5s ease-in-out; 
 
+}
+.containerInput{
+    flex: 1;
 }
 
 .card {
@@ -91,8 +96,7 @@
 }
 
 .paginationContainer {
-    position: sticky;
-    bottom: 0;
+    background-color: white; 
     z-index: 1;
     display: flex;
     justify-content: center;
@@ -154,24 +158,61 @@
     margin-left: 200px;
   }
 
-
   @media (max-width: 768px) {
 
-  }
-
-
-@media (max-width: 768px) {
     .containerCard {
         grid-template-columns: repeat(2, 1fr);
+    }
+    .formContainer{
+        margin-left: 45px;
+    }
+    .paginationContainer{
+        margin-top: 20px;
+}
+    .containerInput{
+        order: 2;
+    }
+    .controlsContainer{
+        width: 250px;
+    }
+    .deviceInputContainer{
+        flex-direction: row;
+        align-items: flex-start;
+        margin-right: 0px;
+        flex-wrap: wrap;
+    }
+    .deviceInfo{
+        width: 160px;
+        order: 0;
+        margin-right: 0px;
+        margin-bottom: 15px;
+    }
+    .header{
+        margin-left: 37px;
+        height: 220px;
+        width: 250px;
+    }
+    .input-field320{
+        width: 200px;
     }
     .contentAll {
       margin-left: 0px;
 
     }
+    .addButton{
+        justify-content: space-between;
+        order: 1;
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+    .paginationContainer{
+        width:250px;
+    }
 }
 
 @media (max-width: 480px) {
+
     .containerCard {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; 
     }
 }

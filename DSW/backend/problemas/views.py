@@ -9,14 +9,14 @@ from rest_framework.permissions import IsAuthenticated, AllowAny
 
 
 class ObservacaoListView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         observacao = Observacao.objects.all()
         serializer = ObservacaoSerializer(observacao, many=True)
         return Response({'Observacao': serializer.data}, status=status.HTTP_200_OK)
         
 class ObservacaoCreateView(generics.CreateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     queryset = Observacao.objects.all()
     serializer_class = ObservacaoCreateSerializer
@@ -31,7 +31,7 @@ class ObservacaoCreateView(generics.CreateAPIView):
  
     
 class ObservacaoByIDView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         id_observacao = request.query_params.get('id_observacao', None)
@@ -45,7 +45,7 @@ class ObservacaoByIDView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class ObservacaoByDispView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def get(self, request):
         id_dispositivo = request.query_params.get('id_dispositivo', None)
@@ -59,7 +59,7 @@ class ObservacaoByDispView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class ObservacaoDeleteView(APIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
     def delete(self, request):
         observacao_id = request.query_params.get('id_observacao', None)
@@ -75,7 +75,7 @@ class ObservacaoDeleteView(APIView):
         return Response({'error': 'ID não fornecido'}, status=status.HTTP_400_BAD_REQUEST)
     
 class ObservacaoUpdateView(generics.UpdateAPIView):
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     queryset = Observacao.objects.all()
     serializer_class = ObservacaoCreateSerializer
     lookup_field = 'pk'

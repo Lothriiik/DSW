@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-zc%8^@ch_utjgsyb)16-qy3t%sq^d7s9w+h-9-kl&841*9qa7o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -44,15 +44,15 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'social_django',
+    'loginauth'
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
 ]
 
 CSRF_COOKIE_HTTPONLY = True
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'https://seu-dominio.com']
-
 CORS_ALLOW_ALL_ORIGINS = True
 
 MIDDLEWARE = [
@@ -102,10 +102,12 @@ DATABASES = {
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [],
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',  
-    ]
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
 }
 
 
@@ -166,13 +168,9 @@ CORS_ORIGIN_ALLOW_ALL = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '374451070201-ri3jkd7j407o9jqrh69cgofncsvi3mhp.apps.googleusercontent.com'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
-
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.google.GoogleOAuth2',
-    'django.contrib.auth.backends.ModelBackend',  # Backends padrão do Django
+    'django.contrib.auth.backends.ModelBackend', 
 )
 
 LOGIN_URL = 'login'

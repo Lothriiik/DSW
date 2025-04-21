@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DispByLab from "./pages/DispByLab";
 import DispAdd from "./pages/DispAdd";
 import DispEdit from "./pages/DispEdit";
@@ -10,30 +10,103 @@ import ObservacaoAdd from "./pages/ObservacaoAdd";
 import ObservacaoEdit from "./pages/ObservacaoEdit";
 import ObservacaoView from "./pages/ObservacaoView";
 import DispAll from "./pages/DispAll";
-import LoginPage from "./pages/LoginPage"
-
-
+import LoginPage from "./pages/LoginPage";
+import NotFound from "./pages/NotFound";
+import PrivateRoute from "./components/PrivateRoute";
 
 function AppRoutes() {
-    return(
-        <BrowserRouter>
-            <Routes>
-                <Route path="/" element={<Laboratorio />} />
-                <Route path="/laboratorio" element={<Laboratorio />} />
-                <Route path="/dispadd" element={<DispAdd />} />
-                <Route path="/dispedit" element={<DispEdit/>}/>
-                <Route path="/dispview" element={<DispView/>}/>
-                <Route path="/dispositivos" element={<DispAll/>}/>
-                <Route path="/dispbylab/:idSala" element={<DispByLab/>}></Route> 
-                <Route path="/observacao" element={<Observacao/>}></Route> 
-                <Route path="/observacaoadd" element={<ObservacaoAdd/>}></Route>
-                <Route path="/observacaoedit" element={<ObservacaoEdit/>}></Route> 
-                <Route path="/observacaoview" element={<ObservacaoView/>}></Route> 
-                <Route path="/login" element={<LoginPage/>}></Route>
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Rota pública */}
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={<LoginPage />} />
 
-            </Routes>
-        </BrowserRouter>
-    );
+        {/* Rotas protegidas */}
+        <Route
+          path="/laboratorio"
+          element={
+            <PrivateRoute>
+              <Laboratorio />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dispadd"
+          element={
+            <PrivateRoute>
+              <DispAdd />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dispedit"
+          element={
+            <PrivateRoute>
+              <DispEdit />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dispview"
+          element={
+            <PrivateRoute>
+              <DispView />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dispositivos"
+          element={
+            <PrivateRoute>
+              <DispAll />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/dispbylab/:idSala"
+          element={
+            <PrivateRoute>
+              <DispByLab />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/observacao"
+          element={
+            <PrivateRoute>
+              <Observacao />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/observacaoadd"
+          element={
+            <PrivateRoute>
+              <ObservacaoAdd />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/observacaoedit"
+          element={
+            <PrivateRoute>
+              <ObservacaoEdit />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/observacaoview"
+          element={
+            <PrivateRoute>
+              <ObservacaoView />
+            </PrivateRoute>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default AppRoutes;

@@ -8,9 +8,9 @@
 
 
 .icon{
-    width: 93px;
-    height: 97px;
-    margin-left: 70px;
+    width: 123px;
+    height: 127px;
+    margin-left: 60px;
     margin-top: 70px;
     margin-bottom: 38px;
     justify-content: center;
@@ -165,15 +165,15 @@
     color: #fff !important;
 }
 
-    .buttonSider{
-        position: absolute;
-        transition: left 0.3s;
-        background: #0095DA;
-        border: none;
-        color: #fff;
-        display: none;
-        top: 16;
-    }
+.buttonSider{
+    position: fixed;
+    transition: left 0.3s;
+    background: #0095DA;
+    color: #fff;
+    display: none;
+    top: 16;
+    z-index: 9999;
+}
 
   @media (max-width: 768px) {
     .sidebar {

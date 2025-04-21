@@ -4,7 +4,7 @@ from laboratorios.views.laboratorio_view import  (LaboratorioUpdateView, Laborat
 from laboratorios.views.dispositivos_view import (DispositivosByLeccView, DispositivosCreateView, DispositivosDeleteView,
                                                   DispositivosListView,  DispositivosUpdateView, DispositivosByIDView,
                                                   SoftwareDeleteView, SoftwaresByDispositivosView, SoftwareCreateView)
-from laboratorios.views.usuario_view import UserProfileView
+
 
 from django.conf.urls.static import static
 from django.conf import settings
@@ -29,7 +29,7 @@ urlpatterns = [
     path('soft-by-disp/', SoftwaresByDispositivosView.as_view(), name='soft-by-disp'),
     path('soft-create/', SoftwareCreateView.as_view(), name='soft-create'),
 
-    path('user-profile/', UserProfileView.as_view(), name='user-profile'),
+
   
 ]
 

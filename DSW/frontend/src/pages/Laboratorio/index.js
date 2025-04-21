@@ -10,8 +10,6 @@ import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 import LabCreatePopUp from '../../components/LabCreatePopUp/LabCreatePopUp'
 import LabEditPopUp from '../../components/LabEditPopUp/LabEditPopUp'
 import { Layout } from "antd";
-
-
 const { Content } = Layout;
 
 const getCookie = (name) => {
@@ -206,23 +204,24 @@ function Laboratorio() {
             <div className={styles.controlsContainer}>
               <div className={styles.deviceInputContainer}>
                 <span className={styles.deviceInfo}>
-                  Laboratórios: {filteredLaboratorio.length} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                  Laboratórios: {filteredLaboratorio.length} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                   Dispositivos: {dispositivos.length}
                 </span>
-                <CustomInput
+
+                
+                <div className={styles.containerInput}>
+                  <CustomInput
                   placeholder="Pesquisar por Laboratório"
                   value={filterText}
                   onChange={(e) => setFilterText(e.target.value)}
                   className={`${styles.inputField} input-field320`}
                 />
-              </div>
-              <>
+                </div>
                 <div className={styles.addButton}>
                   <CircleButton iconType="add" onClick={openPopup} />
                   {isPopupOpen && <LabCreatePopUp closePopup={closePopup} />}
                 </div>
-
-              </>
+              </div>
             </div>
           </div>
           <div className={styles['formContainer']}>

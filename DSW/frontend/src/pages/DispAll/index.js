@@ -10,8 +10,6 @@ import CardDispositivosAll from '../../components/CardDispositivosAll/CardDispos
 import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 import { Layout } from "antd";
-
-
 const { Content } = Layout;
 
 
@@ -202,16 +200,20 @@ function DispAll() {
             <div className={styles.controlsContainer}>
               <div className={styles.deviceInputContainer}>
                 <span className={styles.deviceInfo}>Dispositivos: {filteredDispositivos.length}</span>
+
+                <div className={styles.containerInput}>
                   <CustomInput
                     placeholder={`Pesquisar em ${labName || 'Sala'}`}
                     value={filterText} 
                     onChange={(e) => setFilterText(e.target.value)}
                     className={`${styles.inputField} input-field320`}
                   />
+                </div>
+                <div className={styles.addButton}>
+                  <CircleButton iconType="add" onClick={handleAdd}/>
+                </div>
               </div>
-              <div className={styles.addButton}>
-                <CircleButton iconType="add" onClick={handleAdd}/>
-              </div>
+              
             </div>
           </div>
 

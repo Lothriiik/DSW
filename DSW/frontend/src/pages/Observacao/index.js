@@ -13,13 +13,6 @@ import CustomInput from '../../components/CustomInput/CustomInput';
 import { Layout } from "antd";
 const { Content } = Layout;
 
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return '';
-};
-
 function Observacao() {
   const [observacoes, setObservacoes] = useState([]);
   const [error, setError] = useState(null);
@@ -42,8 +35,6 @@ function Observacao() {
           window.removeEventListener('resize', handleResize);
       };
   }, []);
-
-
 
   const handleAdd = () => {
     navigate('/observacaoadd');
@@ -73,8 +64,11 @@ function Observacao() {
     
     const fetchObservacoes = async () => {
       try {
-        const csrfToken = getCookie('csrftoken');
-        const response = await axios.get('http://127.0.0.1:8000/api/problemas/obs-list/');
+        const response = await axios.get('http://127.0.0.1:8000/api/problemas/obs-list/', {
+          headers: {
+              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
+          }
+      });
         console.log('Todas as observações:', response.data);
         setObservacoes(response.data.Observacao);
       } catch (error) {
@@ -90,11 +84,9 @@ function Observacao() {
 
   const confirmDelete = async () => {
     try {
-        const csrfToken = getCookie('csrftoken');
         await axios.delete(`http://127.0.0.1:8000/api/problemas/obs-delete/?id_observacao=${observacaoToDelete}`, {
             headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                'X-CSRFToken': csrfToken,
+                Authorization: `Bearer ${localStorage.getItem('access_token')}`
             }
         });
         setObservacoes(prevData => prevData.filter(observacao => observacao.id_observacao !== observacaoToDelete));
@@ -188,16 +180,19 @@ function Observacao() {
             <div className={styles.controlsContainer}>
               <div className={styles.deviceInputContainer}>
                 <span className={styles.deviceInfo}>Observações: {filteredObservacoes.length}</span>
+                <div className={styles.containerInput}>
                   <CustomInput
                     placeholder={`Pesquisar por ${'Sala'}`}
                     value={filterText} 
                     onChange={(e) => setFilterText(e.target.value)}
                     className={`${styles.inputField} input-field320`}
                   />
+                </div>
+                <div className={styles.addButton}>
+                  <CircleButton iconType="add" onClick={handleAdd}/>
+                </div>
               </div>
-              <div className={styles.addButton}>
-                <CircleButton iconType="add" onClick={handleAdd}/>
-              </div>
+              
             </div>
           </div>
 

@@ -122,3 +122,9 @@
     margin-bottom: 12px;
     font-weight: bold;
 }
+
+@media (max-width: 768px) {
+    .input-field320{
+        width: 250px;
+    }
+}

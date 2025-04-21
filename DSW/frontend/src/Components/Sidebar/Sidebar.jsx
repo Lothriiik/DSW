@@ -1,7 +1,9 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState, useContext  } from "react";
+import { useNavigate } from 'react-router-dom'; 
 import './styles.css';
 import { Layout, Menu, Button,} from "antd";
 import { Link, useLocation  } from 'react-router-dom';
+
 import Icon, {
     HomeOutlined,
     MenuFoldOutlined,
@@ -27,13 +29,21 @@ const exitSvg = () => (
 const ExitIcon = props => <Icon component={exitSvg} {...props} />;
 
 function Header() {
+    const user = JSON.parse(localStorage.getItem("user_info"));
     const [collapsed, setCollapsed] = useState(false);
     const location = useLocation();
     const [selectedKeys, setSelectedKeys] = useState([location.pathname]);
+    const navigate = useNavigate();
 
   const handleMenuClick = (e) => {
     setSelectedKeys([e.key]);
   };
+
+  const logout = () => {
+    localStorage.removeItem("access_token");
+    navigate('/login');
+  };
+  
 
     return(
         <>
@@ -65,7 +75,11 @@ function Header() {
                         </defs>
                     </svg>
                 </div>
-                <span className='iconName'>Olá, x</span>
+                <span className='iconName' style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',}}
+                    >Olá, {user.first_name}</span>
             </div>
 
                     <Menu
@@ -98,9 +112,9 @@ function Header() {
                         </Menu.Item>
                         <hr className='linha'></hr>
 
-                        <Menu.Item key="/Sair" icon={
+                        <Menu.Item key="/Sair" onClick={logout} icon={
                             <ExitIcon style={{ fontSize: '20px' }} />}>
-                            <Link to="#">Sair</Link>
+                            <Link to="">Sair</Link>
                         </Menu.Item>
                         
                     </Menu>
