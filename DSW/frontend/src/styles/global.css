@@ -1,0 +1,517 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+* {
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.mainContentAdd {
+  flex-grow: 1;
+  overflow-y: auto;
+}
+
+.principalAdd {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.containerCard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 15px 10px;
+  min-height: 70vh;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.containerCardLab {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 15px 20px;
+  min-height: 70vh;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.containerDispCard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px 10px;
+  min-height: 70vh;
+  transition: opacity 0.5s ease-in-out; 
+}
+
+.deviceInputContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.wrap-group {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.wrap-group-data {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+.textInput{
+  width: 416px!important;
+  max-width: none!important;
+  height: 172px;
+  border: 1px solid #BDBDBD;
+  border-radius: 4px;
+  resize: none!important;
+}
+
+.ant-input-textarea {
+  border: 1px solid #BDBDBD;
+  border-radius: 4px;
+}
+
+.ant-input {
+  border: 1px solid #BDBDBD;
+  border-radius: 4px;
+}
+
+.addDiv {
+  padding-left: 80px;
+  padding-right: 120px;
+}
+
+.headerAdd {
+  height: 80px;
+  padding-top: 40px;
+  padding-left: 80px;
+  background-color: #fff;
+}
+
+.headerTitleAdd {
+  color: #4F4F4F;
+  font-size: clamp(24px, 2vw, 28px);
+  font-weight: 450;
+  margin-bottom: 19px;
+}
+
+.tipoContainerObs{
+  display: flex;
+  flex-direction: column;
+  height: 79px;
+  width: 300px;
+}
+
+.tipoContainer{
+  display: flex;
+  flex-direction: column;
+  height: 79px;
+  width: 270px;
+}
+
+.radioContainer .MuiFormLabel-root {
+  font-size: clamp(10px, 2vw, 14px);
+  color: #4F4F4F;
+  font-weight: bold;
+}
+
+.radioContainerObs{
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  gap: 10px;
+  width: 300px;
+}
+
+.contentAll{
+  padding-top: 12px;
+  padding-left: 24px;
+  padding-right: 24px;
+  margin: 0;
+  min-height: 280px;
+  background-color: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  transition: margin-left 0.3s ease;
+  margin-left: 200px;
+}
+
+.ant-select-selector {
+  border: 1px solid #BDBDBD !important; 
+  border-radius: 4px !important;         
+  box-shadow: none !important;          
+}
+
+.ant-select {
+  border: none !important;
+}
+  
+.select-label{
+  font-size: clamp(10px, 2vw, 14px);
+  color: #4F4F4F;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.select-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.ant-select-selection-placeholder {
+  color: #4F4F4F !important;
+  font-size: clamp(10px, 2vw, 14px);
+}
+
+.ant-select-item-option-selected{
+  background-color: #0095DA!important;
+  color: #FFFFFF !important;
+
+}
+.custom-radio .ant-radio-button-wrapper-checked {
+  background-color: #007bbd !important;
+  color: white !important;
+}
+
+.input-field24050{
+  color: #4F4F4F;
+  height: 50px;
+  width: 240px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px #BDBDBD solid;
+  font-size: 18px;
+
+}
+
+.input-field24050::placeholder{
+  font-size: 18px;
+
+}
+
+.bluesize138{
+  width: 138px;
+  height: 50px;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 10px;
+  transition: background 0.2s ease, color 0.2s ease;
+  background-color: #0095DA;
+  border: none;
+  color: #FFFFFF;
+}
+.bluesize138:not([disabled]):hover{
+  background-color: #092C4C;
+}
+.bluesize138:not([disabled]):active{
+  background-color: #526b81;
+}
+.bluesize138[disabled]{
+    background-color: #BDBDBD;
+}
+.bluesize138[disabled]:hover {
+    background-color: #BDBDBD;
+}
+
+.ant-input {
+  border: 1px solid #BDBDBD;
+  border-radius: 4px;
+}
+
+.ant-input-textarea {
+  border: 1px solid #BDBDBD;
+  border-radius: 4px;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  font-size: clamp(10px, 2vw, 14px)!important;
+  color: #4F4F4F!important;
+  font-weight: bold!important;
+}
+
+.input-field27050{
+  color: #4F4F4F;
+  height: 50px;
+  width: 270px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  border: 1px #BDBDBD solid;
+  margin-bottom: 5px;
+
+}
+
+.input-filed27050::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+}
+
+.input-field27050:hover {
+  border-color: inherit !important; 
+  box-shadow: none !important;       
+}
+
+.input-field27050:focus {
+  border: 2px solid #333333; 
+  color: #000000;    
+}
+
+.input-field27050::selection {
+  border: 2px solid #333333; 
+  color: #000000;    
+}
+
+:where(.css-1htoz2s).ant-col {
+  position: relative;
+  max-width: none !important;
+  min-height: 1px;
+}
+
+:where(.css-1htoz2s).ant-form-item {
+  margin-bottom: 0px !important;
+}
+
+.tipop{
+  font-size: clamp(10px, 2vw, 14px);
+  color: #4F4F4F;
+  font-weight: bold;
+  margin-bottom: 22px;
+}
+
+.Laboratories {
+    display: flex;
+    height: 100vh; 
+}
+
+.principal {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+.mainContent {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.header {
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 67px;
+    background-color: #fff;
+}
+
+.headerTitle {
+    color: #4F4F4F;
+    font-size: 32px;
+    font-weight: bold;
+    margin-bottom: 19px;
+}
+
+.controlsContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.deviceInputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.deviceInfo {
+    font-size: 1rem;
+    color: #666;
+    margin-right: 38px;
+}
+
+.addButton {
+    padding-left: 10px;
+    margin-right: 60px;
+}
+
+.formContainer {
+    flex-grow: 1;
+    margin-left: 67px;
+    min-height: 70vh;
+}
+
+.containerDispLabCard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px 10px;
+    min-height: 70vh;
+    transition: opacity 0.5s ease-in-out; 
+}
+
+.card {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250px;
+}
+
+.paginationContainer {
+
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0);
+    padding-bottom: 15px ;
+
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    
+}
+
+.paginationButton {
+    border: 1px solid #282828;
+    background-color: rgba(255, 255, 255, 0.5);
+    color: #282828;
+    margin: 0 5px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 5px;
+    padding: 10px 15px;
+    transition: background-color 0.3s, border-color 0.3s;
+
+}
+
+.paginationButton:hover {
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #282828;
+}
+
+.pagination-button.active {
+    background-color: #282828;
+    color: #FFFFFF;
+    border: 1px solid #282828;
+}
+
+.ellipsis-pagination {
+    display: flex; 
+    align-items: center;
+    justify-content: center; 
+    font-size: 16px; 
+    color: #666; 
+    width: 20px; 
+    height: 20px; 
+    padding-top: 5px;
+    cursor: default; 
+    line-height: normal; 
+}
+
+.containerInput{
+    flex: 1;
+}
+
+@media (max-width: 768px) {
+  .containerCard {
+      grid-template-columns: repeat(2, 1fr);
+  }
+  .contentAll {
+    padding: 20px;
+    margin-left: 0px;
+  }
+  .headerAdd {
+    text-align: center;
+    padding-left: 0px;
+    padding-bottom: 40px;
+    padding-top: 30px;
+  }
+  .textInput {
+    width: 270px;
+    height: 100px;
+  }
+  .wrap-group{
+    width: 270px;
+  }
+  .wrap-group-data{
+    justify-content: center;
+    width: 270px;
+  }
+  .addDiv {
+    flex-direction: column;
+    gap: 20px;
+    flex-wrap: wrap;
+    padding-left: 32px;
+  }
+  .tipoContainer{
+    align-items: center;
+  }
+  .radioContainer{
+    align-items: center;
+  }
+  .ant-radio-group {
+    align-items: center;
+  }
+  .popup-actions-confirm {
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      flex-wrap: wrap;
+  }
+  .addButton{
+    order: 1;
+    margin-top: 0px;
+    margin-right: 0px;
+    margin-left: 0px;
+  }
+  .formContainer{
+      margin-left: 45px;
+  }
+  .paginationContainer{
+      margin-top: 20px;
+  }
+  .containerInput{
+      order: 2;
+  }
+  .controlsContainer{
+      width: 250px;
+  }
+  .deviceInputContainer{
+      flex-direction: row;
+      align-items: flex-start;
+      margin-right: 0px;
+      flex-wrap: wrap;
+  }
+  .deviceInfo{
+      width: 160px;
+      order: 0;
+      margin-right: 0px;
+      margin-bottom: 15px;
+  }
+  .input-field320{
+      width: 200px;
+  }
+  .paginationContainer{
+      width:250px;
+  }
+}
+@media (max-width: 480px) {
+    .containerCard {
+        grid-template-columns: 1fr; 
+    }
+}

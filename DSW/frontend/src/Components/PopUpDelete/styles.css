@@ -1,9 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
-* {
-    box-sizing: border-box;
-    font-family: 'Inter', sans-serif;
-}
 
 .popup {
     position: fixed;
@@ -77,4 +72,11 @@
     justify-content: center;
     align-items: center;
     z-index: 1050;
+}
+
+@media (max-width: 768px) {
+    .popup{
+        left: 50%;
+
+    }
 }

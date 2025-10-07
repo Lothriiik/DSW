@@ -29,8 +29,6 @@ urlpatterns = [
     path('soft-by-disp/', SoftwaresByDispositivosView.as_view(), name='soft-by-disp'),
     path('soft-create/', SoftwareCreateView.as_view(), name='soft-create'),
 
-
-  
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

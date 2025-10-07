@@ -11,7 +11,7 @@ import Icon, {
     SettingOutlined,
     HddOutlined,
     DesktopOutlined,
-    FileTextOutlined
+    FileTextOutlined,
 
   } from '@ant-design/icons';
 
@@ -41,6 +41,7 @@ function Header() {
 
   const logout = () => {
     localStorage.removeItem("access_token");
+    localStorage.removeItem('refresh_token');
     navigate('/login');
   };
   
@@ -91,7 +92,7 @@ function Header() {
                     >
                         <Menu.Item key="/" style={{ display: 'flex', alignItems: 'center', justifyContent:'initial'  }} icon={
                             <HomeOutlined style={{ fontSize: '20px'}} />}>
-                            <Link to="/">Inicio</Link>
+                            <Link to="/laboratorio">Inicio</Link>
                         </Menu.Item>
                         <Menu.Item key="/Configurações" style={{ display: 'flex', alignItems: 'center', justifyContent:'initial'  }} icon={
                             <SettingOutlined style={{ fontSize: '20px'}}/>}>

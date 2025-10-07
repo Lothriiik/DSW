@@ -41,7 +41,7 @@
 
 .popup-title-lab {
     color: #0095DA;
-    margin-top: 6px;
+    margin-top: 12px;
     font-size: 22px;
     font-weight: bold;
 }
@@ -59,8 +59,7 @@
 .popup-lab-input{
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    margin-left: 86px; 
+    align-items: center;
     margin-bottom: 16px; 
     margin-top: 20px;
 }
@@ -118,4 +117,19 @@
 @keyframes fadeInOut {
     0%, 90% { opacity: 1; }
     100% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .popup-container{
+        left: 50%;
+        width: 350px;
+    }
+    .popup-title-lab{
+        font-size: 18px;
+    }
+    .close-btn{
+        right: 23px;
+        top: 23px;
+    }
+
 }

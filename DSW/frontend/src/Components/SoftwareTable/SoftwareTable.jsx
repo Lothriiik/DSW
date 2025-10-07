@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { useTable } from 'react-table';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios'; 
 import './styles.css';
 import CustomInput from '../CustomInput/CustomInput.jsx';
 import PopUpDelete from '../PopUpDelete/PopUpDelete.jsx';
 import PopUpSucess from '../PopUpSucess/PopUpSucess.jsx';
+import { fetchSoftwareByDisp, deleteSoftware, addSoftware } from '../../services/api';
 
 const SoftwareTable = ({ idDispositivo }) => {
-    const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [error, setError] = useState(null);
     const [newSoftware, setNewSoftware] = useState({ nome: '', versao: '', link: '' });
@@ -16,28 +15,19 @@ const SoftwareTable = ({ idDispositivo }) => {
     const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
     const [softwareToDelete, setSoftwareToDelete] = useState(null); 
 
-    const getCookie = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    };
-
     useEffect(() => {
-        const fetchData = async () => {
+        const carregarSoftware = async () => {
             try {
-                const csrfToken = getCookie('csrftoken');
-                const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/soft-by-disp/?id_dispositivo=${idDispositivo}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                        'X-CSRFToken': csrfToken,
-                    }
-                });
-                setData(response.data.Software);
-            } catch (error) {
-                setError(error.message);
+            const softwareData = await fetchSoftwareByDisp(idDispositivo);
+            setData(softwareData);
+            setError(null);
+            } catch (err) {
+            setError('Erro ao carregar software.');
             }
         };
-        fetchData();
+        if (idDispositivo) {
+            carregarSoftware();
+        }
     }, [idDispositivo]);
 
     const handleDelete = (id) => {
@@ -46,44 +36,36 @@ const SoftwareTable = ({ idDispositivo }) => {
     };
 
     const confirmDelete = async () => {
-        try {
-            const csrfToken = getCookie('csrftoken');
-            await axios.delete(`http://127.0.0.1:8000/api/laboratorios/soft-delete/${softwareToDelete}/`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                    'X-CSRFToken': csrfToken,
-                }
-            });
-            setData(prevData => prevData.filter(software => software.id_software !== softwareToDelete));
-            setShowDeletePopUp(false); 
-        } catch (error) {
-            setError("Erro ao excluir software: " + (error.response?.data?.detail || error.message));
-        }
+    try {
+        await deleteSoftware(softwareToDelete);
+        setData(prevData => prevData.filter(software => software.id_software !== softwareToDelete));
+        setShowDeletePopUp(false);
+        setError(null);
+        
+    } catch (err) {
+        console.error("Erro ao excluir software:", err);
+        setError("Erro ao excluir software: " + (err.response?.data?.detail || err.message));
+    }
     };
 
     const handleAddSoftware = async () => {
-        try {
-            const csrfToken = getCookie('csrftoken');
-            const response = await axios.post('http://127.0.0.1:8000/api/laboratorios/soft-create/', {
-                nome: newSoftware.nome,
-                versao: newSoftware.versao,
-                link: newSoftware.link,
-                id_dispositivo: idDispositivo
-            }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                    'X-CSRFToken': csrfToken,
-                }
-            });
-
-            setData(prevData => [...prevData, response.data]);
-            setNewSoftware({ nome: '', versao: '', link: '' });
-            setShowSuccessPopUp(true);
-
-        } catch (error) {
-            setError("Erro ao adicionar software: " + (error.response?.data?.detail || error.message));
-        }
-    };
+    try {
+      const softwareData = {
+        nome: newSoftware.nome,
+        versao: newSoftware.versao,
+        link: newSoftware.link,
+        id_dispositivo: idDispositivo
+      };
+      const addedSoftware = await addSoftware(softwareData);
+      setData(prevData => [...prevData, addedSoftware]);
+      setNewSoftware({ nome: '', versao: '', link: '' });
+      setShowSuccessPopUp(true);
+      setError(null);
+    } catch (err) {
+      console.error("Erro ao adicionar software:", err);
+      setError("Erro ao adicionar software: " + (err.response?.data?.detail || err.message));
+    }
+  };
 
     const columns = React.useMemo(
         () => [
@@ -280,21 +262,18 @@ const SoftwareTable = ({ idDispositivo }) => {
                         </td>
                         <td class="table-cell">
                             <button onClick={handleAddSoftware}
-                                    className="svg-button">
-                                
-                                    <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                        <g clip-path="url(#clip0_2069_1079)">
-                                        <path d="M12.5 0C10.0277 0 7.61099 0.733112 5.55538 2.10663C3.49976 3.48015 1.89761 5.43238 0.951511 7.71646C0.00541608 10.0005 -0.242126 12.5139 0.24019 14.9386C0.722505 17.3634 1.91301 19.5907 3.66117 21.3388C5.40933 23.087 7.63661 24.2775 10.0614 24.7598C12.4861 25.2421 14.9995 24.9946 17.2835 24.0485C19.5676 23.1024 21.5199 21.5002 22.8934 19.4446C24.2669 17.389 25 14.9723 25 12.5C24.9964 9.18589 23.6783 6.00855 21.3349 3.66512C18.9915 1.3217 15.8141 0.00358446 12.5 0V0ZM12.5 22.9167C10.4398 22.9167 8.42583 22.3057 6.71282 21.1611C4.9998 20.0165 3.66467 18.3897 2.87626 16.4863C2.08785 14.5829 1.88156 12.4884 2.28349 10.4678C2.68542 8.44717 3.67751 6.5911 5.13431 5.1343C6.59111 3.67751 8.44718 2.68542 10.4678 2.28349C12.4885 1.88156 14.5829 2.08784 16.4863 2.87626C18.3897 3.66467 20.0165 4.9998 21.1611 6.71281C22.3057 8.42582 22.9167 10.4398 22.9167 12.5C22.9136 15.2617 21.8152 17.9095 19.8624 19.8623C17.9095 21.8152 15.2617 22.9136 12.5 22.9167V22.9167ZM13.5417 11.4583H17.7083V13.5417H13.5417V17.7083H11.4583V13.5417H7.29167V11.4583H11.4583V7.29167H13.5417V11.4583Z" fill="#4F4F4F"/>
-                                        </g>
-                                        <defs>
-                                        <clipPath id="clip0_2069_1079">
-                                        <rect width="25" height="25" fill="white"/>
-                                        </clipPath>
-                                        </defs>
-                                    </svg>
-
-
-
+                                className="svg-button">
+                            
+                                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <g clip-path="url(#clip0_2069_1079)">
+                                    <path d="M12.5 0C10.0277 0 7.61099 0.733112 5.55538 2.10663C3.49976 3.48015 1.89761 5.43238 0.951511 7.71646C0.00541608 10.0005 -0.242126 12.5139 0.24019 14.9386C0.722505 17.3634 1.91301 19.5907 3.66117 21.3388C5.40933 23.087 7.63661 24.2775 10.0614 24.7598C12.4861 25.2421 14.9995 24.9946 17.2835 24.0485C19.5676 23.1024 21.5199 21.5002 22.8934 19.4446C24.2669 17.389 25 14.9723 25 12.5C24.9964 9.18589 23.6783 6.00855 21.3349 3.66512C18.9915 1.3217 15.8141 0.00358446 12.5 0V0ZM12.5 22.9167C10.4398 22.9167 8.42583 22.3057 6.71282 21.1611C4.9998 20.0165 3.66467 18.3897 2.87626 16.4863C2.08785 14.5829 1.88156 12.4884 2.28349 10.4678C2.68542 8.44717 3.67751 6.5911 5.13431 5.1343C6.59111 3.67751 8.44718 2.68542 10.4678 2.28349C12.4885 1.88156 14.5829 2.08784 16.4863 2.87626C18.3897 3.66467 20.0165 4.9998 21.1611 6.71281C22.3057 8.42582 22.9167 10.4398 22.9167 12.5C22.9136 15.2617 21.8152 17.9095 19.8624 19.8623C17.9095 21.8152 15.2617 22.9136 12.5 22.9167V22.9167ZM13.5417 11.4583H17.7083V13.5417H13.5417V17.7083H11.4583V13.5417H7.29167V11.4583H11.4583V7.29167H13.5417V11.4583Z" fill="#4F4F4F"/>
+                                    </g>
+                                    <defs>
+                                    <clipPath id="clip0_2069_1079">
+                                    <rect width="25" height="25" fill="white"/>
+                                    </clipPath>
+                                    </defs>
+                                </svg>
                             </button>
                         </td>
                     </tr>

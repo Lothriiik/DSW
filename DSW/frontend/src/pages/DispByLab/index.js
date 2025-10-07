@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Tooltip } from 'antd';
-import axios from 'axios';
-import styles from './DispByLab.module.css';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import './styles.css';
 import CircleButton from '../../components/CircleButton/CircleButton';
 import CustomInput from '../../components/CustomInput/CustomInput';
 import CardComputador from '../../components/CardComputador/CardComputador';
 import CardDispositivos from '../../components/CardDispositivos/CardDispositivos';
 import PopUpTableSoftware from '../../components/PopUpTableSoftware/PopUpTableSoftware';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
-import { Layout } from "antd";
-
-
-const { Content } = Layout;
-
-const getCookie = (name) => {
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop().split(';').shift();
-  return '';
-};
+import Pagination from '../../components/Pagination/Pagination';
+import { deleteDispositivo, fetchDispositivosByLab, fetchLaboratorioById } from '../../services/api';
 
 function DispByLab() {
   const { idSala } = useParams();
@@ -28,7 +16,6 @@ function DispByLab() {
   const [laboratorios, setLaboratorios] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
   const [labName, setLabName] = useState('');
   const [filterText, setFilterText] = useState('');
   const navigate = useNavigate();
@@ -36,17 +23,22 @@ function DispByLab() {
   const [popupDispositivoId, setPopupDispositivoId] = useState('');
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
   const [dispositivoToDelete, setDispositivoToDelete] = useState(null); 
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
-    
-    const handleResize = () => {
-        setIsSmallScreen(window.innerWidth <= 992);
+
+  const getItemsPerPage = () => {
+    if (window.innerWidth > 1550) {
+      return 10; 
+    } else {
+      return 8; 
+    }
     };
+    const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage()); 
   
     useEffect(() => {
-        window.addEventListener('resize', handleResize);
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
+      const handleResize = () => {
+        setItemsPerPage(getItemsPerPage());
+      };
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
     }, []);
 
   const handleAdd = () => {
@@ -82,48 +74,34 @@ function DispByLab() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const [dispositivosData, labData] = await Promise.all([
+          fetchDispositivosByLab(idSala),
+          fetchLaboratorioById(idSala)
+        ]);
         
-        const dispositivosResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/disp-by-lecc/?id_sala=${idSala}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          }
-        });
-        setDispositivos(dispositivosResponse.data.Dispositivos);
-
-        
-        const labResponse = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-by-id/?id_sala=${idSala}`, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          }
-        });
-        setLaboratorios(labResponse.data.laboratorio[0])
-        const nomeSala = labResponse.data.laboratorio[0].nome;
-        setLabName(nomeSala);
-        console.log(labName)
-      } catch (error) {
-        console.error("Erro ao carregar dados:", error);
-        setError('Erro ao carregar dados');
+        setDispositivos(dispositivosData);
+        setLaboratorios(labData);
+        setLabName(labData.nome);
+        setError(null);
+      } catch (err) {
+        setError('Erro ao carregar dados. Por favor, tente novamente.');
       }
     };
 
     fetchData();
-  }, [idSala]); 
+  }, [idSala]);
 
   const confirmDelete = async () => {
     try {
-
-        await axios.delete(`http://127.0.0.1:8000/api/laboratorios/disp-delete/?id_dispositivo=${dispositivoToDelete}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-            }
-        });
-        setDispositivos(prevData => prevData.filter(dispositivos => dispositivos.id_dispositivo !== dispositivoToDelete));
-        setShowDeletePopUp(false); 
-    } catch (error) {
-        setError("Erro ao excluir dispositivo: " + (error.response?.data?.detail || error.message));
+      await deleteDispositivo(dispositivoToDelete);
+      setDispositivos(prevData => prevData.filter(dispositivo => dispositivo.id_dispositivo !== dispositivoToDelete));
+      setShowDeletePopUp(false);
+      setError(null); 
+      
+    } catch (err) {
+      setError("Erro ao excluir dispositivo: " + (err.response?.data?.detail || err.message));
     }
   };
-
 
   const filteredDispositivos = dispositivos.filter((dispositivo) => {
     return dispositivo.descricao.toLowerCase().includes(filterText.toLowerCase());
@@ -134,97 +112,27 @@ function DispByLab() {
   const currentItems = filteredDispositivos.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(filteredDispositivos.length / itemsPerPage);
 
-  const renderPaginationButtons = () => {
-    
-    const buttons = [];
-
-    
-    
-    if (totalPages <= 3) {
-      for (let i = 1; i <= totalPages; i++) {
-        buttons.push(
-          <button 
-            key={i} 
-            className={`pagination-button ${currentPage === i ? 'active' : ''}`}
-            onClick={() => setCurrentPage(i)}
-          >
-            {i}
-          </button>
-        );
-      }
-    } else {
-      buttons.push(
-        <button 
-          key={1} 
-          className={`pagination-button ${currentPage === 1 ? 'active' : ''}`}
-          onClick={() => setCurrentPage(1)}
-        >
-          1
-        </button>
-      );
-
-      if (currentPage > 3) {
-        buttons.push(<span className={styles['ellipsis-pagination']} key="ellipsis-start">...</span>);
-      }
-
-      const startPage = Math.max(2, currentPage - 1);
-      const endPage = Math.min(totalPages - 1, currentPage + 1);
-      for (let i = startPage; i <= endPage; i++) {
-        buttons.push(
-          <button 
-            key={i} 
-            className={`pagination-button ${currentPage === i ? 'active' : ''}`}
-            onClick={() => setCurrentPage(i)}
-          >
-            {i}
-          </button>
-        );
-      }
-
-      if (currentPage < totalPages - 2) {
-        buttons.push(<span className={styles['ellipsis-pagination']} key="ellipsis-end">...</span>);
-      }
-
-      buttons.push(
-        <button 
-          key={totalPages} 
-          className={`pagination-button ${currentPage === totalPages ? 'active' : ''}`}
-          onClick={() => setCurrentPage(totalPages)}
-        >
-          {totalPages}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
-
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-      <Sidebar />
-      <Layout>
-      <Content
-              className='contentAll'
-            >
-          <div className={styles.header}>
-            <h1 className={styles.headerTitle}>{labName || idSala}</h1> 
-            <div className={styles.controlsContainer}>
-              <div className={styles.deviceInputContainer}>
+    <>
+          <div className="header">
+            <h1 className="headerTitle">{labName || idSala}</h1> 
+            <div className="controlsContainer">
+              <div className="deviceInputContainer">
 
-                <span className={styles.deviceInfo}>
+                <span className="deviceInfo">
                   Dispositivos: {filteredDispositivos.length}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
                   Observações: {laboratorios.observacoes}</span>
 
-                <div className={styles.containerInput}>
+                <div className="containerInput">
                   <CustomInput
                   placeholder={`Pesquisar em ${labName || 'Sala'}`}
                   value={filterText} 
                   onChange={(e) => setFilterText(e.target.value)}
-                  className={`${styles.inputField} input-field320`}
+                  className={`$inputField input-field320`}
                 />
                 </div>
                 
-                <div className={styles.addButton}>
+                <div className="addButton">
 
                   <CircleButton className='orange' iconType="obs" onClick={handleObserver}/>
                   <CircleButton iconType="add" onClick={handleAdd}/>
@@ -235,11 +143,11 @@ function DispByLab() {
             </div>
           </div>
 
-          <div className={styles.formContainer}>
+          <div className="formContainer">
             {error && <p>{error}</p>}
 
             {currentItems.length > 0 ? (
-              <div className={styles.containerCard}>
+              <div className="containerCardLabAll">
                 {currentItems.map((dispositivo) => {
                   return dispositivo.is_computador ? (
                     <CardComputador
@@ -273,9 +181,13 @@ function DispByLab() {
               <p></p>
             )}
             
-            <div className={styles.paginationContainer}>
-              <div className={styles.pagination}>
-                {renderPaginationButtons()}
+            <div className="paginationContainer">
+              <div className="pagination">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage} 
+                />
               </div>
             </div>
           </div>
@@ -287,15 +199,13 @@ function DispByLab() {
         />
       )}
       {showDeletePopUp && (
-                      <PopUpDelete
-                          onConfirm={confirmDelete}
-                          onClose={() => setShowDeletePopUp(false)}
-                          text={'dispositivo'}
-                      />
-                  )}
-    </Content>
-    </Layout>
-  </Layout>
+        <PopUpDelete
+            onConfirm={confirmDelete}
+            onClose={() => setShowDeletePopUp(false)}
+            text={'dispositivo'}
+        />
+      )}
+    </>
   );
 }
 

@@ -229,47 +229,16 @@
   box-shadow: 0 0 0 2px rgba(0, 145, 212, 0.4);
 }
 
-
-.input-field24050{
-  color: #4F4F4F;
-  height: 50px;
-  width: 240px;
-  box-sizing: border-box;
-  border-radius: 4px;
-  border: 1px #BDBDBD solid;
-  font-size: 18px;
-
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
 }
 
-.input-field24050::placeholder{
-  font-size: 18px;
-
-}
-
-.bluesize138{
-  width: 138px;
-  height: 50px;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: bold;
-  cursor: pointer;
-  padding: 10px;
-  transition: background 0.2s ease, color 0.2s ease;
-  background-color: #0095DA;
-  border: none;
-  color: #FFFFFF;
-}
-.bluesize138:not([disabled]):hover{
-  background-color: #092C4C;
-}
-.bluesize138:not([disabled]):active{
-  background-color: #526b81;
-}
-.bluesize138[disabled]{
-    background-color: #BDBDBD;
-}
-.bluesize138[disabled]:hover {
-    background-color: #BDBDBD;
+.input-container .ant-form-item-explain {
+  position: absolute;
+  color: red;
+  font-size: 12px;
+  margin-bottom: 20px;
 }
 
 @media (min-width: 768px) {

@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import styles from './Observacao.module.css';
-import Sidebar from '../../components/Sidebar/Sidebar';
+import { useNavigate, useLocation } from 'react-router-dom';
+import './styles.css';
 import CircleButton from '../../components/CircleButton/CircleButton';
 import CardObservacaoDisp from '../../components/CardObservacaoDisp/CardObservacaoDisp';
 import CardObservacaoLab from '../../components/CardObservacaoLab/CardObservacaoLab';
 import PopUpDelete from '../../components/PopUpDelete/PopUpDelete';
 import CustomInput from '../../components/CustomInput/CustomInput';
-
-
-import { Layout } from "antd";
-const { Content } = Layout;
+import Pagination from '../../components/Pagination/Pagination';
+import { fetchObservacoes, deleteObservacao } from '../../services/api';
 
 function Observacao() {
   const [observacoes, setObservacoes] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filterText, setFilterText] = useState('');
-  const itemsPerPage = 6;
   const navigate = useNavigate();
   const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
   const [observacaoToDelete, setObservacaoToDelete] = useState(null); 
   const location = useLocation();
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 992);
-  
-  const handleResize = () => {
-      setIsSmallScreen(window.innerWidth <= 992);
-  };
 
-  useEffect(() => {
-      window.addEventListener('resize', handleResize);
-      return () => {
-          window.removeEventListener('resize', handleResize);
+  const getItemsPerPage = () => {
+    if (window.innerWidth > 1550) {
+      return 8; 
+    } else {
+      return 6; 
+    }
+    };
+    const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage()); 
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setItemsPerPage(getItemsPerPage());
       };
-  }, []);
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
   const handleAdd = () => {
     navigate('/observacaoadd');
@@ -42,15 +42,15 @@ function Observacao() {
   
   const handleEdit = (idObs) => {
     navigate('/observacaoedit', { state: { obsId: idObs } });
-    };
+  };
   
   const handleView = (idObs) => {
-      navigate('/observacaoview', { state: { obsId: idObs } });
-      };
+    navigate('/observacaoview', { state: { obsId: idObs } });
+  };
 
   const handleDelete = (id) => {
-      setObservacaoToDelete(id);
-      setShowDeletePopUp(true);
+    setObservacaoToDelete(id);
+    setShowDeletePopUp(true);
   };
 
   useEffect(() => {
@@ -59,43 +59,32 @@ function Observacao() {
     }
   }, [location.state]);
 
-
   useEffect(() => {
-    
-    const fetchObservacoes = async () => {
+    const carregarObservacoes = async () => {
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/problemas/obs-list/', {
-          headers: {
-              Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-          }
-      });
-        console.log('Todas as observações:', response.data);
-        setObservacoes(response.data.Observacao);
+        const data = await fetchObservacoes();
+        setObservacoes(data);
+        console.log('Todas as observações:', data);
       } catch (error) {
-        if (error.response) {
-          console.log('Erro ao listar as observações:', error.response.data);
-        } else {
-          console.log('Erro de rede ou outro:', error);
-        }
+        console.error('Erro ao carregar observações:', error);
       }
     };
-    fetchObservacoes();
+    
+    carregarObservacoes();
   }, []);
 
   const confirmDelete = async () => {
     try {
-        await axios.delete(`http://127.0.0.1:8000/api/problemas/obs-delete/?id_observacao=${observacaoToDelete}`, {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('access_token')}`
-            }
-        });
-        setObservacoes(prevData => prevData.filter(observacao => observacao.id_observacao !== observacaoToDelete));
-        setShowDeletePopUp(false); 
-    } catch (error) {
-        setError("Erro ao excluir observacao: " + (error.response?.data?.detail || error.message));
+      await deleteObservacao(observacaoToDelete);
+      setObservacoes(prevData => prevData.filter(obs => obs.id_observacao !== observacaoToDelete));
+      setShowDeletePopUp(false);
+      setError(null);
+      
+    } catch (err) {
+      console.error("Erro ao excluir observação:", err);
+      setError("Erro ao excluir observação: " + (err.response?.data?.detail || err.message));
     }
   };
-
   const filteredObservacoes = observacoes.filter((observacao) => {
     return observacao.nome_sala.toLowerCase().includes(filterText.toLowerCase());
   });
@@ -105,90 +94,22 @@ function Observacao() {
   const currentItems = filteredObservacoes.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(observacoes.length / itemsPerPage);
 
-  const renderPaginationButtons = () => {
-    
-    const buttons = [];
-
-    if (totalPages <= 3) {
-      for (let i = 1; i <= totalPages; i++) {
-        buttons.push(
-          <button 
-            key={i} 
-            className={`pagination-button ${currentPage === i ? 'active' : ''}`}
-            onClick={() => setCurrentPage(i)}
-          >
-            {i}
-          </button>
-        );
-      }
-    } else {
-      buttons.push(
-        <button 
-          key={1} 
-          className={`pagination-button ${currentPage === 1 ? 'active' : ''}`}
-          onClick={() => setCurrentPage(1)}
-        >
-          1
-        </button>
-      );
-
-      if (currentPage > 3) {
-        buttons.push(<span className={styles['ellipsis-pagination']} key="ellipsis-start">...</span>);
-      }
-
-      const startPage = Math.max(2, currentPage - 1);
-      const endPage = Math.min(totalPages - 1, currentPage + 1);
-      for (let i = startPage; i <= endPage; i++) {
-        buttons.push(
-          <button 
-            key={i} 
-            className={`pagination-button ${currentPage === i ? 'active' : ''}`}
-            onClick={() => setCurrentPage(i)}
-          >
-            {i}
-          </button>
-        );
-      }
-
-      if (currentPage < totalPages - 2) {
-        buttons.push(<span className={styles['ellipsis-pagination']} key="ellipsis-end">...</span>);
-      }
-
-      buttons.push(
-        <button 
-          key={totalPages} 
-          className={`pagination-button ${currentPage === totalPages ? 'active' : ''}`}
-          onClick={() => setCurrentPage(totalPages)}
-        >
-          {totalPages}
-        </button>
-      );
-    }
-
-    return buttons;
-  };
-
   return (
-    <Layout style={{ minHeight: "100vh" }}>
-        <Sidebar />
-        <Layout>
-        <Content
-              className='contentAll'
-            >
-          <div className={styles.header}>
-            <h1 className={styles.headerTitle}>Observações</h1> 
-            <div className={styles.controlsContainer}>
-              <div className={styles.deviceInputContainer}>
-                <span className={styles.deviceInfo}>Observações: {filteredObservacoes.length}</span>
-                <div className={styles.containerInput}>
+    <>
+          <div className="header">
+            <h1 className="headerTitle">Observações</h1> 
+            <div className="controlsContainer">
+              <div className="deviceInputContainer">
+                <span className="deviceInfo">Observações: {filteredObservacoes.length}</span>
+                <div className="containerInput">
                   <CustomInput
                     placeholder={`Pesquisar por ${'Sala'}`}
                     value={filterText} 
                     onChange={(e) => setFilterText(e.target.value)}
-                    className={`${styles.inputField} input-field320`}
+                    className={`$inputField input-field320`}
                   />
                 </div>
-                <div className={styles.addButton}>
+                <div className="addButton">
                   <CircleButton iconType="add" onClick={handleAdd}/>
                 </div>
               </div>
@@ -196,10 +117,10 @@ function Observacao() {
             </div>
           </div>
 
-          <div className={styles.formContainer}>
+          <div className="formContainer">
             {error && <p>{error}</p>}
 
-            <div className={styles.containerCard}>
+            <div className="containerCard">
               {currentItems.map((observacoes) =>
                 observacoes.tipo === "Laboratorio" ? (
                   <CardObservacaoLab
@@ -232,23 +153,25 @@ function Observacao() {
             </div>
             
             
-            <div className={styles.paginationContainer}>
-              <div className={styles.pagination}>
-                {renderPaginationButtons()}
+            <div className="paginationContainer">
+              <div className="pagination">
+                <Pagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onPageChange={setCurrentPage} 
+                />
               </div>
             </div>
           </div>
 
               {showDeletePopUp && (
-                                    <PopUpDelete
-                                        onConfirm={confirmDelete}
-                                        onClose={() => setShowDeletePopUp(false)}
-                                        text={'observação'}
-                                    />
-                                )}
-    </Content>
-    </Layout>
-  </Layout>
+                <PopUpDelete
+                    onConfirm={confirmDelete}
+                    onClose={() => setShowDeletePopUp(false)}
+                    text={'observação'}
+                />
+              )}
+    </>
   );
 }
 

@@ -3,6 +3,7 @@ import CustomInput from '../CustomInput/CustomInput.jsx';
 import CustomButton from '../CustomButton/CustomButton.jsx';
 import axios from 'axios';
 import './styles.css';
+import { fetchLaboratorioById, updateLaboratorio } from '../../services/api';
 
 const LabEditPopUp = ({ closePopup, labId }) => {
     const [laboratorios, setLaboratorios] = useState([]);
@@ -10,51 +11,37 @@ const LabEditPopUp = ({ closePopup, labId }) => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [error, setError] = useState(null);
 
-    const getCookie = (name) => {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-    };
-
     useEffect(() => {
-        const fetchLabData = async () => {
+        const carregarDadosDoLaboratorio = async () => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/laboratorios/lab-by-id/?id_sala=${labId}`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                    },
-                });
-                const lab = response.data.laboratorio?.[0] || {};
-                setLaboratorios(lab);
-                console.log("Laboratórios recebidos:", response.data);
-                console.log("Laboratório selecionado:", lab);
-            } catch (error) {
+                const labData = await fetchLaboratorioById(labId);
+                setLaboratorios(labData);
+                console.log("Laboratório recebido:", labData);
+            } catch (err) {
                 setError('Erro ao carregar dados do laboratório.');
             }
         };
 
-        fetchLabData();
+        if (labId) {
+          carregarDadosDoLaboratorio();
+        }
     }, [labId]);
-
 
     const handleEditLab = async () => {
         setIsLoading(true);
+        setError(null);
+
         try {
-            const csrfToken = getCookie('csrftoken');
-            await axios.put(`http://127.0.0.1:8000/api/laboratorios/lab-update/${labId}/`, {
+            const labData = {
                 nome: laboratorios.nome,
                 sala_ou_bloco: laboratorios.sala_ou_bloco,
-            }, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('access_token')}`,
-                    'X-CSRFToken': csrfToken,
-                },
-            });
-
+            };
+            await updateLaboratorio(labId, labData);
             setShowSuccess(true);
             setTimeout(() => setShowSuccess(false), 20000);
-        } catch (error) {
-            setError("Erro ao editar laboratório: " + (error.response?.data?.detail || error.message));
+        } catch (err) {
+            console.error("Erro ao editar laboratório:", err);
+            setError("Erro ao editar laboratório: " + (err.response?.data?.detail || err.message));
         } finally {
             setIsLoading(false);
         }
