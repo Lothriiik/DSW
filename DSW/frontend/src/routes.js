@@ -12,13 +12,16 @@ import ObservacaoView from "./pages/ObservacaoView";
 import DispAll from "./pages/DispAll";
 import LoginPage from "./pages/LoginPage";
 import NotFound from "./pages/NotFound";
-import PrivateRoute from "./components/PrivateRoute";
+
 import Usuarios from "./pages/Usuarios";
 import Registrar from "./pages/Registrar";
 import Sidebar from './components/Sidebar/Sidebar';
+import NovaSenha from './pages/NovaSenha';
 import "./routes.css";
 import { Layout } from "antd";
 
+import PasswordChangeRoute from "./components/PasswordChangeRoute";
+import PrivateRoute from "./components/PrivateRoute";
 
 const { Content } = Layout;
 
@@ -57,6 +60,7 @@ function AppRoutes() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={ <Navigate to="/login" />} />
+        <Route path="/novasenha" element={ <NovaSenha />} />
         <Route path="/registrar" element={<Registrar />} />
         <Route path="*" element={<PrivateRoute><Inside /></PrivateRoute>} />
       </Routes>

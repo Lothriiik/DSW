@@ -1,18 +1,12 @@
-.registrar-container {
+
+.login-container {
   display: flex;
   height: 100vh;
   width: 100%;
 }
 
-.registrar-input{
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  justify-content: center;
 
-}
-
-.registrar-left-panel {
+.login-left-panel {
   display: none;
   position: relative;
   background-color: #0091d4;
@@ -28,6 +22,14 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 0;
+}
+
+.wrap-group-login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 }
 
 
@@ -74,7 +76,7 @@
 }
 
 
-.registrar-right-panel {
+.login-right-panel {
   width: 100%;
   display: flex;
   justify-content: center;
@@ -82,57 +84,30 @@
 }
 
 
-.registrar-form-container {
+.login-form-container {
   width: 100%;
-  max-width: 620px;
+  max-width: 420px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.wrap-group-registrar {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-}
-
-.registrar-heading {
+.login-heading {
   font-size: 2.25rem;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   color: #333;
 }
 
-
-@media (min-width: 1096px) {
-  .registrar-left-panel {
+@media (min-width: 768px) {
+  .login-left-panel {
     display: flex;
     width: 41.666667%;
   }
 
-  .registrar-right-panel {
+  .login-right-panel {
     width: 58.333333%;
   }
-  .registrar-heading{
-    margin-top: 35px;
-  }
 }
 
-
-@media (max-width: 768px) {
-
-  .wrap-group-registrar{
-    width: 240px;
-  }
-  .registrar-heading{
-    margin-top: 180px;
-  }
-  .input-field27050{
-    width: 240px;
-    height: 45px;
-} 
-}

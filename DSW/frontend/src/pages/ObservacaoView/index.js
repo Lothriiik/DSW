@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {  Select, Input, DatePicker, 
           Form, Radio } from 'antd';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import './styles.css';
 import { fetchSalas, fetchDispositivosBySala, fetchObservacaoById, updateObservacao } from '../../services/api';
@@ -224,7 +223,7 @@ function ObservacaoView() {
                     borderRadius: "4px",
                     border: "1px solid #BDBDBD",
                     fontSize: "clamp(14px, 2vw, 16px)",
-                      pointerEvents: 'none' 
+                    pointerEvents: 'none' 
                   }}
                 />
               </Form.Item>
@@ -245,6 +244,10 @@ function ObservacaoView() {
                   value={observacao}
                   onChange={(e) => setObservacao(e.target.value)}
                   className='textInput'
+                  style={{
+                    pointerEvents: 'none'
+                  }}
+
                 /> 
                 </Form.Item>
             </div>  

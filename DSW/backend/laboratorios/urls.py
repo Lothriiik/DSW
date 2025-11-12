@@ -12,13 +12,13 @@ from django.conf import settings
 
 urlpatterns = [
     
-    path('lab-list/', LaboratorioListView.as_view(), name='lab-view'),
+    path('lab-list/', LaboratorioListView.as_view(), name='lab-list'),
     path('lab-create/', LaboratorioCreateView.as_view(), name='lab-create'),
     path('lab-by-id/', LaboratorioByIDView.as_view(), name='lab-by-id'),
     path('lab-delete/', LaboratorioDeleteView.as_view(), name='lab-delete'),
     path('lab-update/<int:pk>/', LaboratorioUpdateView.as_view(), name='lab-update'),
 
-    path('disp-list/', DispositivosListView.as_view(), name='lab-create'),
+    path('disp-list/', DispositivosListView.as_view(), name='disp-list'),
     path('disp-by-lecc/', DispositivosByLeccView.as_view(), name='disp-by-lecc'),
     path('disp-by-id/', DispositivosByIDView.as_view(), name='disp-by-id'),
     path('disp-delete/', DispositivosDeleteView.as_view(), name='disp-delete'),

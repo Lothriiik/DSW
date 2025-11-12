@@ -1,18 +1,19 @@
-.registrar-container {
+.novasenha-container {
   display: flex;
   height: 100vh;
   width: 100%;
 }
 
-.registrar-input{
+.novasenha-input{
   display: flex;
   flex-direction: column;
-  gap: 16px;
   justify-content: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
 
 }
 
-.registrar-left-panel {
+.novasenha-left-panel{
   display: none;
   position: relative;
   background-color: #0091d4;
@@ -74,51 +75,38 @@
 }
 
 
-.registrar-right-panel {
+.novasenha-right-panel {
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 0 24px;
 }
 
-
-.registrar-form-container {
+.novasenha-form-container {
   width: 100%;
-  max-width: 620px;
+  max-width: 420px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
 }
 
-.wrap-group-registrar {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-
-}
-
-.registrar-heading {
+.novasenha-heading {
   font-size: 2.25rem;
   font-weight: 700;
-  margin-bottom: 30px;
+  margin-bottom: 50px;
   color: #333;
 }
 
 
 @media (min-width: 1096px) {
-  .registrar-left-panel {
+  .novasenha-left-panel {
     display: flex;
     width: 41.666667%;
   }
 
-  .registrar-right-panel {
+  .novasenha-right-panel {
     width: 58.333333%;
-  }
-  .registrar-heading{
-    margin-top: 35px;
   }
 }
 
@@ -128,7 +116,7 @@
   .wrap-group-registrar{
     width: 240px;
   }
-  .registrar-heading{
+  .novasenha-heading{
     margin-top: 180px;
   }
   .input-field27050{

@@ -252,9 +252,9 @@ export const login = async (username, password) => {
   }
 };
 
-export const fetchUserInfo = async () => {
+export const fetchUsuarioInfo = async () => {
   try {
-    const response = await api.get('auth/user-info/');
+    const response = await api.get('auth/usuario-info/');
     return response.data; 
   } catch (error) {
     console.error('Erro ao buscar informações do usuário:', error.response?.data);
@@ -308,6 +308,26 @@ export const deleteUsuario = async (userId) => {
     return response.data;
   } catch (error) {
     console.error(`Erro ao deletar o usuário ${userId}:`, error);
+    throw error;
+  }
+};
+
+export const redefinirSenha = async (dados) => {
+  try {
+    const response = await api.post('auth/trocar-senha/', dados);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao redefinir senha:", error);
+    throw error;
+  }
+};
+
+export const adminResetarSenha = async (id) => {
+  try {
+    const response = await api.put(`auth/resetar-senha/${id}/`);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao resetar senha do usuário:", error);
     throw error;
   }
 };

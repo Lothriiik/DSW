@@ -18,11 +18,8 @@ class Observacao(models.Model):
     tipo = models.CharField(max_length=255, choices=TIPO_CHOICES, blank=True, default='Dispositivo')
     id_dispositivo = models.ForeignKey(Dispositivos, on_delete=models.CASCADE, related_name='observacoes', null=True, blank=True)
     observacao = models.TextField()
-    data = models.DateField()
+    data = models.DateField(auto_now_add=True)
 
-    def clean(self):
-        if self.id_dispositivo and self.id_dispositivo.id_sala != self.id_sala:
-            raise ValidationError("O dispositivo selecionado não pertence à sala escolhida.")
 
     def save(self, *args, **kwargs):
         self.clean()

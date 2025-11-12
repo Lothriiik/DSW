@@ -288,6 +288,9 @@ function DispView() {
                               value={inputConfiguracao}
                               onChange={(e) => setInputConfiguracao(e.target.value)}
                               className='textInput'
+                              style={{
+                                pointerEvents: 'none'
+                              }}
                             /> 
                           </Form.Item>
                         
@@ -308,6 +311,9 @@ function DispView() {
                               value={inputDescricao}
                               onChange={(e) => setInputDescricao(e.target.value)}
                               className='textInput'
+                              style={{
+                                pointerEvents: 'none'
+                              }}
                             />  
                         </Form.Item>     
                         
@@ -318,13 +324,13 @@ function DispView() {
                     <div className="wrap-group-data">
                             <div style={{ display: "flex", flexDirection: "column", gap: "4px", maxWidth: "250px" }}>
                                 <Form.Item  
-                                                    label="Data" 
-                                                    name="data" 
-                                                    rules={[{ required: true, message: "Selecione a Data" }]}
-                                                    labelCol={{ span: 6 }}  
-                                                    wrapperCol={{ span: 18 }}
-                                
-                                                    >
+                                  label="Data" 
+                                  name="data" 
+                                  rules={[{ required: true, message: "Selecione a Data" }]}
+                                  labelCol={{ span: 6 }}  
+                                  wrapperCol={{ span: 18 }}
+              
+                                  >
                                     <DatePicker 
                                         onChange={handleDateChange} 
                                         readOnly 
@@ -340,7 +346,7 @@ function DispView() {
                                         pointerEvents: 'none' 
                                         }}
                                     />
-                                </Form.Item>    
+                                  </Form.Item>    
                                   </div>
                                   <CustomButton onClick={openPopup} disabled={!isComputador} label="Softwares" className="blue size138" type="button" ></CustomButton>
                                   {isPopupOpen && <PopUpTableSoftware idDispositivo={dispIdNumber} closePopup={closePopup} />}

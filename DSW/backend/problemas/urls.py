@@ -8,7 +8,7 @@ from django.conf import settings
 
 urlpatterns = [
     
-    path('obs-list/', ObservacaoListView.as_view(), name='obs-view'),
+    path('obs-list/', ObservacaoListView.as_view(), name='obs-list'),
     path('obs-create/', ObservacaoCreateView.as_view(), name='obs-create'),
     path('obs-by-id/', ObservacaoByIDView.as_view(), name='obs-by-id'),
     path('obs-by-disp/', ObservacaoByDispView.as_view(), name='obs-by-disp'),

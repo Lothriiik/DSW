@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'corsheaders',
     'rest_framework_simplejwt',
     'social_django',
-    'loginauth'
+    'loginauth',
+    'drf_spectacular',
 ]
 
 CORS_ALLOWED_ORIGINS = [
@@ -98,6 +99,8 @@ DATABASES = {
     }
 }
 
+# settings.py
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -105,6 +108,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 
@@ -176,4 +180,26 @@ LOGIN_REDIRECT_URL = '/'
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=config('ACCESS_TOKEN_MINUTES', cast=int)),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=config('REFRESH_TOKEN_DAYS', cast=int)),
+}
+
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'LECCS API (Django + React)',
+    'DESCRIPTION': 'Documentação REST API.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    
+    'SECURITY': [
+        {
+            'BearerAuth': {
+                'type': 'http',
+                'scheme': 'bearer',
+                'bearerFormat': 'JWT',
+            },
+        },
+    ],
+    'SWAGGER_UI_SETTINGS': {
+        'deepLinking': True,
+        'persistAuthorization': True,
+    },
 }

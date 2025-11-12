@@ -28,7 +28,6 @@ class ObservacaoSerializer(serializers.ModelSerializer):
     def get_nome_usuario(self, obj):
         return obj.id_usuario.username if obj.id_usuario else None
     
-    
 
     def validate(self, data):
         id_sala = data.get('id_sala')

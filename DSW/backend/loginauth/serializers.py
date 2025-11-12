@@ -33,24 +33,24 @@ class ListarUsuarioSerializer(serializers.ModelSerializer):
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'nivel_acesso']
 
 class UsuarioCompletoSerializer(serializers.ModelSerializer):
-    nivel_acesso = serializers.CharField(source='extensaousuario.nivel_acesso')
-
+    nivel_acesso = serializers.CharField(write_only=True, required=False)
+    nivel_acesso_display = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = User
-        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'nivel_acesso']
+        fields = ['id', 'username', 'first_name', 'last_name', 'email', 'nivel_acesso', 'nivel_acesso_display']
 
-    def get_nivel_acesso(self, obj):
+    def get_nivel_acesso_display(self, obj):
 
-        return getattr(getattr(obj, 'perfil', None), 'nivel_acesso', None)
+        return getattr(getattr(obj, 'extensaousuario', None), 'nivel_acesso', None)
 
     def update(self, instance, validated_data):
-        perfil_data = validated_data.pop('perfil', {})
+        nivel_acesso = validated_data.pop('nivel_acesso', None)
         instance = super().update(instance, validated_data)
 
-        perfil = getattr(instance, 'perfil', None)
-        if perfil and 'nivel_acesso' in perfil_data:
-            perfil.nivel_acesso = perfil_data['nivel_acesso']
-            perfil.save()
+        if nivel_acesso is not None:
+            extensao, _ = ExtensaoUsuario.objects.get_or_create(user=instance)
+            extensao.nivel_acesso = nivel_acesso 
+            extensao.save()
 
         return instance
 
