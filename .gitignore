@@ -5,7 +5,8 @@
 __pycache__
 db.sqlite3
 
-
+# Dependências
+**/node_modules/
 # Backup files #
 *.bak
 
