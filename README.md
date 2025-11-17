@@ -32,6 +32,14 @@ python manage.py migrate
 python manage.py runserver
 ```
 
+### Criar login de administrador (temporário)
+
+Para criar um usuário administrador com suporte à extensão personalizada, utilize:
+
+```bash
+python manage.py createsuperuser_with_extension
+```
+
 ### 4. Inicie o frontend
 
 ```bash
