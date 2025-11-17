@@ -1,16 +1,14 @@
-# Django #
+
 *.log
 *.pot
 *.pyc
 __pycache__
-db.sqlite3
 
-# Dependências
+
 **/node_modules/
-# Backup files #
+
 *.bak
 
-# If you are using PyCharm #
 .idea/**/workspace.xml
 .idea/**/tasks.xml
 .idea/dictionaries
@@ -126,5 +124,8 @@ env
 local_settings.py
 _local_settings.py
 gunicorn-error-log
-db.sqlite3
+*.db.sqlite3
+*.sqlite3
+backend/db.sqlite3
+DSW/backend/db.sqlite3
 db copy.sqlite3
