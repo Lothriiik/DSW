@@ -1,0 +1,99 @@
+
+.custom-select-container {
+    position: relative;
+    display: inline-block;
+
+  }
+  
+  label {
+    margin-bottom: 8px;
+    font-size: clamp(10px, 2vw, 14px);
+    font-weight: bold;
+    color: #4F4F4F;
+  }
+
+  .w200h36{
+    width: 180px;
+    height: 36px;
+  }
+
+  .w250h36{
+    margin-top: 2px;
+    width: 250px;
+    height: 50px;
+  }
+  
+  .custom-select {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    position: relative;
+    font-size: clamp(12px, 2vw, 16px);
+  }
+  
+  .selected-value {
+    flex-grow: 1;
+    color: #4F4F4F;
+  }
+  
+  .arrow {
+    width: 13px;
+    height: 7px;
+    background-image: url('data:image/svg+xml,%3Csvg width="13" height="7" viewBox="0 0 13 7" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M11.5198 1L6.47978 6.04L1.43978 1" stroke="%234F4F4F" stroke-width="1.296" stroke-linecap="round" stroke-linejoin="round"/%3E%3C/svg%3E');
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s ease;
+  }
+  .custom-select.open .arrow {
+    transform: rotate(180deg);
+  }
+
+  .custom-select.disabled {
+    background-color: #f0f0f0;
+    cursor: not-allowed;
+  }
+  
+  .custom-select.disabled .arrow {
+    border-color: #ccc;
+  }
+
+  .h36{
+    margin-top: 10px;
+  }
+
+  .options-container {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  
+
+  .option {
+    padding: 10px;
+    font-size: clamp(12px, 2vw, 16px);
+    color: #4F4F4F;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .option:hover {
+    background-color: #0095DA;
+    color: white;
+  }
+  
+
+  

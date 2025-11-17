@@ -1,0 +1,12 @@
+.addButton {
+    display: flex;
+    gap: 10px;
+}
+
+.containerCardLabAll {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px 10px;
+  min-height: 70vh;
+  transition: opacity 0.5s ease-in-out;
+}

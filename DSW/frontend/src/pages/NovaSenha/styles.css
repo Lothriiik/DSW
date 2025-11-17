@@ -1,0 +1,126 @@
+.novasenha-container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.novasenha-input{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2vh;
+  margin-bottom: 2vh;
+
+}
+
+.novasenha-left-panel{
+  display: none;
+  position: relative;
+  background-color: #0091d4;
+  color: white;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.1);
+  z-index: 0;
+}
+
+
+.logo-container {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+
+.logo-box {
+  background-color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+
+
+.brand-text {
+  text-align: center;
+}
+
+.brand-subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+.brand-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+
+.version-tag {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  z-index: 10;
+  font-size: 0.875rem;
+}
+
+
+.novasenha-right-panel {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 0 24px;
+}
+
+.novasenha-form-container {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.novasenha-heading {
+  font-size: 2.25rem;
+  font-weight: 700;
+  margin-bottom: 50px;
+  color: #333;
+}
+
+
+@media (min-width: 1096px) {
+  .novasenha-left-panel {
+    display: flex;
+    width: 41.666667%;
+  }
+
+  .novasenha-right-panel {
+    width: 58.333333%;
+  }
+}
+
+
+@media (max-width: 768px) {
+
+  .wrap-group-registrar{
+    width: 240px;
+  }
+  .novasenha-heading{
+    margin-top: 180px;
+  }
+  .input-field27050{
+    width: 240px;
+    height: 45px;
+} 
+}

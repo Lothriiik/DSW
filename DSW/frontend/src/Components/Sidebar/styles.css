@@ -1,0 +1,178 @@
+.icon{
+    width: 123px;
+    height: 127px;
+    margin-left: 60px;
+    margin-top: 70px;
+    margin-bottom: 38px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.elipse {
+    width: 63px; 
+    height: 63px; 
+    background-color: white;
+    border-radius: 50%; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px; 
+}
+
+
+.iconName{
+    font-size: 20px;
+    color: #FFFFFF;
+    text-align: center;
+
+}
+
+.sidebar {
+    left: 0;
+    top: 0;
+    position: fixed;
+    width: 233px;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    background-color: #0095DA;
+    overflow: hidden;
+    z-index: 1000;
+    height: 100vh;
+}
+
+
+.usuario {
+    display: flex;
+    flex-direction: column;
+}
+
+.ambiente {
+    display: flex;
+    flex-direction: column;
+
+}
+
+.sair {
+    display: flex;
+    flex-direction: column;
+    margin-top: auto;
+    
+}
+
+.menu {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    padding-left: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.lecc {
+    width: 233px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    
+    list-style: Text - Normal Bold;
+    font-family: Inter;
+    text-align: left;
+    font-size: 14px;
+    line-height: 22.4px;
+    
+    color: #FFFFFF;
+    padding-left: 17px;
+}
+
+.menu:hover {
+    background-color: #00AEFF;
+}
+
+.body {
+    width: 181px;
+    height: 22;
+
+    text-align: left;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 22.4px;
+
+    color: #E0E0E0;
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.linha{
+    width: 215px;
+    top: 626px;
+    left: 9px;
+    border: 1px solid #FFFFFF47;
+    margin-left: 10px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+}
+
+.endMenu{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.ant-menu {
+    background-color: #0095DA;
+    border-right: none;
+    color: #FFFFFF;
+  }
+  
+  .ant-menu-item {
+    text-align: left;
+    font-size: 14px;
+    line-height: 22.4px;
+    color: #FFFFFF!important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+
+  
+  .ant-menu-item:hover {
+    background-color: #00AEFF!important;
+  }
+  .ant-menu-item .anticon {
+    margin-right: 8px; 
+  }
+  
+
+  .ant-menu-item span {
+    display: inline-block;
+    text-align: center;
+  }
+
+  .ant-menu-item-selected {
+    background-color: #009FE7 !important;
+    color: #fff !important;
+}
+
+.buttonSider{
+    position: fixed;
+    transition: left 0.3s;
+    background: #0095DA;
+    color: #fff;
+    display: none;
+    top: 16;
+    z-index: 9999;
+}
+
+  @media (max-width: 768px) {
+    .sidebar {
+      display:block
+
+    }
+    .buttonSider{
+        display: block;
+
+    }
+  }

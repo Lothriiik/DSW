@@ -1,0 +1,85 @@
+.card-computador {
+    font-size: 14px;
+    background-color: white;
+    width: 236px;
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.3);
+    text-align: left;
+
+}
+
+
+.text-comp-tipo{
+    color: #4F4F4F;
+    margin-top: 15px;
+    margin-left: 16px;
+}
+.text-comp-patrimonio,
+.text-comp-descricao,
+.text-comp-status,
+.text-comp-data{
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    color: #4F4F4F;
+    margin-top: 10px;
+    margin-left: 16px;
+
+}
+
+.tam3424{
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    margin: 5px;
+}
+
+.comp-actions-buttons{
+
+    margin-top: 5px;
+    margin-left: 90px;
+    margin-bottom: 3px;
+    margin-right: 3px;
+
+}
+.blue{
+    background-color: #0095DA;
+    border: none;
+    color: #FFFFFF;
+}
+
+.blue:not([disabled]):hover{
+    background-color: #092C4C;
+}
+.blue:not([disabled]):active{
+    background-color: #526b81;
+}
+
+.green{
+    background-color: #2ECC40;
+    border: none;
+    color: #FFFFFF;
+}
+
+.green:not([disabled]):hover{
+    background-color: #176220;
+}
+.green:not([disabled]):active{
+    background-color: #4b8a4f;
+}
+
+.red{
+    background-color: #ED1C24;
+    border: none;
+    color: #FFFFFF;
+}
+
+.red:hover{
+    background-color: #532321;
+}
+.red:active{
+    background-color: #904343;
+}

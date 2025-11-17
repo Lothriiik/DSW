@@ -1,0 +1,143 @@
+
+.card-obs {
+    position: relative;
+    background-color: white;
+    width: 300px;
+    height: 200px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.3);
+    text-align: left;
+
+}
+
+
+.text-obs-sala{
+    font-size: 13px;
+    color: #0095DA;
+    margin-top: 15px;
+    margin-left: 16px;
+    font-weight: bold;
+}
+
+.text-obs-solicitante{
+    font-size: 14px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    color: #4F4F4F;
+    margin-top: 15px;
+    margin-right: 16px;
+    font-weight: bold;
+}
+
+.text-obs-dispositivo,
+.text-obs-status,
+.text-obs-data{
+    font-size: 13px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    color: #4F4F4F;
+    margin-top: 5px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+}
+
+.text-obs1-obs { 
+    font-size: 13px;
+    color: #4F4F4F;
+    margin-top: 5px;
+    margin-left: 16px;
+    margin-right: 16px;
+
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    
+    line-clamp: 5;
+    box-orient: vertical;
+    
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.text-obs-tipdesc{
+    font-size: 13px;
+    white-space: nowrap;      
+    overflow: hidden;         
+    text-overflow: ellipsis;
+    color: #4F4F4F;
+    margin-top: 10px;
+    margin-left: 16px;
+    font-weight: bold;
+    margin-right: 16px;
+}
+
+
+
+.titlediv{
+
+    display: flex;
+    justify-content: space-between;
+}
+
+.tam3424{
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    margin: 5px;
+}
+
+.cardobs-actions-buttons{
+
+    position: absolute;
+    bottom: 5px;
+    right: 7px;
+    display: flex;
+
+}
+.blue{
+    background-color: #0095DA;
+    border: none;
+    color: #FFFFFF;
+}
+
+.blue:not([disabled]):hover{
+    background-color: #092C4C;
+}
+.blue:not([disabled]):active{
+    background-color: #526b81;
+}
+
+.green{
+    background-color: #2ECC40;
+    border: none;
+    color: #FFFFFF;
+}
+
+.green:not([disabled]):hover{
+    background-color: #176220;
+}
+.green:not([disabled]):active{
+    background-color: #4b8a4f;
+}
+
+.red{
+    background-color: #ED1C24;
+    border: none;
+    color: #FFFFFF;
+}
+
+.red:hover{
+    background-color: #532321;
+}
+.red:active{
+    background-color: #904343;
+}

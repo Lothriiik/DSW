@@ -1,0 +1,133 @@
+
+
+.untouchable {
+    pointer-events: none;
+}
+
+.container-input{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.input-field320{
+    color: #4F4F4F;
+    height: 50px;
+    width: 320px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px #BDBDBD solid;
+
+}
+
+.input-filed320::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+    
+}
+
+.input-field300{
+    color: #4F4F4F;
+    height: 50px;
+    width: 300px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px #BDBDBD solid;
+
+}
+
+.input-filed300::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+    
+}
+
+.input-field22050{
+    color: #4F4F4F;
+    height: 50px;
+    width: 220px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px #BDBDBD solid;
+
+}
+
+.input-filed22050::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+    
+}
+
+.input-field27050{
+    color: #4F4F4F;
+    height: 50px;
+    width: 270px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px #BDBDBD solid;
+    margin-bottom: 5px;
+
+}
+
+.input-filed27050::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+}
+
+.input-field180{
+    color: #4F4F4F;
+    height: 50px;
+    width: 180px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px #BDBDBD solid;
+
+}
+
+.input-filed180::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+    
+}
+
+.input-field220{
+    color: #4F4F4F;
+    height: 36px;
+    width: 220px;
+    padding-left: 16px;
+    box-sizing: border-box;
+    border-radius: 4px;
+    border: 1px #BDBDBD solid;
+
+}
+
+.input-filed220::placeholder{
+    color: #939393;
+    font-size: clamp(14px, 2vw, 18px);
+    
+}
+
+.input-label {
+    font-size: clamp(10px, 2vw, 14px);
+    color: #4F4F4F;
+    margin-bottom: 12px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .input-field320{
+        width: 220px;
+    }
+    .input-field300{
+        width: 220px;
+    }
+    .input-field27050{
+        width: 240px;
+        height: 45px;
+    }
+}

@@ -1,0 +1,67 @@
+.classe-principal {
+    height: 100vh;
+    background-color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    gap: 10px;
+    width: 380px;
+    height: 423px;
+    padding: 22px;
+    border-radius: 8px;
+    background-color: #FFFFFF;
+
+}
+
+.form-titulo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    height: 92px;
+    margin-bottom: 40px;
+    
+    font-family: Inter;
+    font-size: 56px;
+    font-weight: 500;
+    line-height: 61.6px;
+    text-align: left;
+    padding: 22px;
+   
+    color: #4f4f4f;
+}
+
+.form-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 330px;
+    height: 55px;
+    border-radius: 8px;
+
+    list-style: Text - Normal Bold;
+    font-family: Inter;
+    text-align: left;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 22.4px;
+    font-weight: 550;
+
+    background-color: #0095DA;
+    color: #FFFFFF;
+
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.form-link:hover {
+    background-color: #092C4C;
+}

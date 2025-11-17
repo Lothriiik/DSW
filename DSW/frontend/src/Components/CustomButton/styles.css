@@ -1,0 +1,148 @@
+
+
+.size56{
+    width: 56px;
+    height: 32px;
+    border-radius: 5px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.size108{
+    width: 108px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.size138{
+    width: 138px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.size147{
+    width: 147px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.size189{
+    width: 189px;
+    height: 50px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 10px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.circle {
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%; 
+    font-size: 14px; 
+    cursor: pointer; 
+    transition: background 0.2s ease, color 0.2s ease;
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+}
+
+.blue{
+    background-color: #0095DA;
+    border: none;
+    color: #FFFFFF;
+}
+
+.blue:not([disabled]):hover{
+    background-color: #092C4C;
+}
+.blue:not([disabled]):active{
+    background-color: #526b81;
+}
+
+.blue[disabled]{
+    background-color: #BDBDBD;
+}
+.blue[disabled]:hover {
+    background-color: #BDBDBD;
+}
+
+.red{
+    background-color: #ED1C24;
+    border: none;
+    color: #FFFFFF;
+}
+
+.red:hover{
+    background-color: #532321;
+}
+.red:active{
+    background-color: #904343;
+}
+
+
+.borderred{
+    background-color: #FFFFFF;
+    border-color: #ED1C24;
+    color: #ED1C24;
+    border-width: 2px solid;
+    border: solid;
+    transition: background 0.2s ease, color 0.2s ease, border 0.2s ease;
+
+}
+
+.borderred:hover{
+    border-color: #532321;
+    background-color: linear-gradient(to right, #FFFFFF 80%, #532321 20%);
+
+}
+
+.borderred:active{
+    border-color: #904343;
+    background-color: linear-gradient(to right, #FFFFFF 60%, #532321 40%);
+}
+
+.bordergray{
+    background-color: #FFFFFF;
+    border-color: #4F4F4F;
+    color: #4F4F4F;
+    border-width: 1px solid;
+    border: solid;
+    transition: background 0.2s ease, color 0.2s ease, border 0.2s ease;
+
+}
+
+.bordergray:hover{
+    border-color: #FFFFFF;
+    color: #FFFFFF;
+    background-color: #4F4F4F;
+    background-color: linear-gradient(to right, #FFFFFF 80%, #2E2E2E 20%);
+
+}
+
+.bordergray:active{
+    border-color: #828282;
+    background-color: linear-gradient(to right, #FFFFFF 60%, #2E2E2E 40%);
+
+}
+

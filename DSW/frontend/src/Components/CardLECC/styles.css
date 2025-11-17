@@ -1,0 +1,80 @@
+
+
+.cardlecc {
+    background-color: white;
+    width: 254px;
+    height: 194px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1), 0 2px 4px rgba(0, 0, 0, 0.2), 0 -1px 4px rgba(0, 0, 0, 0.3);
+    text-align: left;
+    margin: 5px;
+    position: relative;
+    padding: 3px;
+}
+
+
+.textlecc-title{
+    font-size: 16px;
+    color: #0095DA;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.textlecc-sala{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 20px;
+    color: #4F4F4F;
+
+}
+.textlecc-dispositivos{
+    font-size: 16px;
+    margin-top: 10px;
+    margin-left: 20px;
+    color: #4F4F4F;
+}
+
+.side3424{
+    width: 34px;
+    height: 24px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+}
+
+.cardlecc-actions-buttons {
+    display: flex;
+    position: absolute; 
+    bottom: 8px; 
+    right: 8px; 
+    gap: 4px;
+}
+
+.blue{
+    background-color: #0095DA;
+    border: none;
+    color: #FFFFFF;
+}
+
+.blue:not([disabled]):hover{
+    background-color: #092C4C;
+}
+.blue:not([disabled]):active{
+    background-color: #526b81;
+}
+
+.red{
+    background-color: #ED1C24;
+    border: none;
+    color: #FFFFFF;
+}
+
+.red:hover{
+    background-color: #532321;
+}
+.red:active{
+    background-color: #904343;
+}
