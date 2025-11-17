@@ -114,14 +114,15 @@ class LoginAuthViewTests(TestCase):
         """Testa se a troca de senha falha sem o campo 'nova_senha' (400 Bad Request)."""
         data = {
             'username': 'comum',
-            'senha_atual': '123456'
+            # 'senha_atual': '123456'
         }
+
 
         response = self.client.post(self.trocar_senha_url, data, format='json')
 
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('erro', response.data)
-        self.assertEqual(response.data['erro'], 'Credenciais inválidas.')
+        self.assertEqual(response.data['erro'], 'Campos obrigatórios faltando: username e nova_senha.')
 
 
     def test_08_list_users_admin_success(self):

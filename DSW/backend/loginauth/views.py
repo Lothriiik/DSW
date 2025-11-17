@@ -96,6 +96,7 @@ class UserInfo(APIView):
             nivel_acesso = extensao.nivel_acesso
         except ExtensaoUsuario.DoesNotExist:
             precisa_trocar_senha = None  
+            nivel_acesso = 'comum'
 
         return Response({
             "id": user.id,
@@ -229,29 +230,45 @@ class ListarUsuarioPorIdView(generics.RetrieveAPIView):
     lookup_field = 'pk'
 
 @extend_schema(
-        summary="Troca a senha do usuário logado",
-        tags=['Gerenciamento de Usuários'],
-        description="Permite ao usuário alterar sua própria senha. A requisição deve conter o campo 'nova_senha'.",
-        request=inline_serializer(
-            name='TrocarSenhaInput',
-            fields={'nova_senha': serializers.CharField(required=True, write_only=True)}
-        ),
-        responses={
-            200: {'description': 'Senha alterada com sucesso.'},
-            400: {'description': 'Nova senha é obrigatória.'}
+    summary="Troca a senha (pós-reset ou primeiro acesso)",
+    tags=['Gerenciamento de Usuários'],
+    description="Permite a troca da senha de um usuário **sem exigir a senha atual**, utilizando apenas o username e a nova senha. Deve ser usado para fluxos de *reset* ou primeiro acesso. **Atenção**: O endpoint não exige autenticação.",
+    
+    request=inline_serializer(
+        name='TrocarSenhaInput',
+        fields={
+            'username': serializers.CharField(required=True, help_text="Nome de usuário do qual a senha será trocada."),
+            'nova_senha': serializers.CharField(required=True, write_only=True, help_text="A nova senha a ser definida.")
         }
-    ) 
-class TrocarSenhaView(generics.UpdateAPIView):
+    ),
+    
+    responses={
+        200: {'description': 'Senha alterada com sucesso.', 
+              'content': {'application/json': {'example': {'mensagem': 'Senha alterada com sucesso.'}}}},
+        400: {'description': 'Campos obrigatórios faltando (username, nova_senha) ou usuário não encontrado.',
+              'content': {'application/json': {'example': {'erro': 'Campos obrigatórios faltando: username e nova_senha.'}}}}
+    }
+)
+class TrocarSenhaView(APIView):
     permission_classes = [AllowAny]
 
     def post(self, request):
         username = request.data.get('username')
         nova_senha = request.data.get('nova_senha')
 
+        if not username or not nova_senha:
+            return Response(
+                {'erro': 'Campos obrigatórios faltando: username e nova_senha.'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+            
         user = User.objects.filter(username=username).first()
         if not user:
-            return Response({'erro': 'Usuário não encontrado.'}, status=status.HTTP_400_BAD_REQUEST)
-
+            return Response(
+                {'erro': 'Credenciais inválidas.'}, 
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         user.set_password(nova_senha)
         user.save()
 
@@ -259,4 +276,7 @@ class TrocarSenhaView(generics.UpdateAPIView):
         extensao.precisa_trocar_senha = False
         extensao.save()
 
-        return Response({'mensagem': 'Senha alterada com sucesso.'}, status=status.HTTP_200_OK)
+        return Response(
+            {'mensagem': 'Senha alterada com sucesso.'}, 
+            status=status.HTTP_200_OK
+        )
