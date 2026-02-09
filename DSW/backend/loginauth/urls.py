@@ -1,24 +1,24 @@
 from django.urls import path
-from .views import (LoginView, RegistrarUsuarioView, EditarUsuarioCompletoView,
-                    ListaUsuariosComNivelView, UserInfo,
-                    DeletarUsuarioView, AdminRedefinirSenhaView,
-                    AdminRedefinirSenhaView, ListarUsuarioPorIdView,
-                    TrocarSenhaView)
+from .views import (LoginView, UserListCreateView, UserDetailView,
+                    UserInfo, AdminRedefinirSenhaView,
+                    TrocarSenhaView, PasswordResetRequestView, PasswordResetConfirmView, CustomTokenRefreshView)
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework_simplejwt import views as jwt_views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
-    path('registrar/', RegistrarUsuarioView.as_view(), name='register'),
+
     path('trocar-senha/', TrocarSenhaView.as_view(), name='recover-password'),
-    path('token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
-    path('usuarios/listar/', ListaUsuariosComNivelView.as_view(), name='users-list'),
-    path('usuarios/<int:pk>/', ListarUsuarioPorIdView.as_view(), name='user-by-id'),
-    path('usuarios/<int:pk>/editar/', EditarUsuarioCompletoView.as_view(), name='edit-user'),
-    path('usuarios/<int:pk>/excluir/', DeletarUsuarioView.as_view(), name='delete-user'),
-    path('usuario-info/', UserInfo.as_view(), name='user_info'),
-    path('resetar-senha/<int:pk>/', AdminRedefinirSenhaView.as_view(), name='reset-password'),
+    path('token/refresh/', CustomTokenRefreshView.as_view(), name='token_refresh'),
+
+    path('usuarios/', UserListCreateView.as_view(), name='users-list-create'),    
+    path('usuarios/<int:pk>/', UserDetailView.as_view(), name='user-detail'),    
+    
+
+    path('password-reset/', PasswordResetRequestView.as_view(), name='password-reset-request'),
+    path('password-reset/confirm/', PasswordResetConfirmView.as_view(), name='password-reset-confirm'),
 
 ]
 

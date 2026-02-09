@@ -14,8 +14,8 @@ function Laboratorio() {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [laboratorios, setLaboratorios] = useState([]);
   const [dispositivos, setDispositivos] = useState([]);
-  const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
-  const [laboratorioToDelete, setLaboratorioToDelete] = useState(null); 
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [laboratorioToDelete, setLaboratorioToDelete] = useState(null);
   const [editLabPopup, setEditLabPopup] = useState({ isOpen: false, laboratorio: null });
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,13 +23,13 @@ function Laboratorio() {
   const navigate = useNavigate();
 
   const getItemsPerPage = () => {
-  if (window.innerWidth > 1550) {
-    return 8; 
-  } else {
-    return 6; 
-  }
+    if (window.innerWidth > 1550) {
+      return 8;
+    } else {
+      return 6;
+    }
   };
-  const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage()); 
+  const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage());
 
   useEffect(() => {
     const handleResize = () => {
@@ -46,17 +46,17 @@ function Laboratorio() {
           fetchLaboratorios(),
           fetchDispositivos()
         ]);
-        
+
         setLaboratorios(labsData || []);
         setDispositivos(dispData || []);
         setError(null);
-        
+
       } catch (err) {
         console.error("Erro ao carregar dados:", err);
         setError('Erro ao carregar os dados.');
       }
     };
-    
+
     fetchData();
   }, []);
 
@@ -71,7 +71,7 @@ function Laboratorio() {
       setLaboratorios(prevData => prevData.filter(lab => lab.id_sala !== laboratorioToDelete));
       setShowDeletePopUp(false);
       setError(null);
-      
+
     } catch (err) {
       console.error("Erro ao excluir laboratório:", err);
       setError("Erro ao excluir laboratório: " + (err.response?.data?.detail || err.message));
@@ -104,73 +104,73 @@ function Laboratorio() {
   };
 
   return (
-          <>
-          <div className="header">
-            <h1 className="headerTitle">Laboratórios</h1>
-            <div className="controlsContainer">
-              <div className="deviceInputContainer">
-                <span className="deviceInfo">
-                  Laboratórios: {filteredLaboratorio.length} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                  Dispositivos: {dispositivos.length}
-                </span>
+    <>
+      <div className="header">
+        <h1 className="headerTitle">Laboratórios</h1>
+        <div className="controlsContainer">
+          <div className="deviceInputContainer">
+            <span className="deviceInfo">
+              Laboratórios: {filteredLaboratorio.length} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              Dispositivos: {dispositivos.length}
+            </span>
 
-                
-                <div className="containerInput">
-                  <CustomInput
-                  placeholder="Pesquisar por Laboratório"
-                  value={filterText}
-                  onChange={(e) => setFilterText(e.target.value)}
-                  className={`$inputField input-field320`}
-                />
-                </div>
-                <div className="addButton">
-                  <CircleButton iconType="add" onClick={openPopup} />
-                  {isPopupOpen && <LabCreatePopUp closePopup={closePopup} />}
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="formContainer">
-            <div className="containerCardLab">
-              {currentItems.map((laboratorios) => (
-                <CardLECC
-                  key={laboratorios.id}
-                  sala={laboratorios.sala_ou_bloco}
-                  lab={laboratorios.nome}
-                  numdisp={laboratorios.numdisp}
-                  onClickDelete={() => handleDelete(laboratorios.id_sala)} 
-                  onClickEdit={() => openEditPopup(laboratorios.id_sala)}
-                  onClickCard={() => navigate(`/dispbylab/${laboratorios.id_sala}`)}
-                />
-              ))}
-            </div>
 
-            {editLabPopup.isOpen && (
-              <LabEditPopUp
-                closePopup={closeEditPopup}
-                labId={editLabPopup.laboratorio}
+            <div className="containerInput">
+              <CustomInput
+                placeholder="Pesquisar por Laboratório"
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+                className={`$inputField input-field320`}
               />
-            )}
-
-            {showDeletePopUp && (
-                <PopUpDelete
-                    onConfirm={confirmDelete}
-                    onClose={() => setShowDeletePopUp(false)}
-                    text={'laboratorio'}
-                />
-            )}
-
-            <div className="paginationContainer">
-              <div className="pagination">
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage} 
-                />
-              </div>
+            </div>
+            <div className="addButton">
+              <CircleButton iconType="add" onClick={openPopup} />
+              {isPopupOpen && <LabCreatePopUp closePopup={closePopup} />}
             </div>
           </div>
-          </>
+        </div>
+      </div>
+      <div className="formContainer">
+        <div className="containerCardLab">
+          {currentItems.map((laboratorios) => (
+            <CardLECC
+              key={laboratorios.id_sala}
+              sala={laboratorios.sala_ou_bloco}
+              lab={laboratorios.nome}
+              numdisp={laboratorios.numdisp}
+              onClickDelete={() => handleDelete(laboratorios.id_sala)}
+              onClickEdit={() => openEditPopup(laboratorios.id_sala)}
+              onClickCard={() => navigate(`/dispbylab/${laboratorios.id_sala}`)}
+            />
+          ))}
+        </div>
+
+        {editLabPopup.isOpen && (
+          <LabEditPopUp
+            closePopup={closeEditPopup}
+            labId={editLabPopup.laboratorio}
+          />
+        )}
+
+        {showDeletePopUp && (
+          <PopUpDelete
+            onConfirm={confirmDelete}
+            onClose={() => setShowDeletePopUp(false)}
+            text={'laboratorio'}
+          />
+        )}
+
+        <div className="paginationContainer">
+          <div className="pagination">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

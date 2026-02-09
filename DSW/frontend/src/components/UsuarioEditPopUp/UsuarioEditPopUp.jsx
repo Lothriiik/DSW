@@ -16,7 +16,7 @@ const UsuarioEditPopUp = ({ closePopup, usuarioId }) => {
     });
     const [isLoading, setIsLoading] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
-    console.log(usuarioId)
+
     useEffect(() => {
         const carregarUsuario = async () => {
             if (!usuarioId) return;
@@ -81,7 +81,7 @@ const UsuarioEditPopUp = ({ closePopup, usuarioId }) => {
                             onChange={e => handleChange('username', e.target.value)}
                         />
                     </div>
-                    
+
                     <div className='usuario-input'>
                         <CustomInput
                             label="Primeiro Nome"
@@ -91,7 +91,7 @@ const UsuarioEditPopUp = ({ closePopup, usuarioId }) => {
                             onChange={e => handleChange('first_name', e.target.value)}
                         />
                     </div>
-                    
+
                     <div className='usuario-input'>
                         <CustomInput
                             label="Último Nome"
@@ -101,7 +101,7 @@ const UsuarioEditPopUp = ({ closePopup, usuarioId }) => {
                             onChange={e => handleChange('last_name', e.target.value)}
                         />
                     </div>
-                    
+
                     <div className='usuario-input'>
                         <CustomInput
                             label="E-mail"

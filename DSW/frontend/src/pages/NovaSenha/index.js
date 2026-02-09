@@ -18,6 +18,10 @@ function NovaSenha() {
   const location = useLocation();
   const username = location.state?.username;
 
+  React.useEffect(() => {
+    document.title = "Nova Senha - LECCS";
+  }, []);
+
   const checkFields = () => {
     const senha = form.getFieldValue("senha");
     const confirmarsenha = form.getFieldValue("confirmarsenha");
@@ -105,12 +109,12 @@ function NovaSenha() {
       <div className="novasenha-right-panel">
         <div className="novasenha-form-container">
           <h1 className="novasenha-heading">Nova Senha</h1>
-          <Form 
+          <Form
             form={form}
-            onFinish={handleSubmit} 
-            layout="vertical" 
+            onFinish={handleSubmit}
+            layout="vertical"
             onValuesChange={checkFields}
-          > 
+          >
             <div className='novasenha-input'>
               <Form.Item
                 label="Senha"
@@ -159,7 +163,7 @@ function NovaSenha() {
                   type="submit"
                   htmlType="submit"
                   disabled={isButtonDisabled}
-                  loading={isLoading} 
+                  loading={isLoading}
                   className="blue size138"
                 >
                   Salvar

@@ -1,12 +1,23 @@
-
-.login-container {
+.esqueci-senha-container {
   display: flex;
   height: 100vh;
   width: 100%;
 }
 
+.esqueci-senha-input{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 2vh;
 
-.login-left-panel {
+}
+
+.esqueci-senha-input-container{
+  margin-bottom: 8px;
+}
+
+
+.esqueci-senha-left-panel{
   display: none;
   position: relative;
   background-color: #0091d4;
@@ -22,14 +33,6 @@
   inset: 0;
   background-color: rgba(0, 0, 0, 0.1);
   z-index: 0;
-}
-
-.wrap-group-login {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  margin-top: 2vh;
-  margin-bottom: 2vh;
 }
 
 
@@ -66,10 +69,6 @@
   font-weight: 700;
 }
 
-.login-input-container{
-  margin-bottom: 16px;
-}
-
 
 .version-tag {
   position: absolute;
@@ -80,15 +79,14 @@
 }
 
 
-.login-right-panel {
+.esqueci-senha-right-panel {
   width: 100%;
   display: flex;
   justify-content: center;
   padding: 0 24px;
 }
 
-
-.login-form-container {
+.esqueci-senha-form-container {
   width: 100%;
   max-width: 420px;
   display: flex;
@@ -97,21 +95,36 @@
   flex-direction: column;
 }
 
-.login-heading {
+.esqueci-senha-heading {
   font-size: 2.25rem;
   font-weight: 700;
   margin-bottom: 50px;
   color: #333;
 }
 
-@media (min-width: 768px) {
-  .login-left-panel {
+
+@media (min-width: 1096px) {
+  .esqueci-senha-left-panel {
     display: flex;
     width: 41.666667%;
   }
 
-  .login-right-panel {
+  .esqueci-senha-right-panel {
     width: 58.333333%;
   }
 }
 
+
+@media (max-width: 768px) {
+
+  .wrap-group-registrar{
+    width: 240px;
+  }
+  .esqueci-senha-heading{
+    margin-top: 180px;
+  }
+  .input-field27050{
+    width: 240px;
+    height: 45px;
+} 
+}

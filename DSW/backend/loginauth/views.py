@@ -1,4 +1,5 @@
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework.views import APIView
 from django.db import transaction
 from django.http import JsonResponse
@@ -10,9 +11,15 @@ from drf_spectacular.utils import extend_schema, OpenApiParameter, inline_serial
 from drf_spectacular.types import OpenApiTypes
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .serializers import (ListarUsuarioSerializer, UsuarioCompletoSerializer, 
-                            TrocarSenhaSerializer, RegistrarUsuarioSerializer)
+                            TrocarSenhaSerializer, RegistrarUsuarioSerializer,
+                            PasswordResetRequestSerializer, PasswordResetConfirmSerializer)
 from .permissions import IsAdminOrModerador
 import secrets
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.utils.encoding import force_bytes, force_str
+from django.core.mail import send_mail
+from django.conf import settings
 
 TokenOutputSerializer = inline_serializer(
     name='TokenOutput',
@@ -68,6 +75,18 @@ class LoginView(APIView):
         return Response({'detail': 'Credenciais Invalidas'}, status=status.HTTP_401_UNAUTHORIZED)
 
 @extend_schema(
+    summary="Renovar Token (Refresh)",
+    tags=['Autenticação e Token'],
+    description="Recebe um token de refresh válido e retorna um novo par de tokens (access e refresh).",
+    responses={
+        200: TokenOutputSerializer,
+        401: {'description': 'Token inválido ou expirado.'}
+    }
+)
+class CustomTokenRefreshView(TokenRefreshView):
+    pass
+
+@extend_schema(
         summary="Obter dados do usuário logado",
         tags=['Gerenciamento de Usuários'],
         description="Retorna dados básicos e o status 'precisa_trocar_senha' do usuário autenticado (via token).",
@@ -106,36 +125,50 @@ class UserInfo(APIView):
             "nivel_acesso": nivel_acesso,
         })
 
-@extend_schema(
-    summary="Registro de Novo Usuário",
-    tags=['Autenticação e Token'],
-    description="Cria um novo usuário no sistema."
-)    
-class RegistrarUsuarioView(generics.CreateAPIView):
-    queryset = User.objects.all()
-    serializer_class = RegistrarUsuarioSerializer
-    permission_classes = [AllowAny]
-    
+class UserListCreateView(generics.ListCreateAPIView):
+
+    queryset = User.objects.all().select_related('extensaousuario')
+
+    def get_permissions(self):
+        if self.request.method == 'POST':
+            return [AllowAny()]
+        return [IsAuthenticated(), IsAdminOrModerador()]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return RegistrarUsuarioSerializer
+        return ListarUsuarioSerializer
+
+    @extend_schema(
+        summary="Lista todos os usuários (Admin/Moderador)",
+        tags=['Gerenciamento de Usuários'],
+        description="Lista todos os usuários. Requer permissão de Admin ou Moderador.",
+        responses={200: ListarUsuarioSerializer(many=True), 401: {'description': 'Não Autorizado.'}}
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Registro de Novo Usuário",
+        tags=['Autenticação e Token'],
+        description="Cria um novo usuário no sistema (Sign-up).",
+        request=RegistrarUsuarioSerializer,
+        responses={201: RegistrarUsuarioSerializer, 400: {'description': 'Dados inválidos.'}}
+    )   
+    def post(self, request, *args, **kwargs):
+        return super().post(request, *args, **kwargs)
+
 @extend_schema(
     summary="Editar usuário por ID (Admin/Moderador)",
     tags=['Gerenciamento de Usuários'],
     description="Edita campos do usuário. Requer permissão de Admin ou Moderador. Usa UsuarioCompletoSerializer.",
 )
 class EditarUsuarioCompletoView(generics.UpdateAPIView):
+
     queryset = User.objects.all()
     serializer_class = UsuarioCompletoSerializer
     permission_classes = [IsAuthenticated, IsAdminOrModerador]
     lookup_field = 'pk'
-
-@extend_schema(
-    summary="Lista todos os usuários (Admin/Moderador)",
-    tags=['Gerenciamento de Usuários'],
-    description="Lista todos os usuários. Requer permissão de Admin ou Moderador.",
-)
-class ListaUsuariosComNivelView(generics.ListAPIView):
-    queryset = User.objects.all().select_related('extensaousuario')
-    serializer_class = ListarUsuarioSerializer
-    permission_classes = [IsAuthenticated, IsAdminOrModerador]
 
 @extend_schema(
         summary="Redefinição de Senha (Admin/Moderador)",
@@ -193,41 +226,52 @@ class AdminRedefinirSenhaView(generics.UpdateAPIView):
             status=status.HTTP_200_OK
         )
     
-@extend_schema(
-    summary="Deletar usuário por ID (Admin/Moderador)",
-    tags=['Gerenciamento de Usuários'],
-    description="Deleta um usuário permanentemente. Requer permissão de Admin ou Moderador.",
-    responses={
-        204: {'description': 'Usuário deletado com sucesso.'},
-        404: {'description': 'Usuário não encontrado.'}
-    }
-)
-class DeletarUsuarioView(generics.DestroyAPIView):
-    queryset = User.objects.all()
-    permission_classes = [IsAuthenticated, IsAdminOrModerador]
-
-    def delete(self, request, *args, **kwargs):
-        user_to_delete = self.get_object()
-
-        if user_to_delete == request.user:
-            return Response(
-                {"erro": "Você não pode deletar a própria conta."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        user_to_delete.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
-@extend_schema(
-    summary="Detalhes de um usuário por ID (Admin/Moderador)",
-    tags=['Gerenciamento de Usuários'],
-    description="Retorna detalhes de um usuário específico. Requer permissão de Admin ou Moderador.",
-)
-class ListarUsuarioPorIdView(generics.RetrieveAPIView):
+class UserDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = User.objects.all()
     serializer_class = UsuarioCompletoSerializer
     permission_classes = [IsAuthenticated, IsAdminOrModerador]
     lookup_field = 'pk'
+
+    @extend_schema(
+        summary="Detalhes de um usuário por ID (Admin/Moderador)",
+        tags=['Gerenciamento de Usuários'],
+        description="Retorna detalhes de um usuário específico.",
+        responses={200: UsuarioCompletoSerializer, 404: {'description': 'Usuário não encontrado.'}}
+    )
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Deletar usuário por ID (Admin/Moderador)",
+        tags=['Gerenciamento de Usuários'],
+        description="Deleta um usuário permanentemente.",
+        responses={204: {'description': 'Usuário deletado.'}, 404: {'description': 'Usuário não encontrado.'}}
+    )
+    def delete(self, request, *args, **kwargs):
+        user_to_delete = self.get_object()
+        if user_to_delete == request.user:
+            return Response(
+                {"erro": "Você não pode deletar a própria conta."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        return self.destroy(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Atualiza Usuário (Completo)",
+        tags=['Gerenciamento de Usuários'],
+        description="Atualiza dados do usuário.",
+    )
+    def put(self, request, *args, **kwargs):
+         return self.update(request, *args, **kwargs)
+
+    @extend_schema(
+        summary="Atualiza Usuário (Parcial)",
+        tags=['Gerenciamento de Usuários'],
+        description="Atualiza parcialmente dados do usuário.",
+    )
+    def patch(self, request, *args, **kwargs):
+         return self.partial_update(request, *args, **kwargs)
 
 @extend_schema(
     summary="Troca a senha (pós-reset ou primeiro acesso)",
@@ -280,3 +324,82 @@ class TrocarSenhaView(APIView):
             {'mensagem': 'Senha alterada com sucesso.'}, 
             status=status.HTTP_200_OK
         )
+
+@extend_schema(
+    summary="Solicitar Redefinição de Senha (API JSON)",
+    tags=['Autenticação e Token'],
+    description="Envia um e-mail com link para redefinição de senha. O link aponta para o Front-end.",
+    request=PasswordResetRequestSerializer,
+    responses={
+        200: {'description': 'E-mail de redefinição enviado.'},
+        400: {'description': 'E-mail não encontrado.'}
+    }
+)
+class PasswordResetRequestView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        if serializer.is_valid():
+            email = serializer.validated_data['email']
+            user = User.objects.filter(email=email).first()
+            
+            if user:
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                
+                # Link para o FRONTEND
+                reset_link = f"http://localhost:3000/reset-password/{uid}/{token}"
+                
+                print(f"\n\n--- LINK DE RESET ---\n{reset_link}\n---------------------\n\n")
+
+                send_mail(
+                    'Redefinição de Senha - LECCS',
+                    f'Clique no link para redefinir sua senha: {reset_link}',
+                    settings.EMAIL_HOST_USER if hasattr(settings, 'EMAIL_HOST_USER') else 'noreply@leccs.com',
+                    [email],
+                    fail_silently=False,
+                )
+            return Response({'mensagem': 'Se o e-mail existir, um link foi enviado.'}, status=status.HTTP_200_OK)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@extend_schema(
+    summary="Confirmar Redefinição de Senha (API JSON)",
+    tags=['Autenticação e Token'],
+    description="Recebe o token e a nova senha para efetivar a troca.",
+    request=PasswordResetConfirmSerializer,
+    responses={
+        200: {'description': 'Senha redefinida com sucesso.'},
+        400: {'description': 'Token inválido ou expirado.'}
+    }
+)
+class PasswordResetConfirmView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        serializer = PasswordResetConfirmSerializer(data=request.data)
+        if serializer.is_valid():
+            uid = serializer.validated_data['uidb64']
+            token = serializer.validated_data['token']
+            password = serializer.validated_data['new_password']
+
+            try:
+                user_id = force_str(urlsafe_base64_decode(uid))
+                user = User.objects.get(pk=user_id)
+            except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+                return Response({'erro': 'Link inválido.'}, status=status.HTTP_400_BAD_REQUEST)
+
+            if default_token_generator.check_token(user, token):
+                user.set_password(password)
+                user.save()
+                
+                extensao, _ = ExtensaoUsuario.objects.get_or_create(user=user)
+                extensao.precisa_trocar_senha = False
+                extensao.save()
+
+                return Response({'mensagem': 'Senha redefinida com sucesso.'}, status=status.HTTP_200_OK)
+            
+            return Response({'erro': 'Token inválido ou expirado.'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

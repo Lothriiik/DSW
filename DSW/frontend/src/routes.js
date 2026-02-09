@@ -17,6 +17,8 @@ import Usuarios from "./pages/Usuarios";
 import Registrar from "./pages/Registrar";
 import Sidebar from "./components/Sidebar/Sidebar";
 import NovaSenha from "./pages/NovaSenha";
+import EsqueciSenha from "./pages/EsqueciSenha";
+import ResetarSenha from "./pages/ResetarSenha";
 import "./routes.css";
 
 import { Layout } from "antd";
@@ -76,6 +78,8 @@ function AppRoutes() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/novasenha" element={<NovaSenha />} />
+        <Route path="/esqueci-senha" element={<EsqueciSenha />} />
+        <Route path="/reset-password/:uid/:token" element={<ResetarSenha />} />
         <Route path="/registrar" element={<Registrar />} />
         <Route path="*" element={<PrivateRoute><Inside /></PrivateRoute>} />
       </Routes>

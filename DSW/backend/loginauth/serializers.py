@@ -72,3 +72,12 @@ class TrocarSenhaSerializer(serializers.Serializer):
         user.extensaousuario.precisa_trocar_senha = False
         user.extensaousuario.save()
         return user
+
+class PasswordResetRequestSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+
+class PasswordResetConfirmSerializer(serializers.Serializer):
+    uidb64 = serializers.CharField()
+    token = serializers.CharField()
+    new_password = serializers.CharField(write_only=True)
+

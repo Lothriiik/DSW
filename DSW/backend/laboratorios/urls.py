@@ -1,8 +1,7 @@
 from django.urls import path
-from laboratorios.views.laboratorio_view import  (LaboratorioUpdateView, LaboratorioDeleteView, LaboratorioByIDView,
-                                                  LaboratorioCreateView, LaboratorioListView)
-from laboratorios.views.dispositivos_view import (DispositivosByLeccView, DispositivosCreateView, DispositivosDeleteView,
-                                                  DispositivosListView,  DispositivosUpdateView, DispositivosByIDView,
+from laboratorios.views.laboratorio_view import  (LaboratorioListCreateView, LaboratorioDetailView)
+from laboratorios.views.dispositivos_view import (DispositivosByLeccView, DispositivosListCreateView,
+                                                  DispositivosDetailView,
                                                   SoftwareDeleteView, SoftwaresByDispositivosView, SoftwareCreateView)
 
 
@@ -11,23 +10,16 @@ from django.conf import settings
 
 
 urlpatterns = [
+    path('laboratorios/', LaboratorioListCreateView.as_view(), name='lab-list-create'), 
+    path('laboratorios/<int:pk>/', LaboratorioDetailView.as_view(), name='lab-detail'), 
     
-    path('lab-list/', LaboratorioListView.as_view(), name='lab-list'),
-    path('lab-create/', LaboratorioCreateView.as_view(), name='lab-create'),
-    path('lab-by-id/', LaboratorioByIDView.as_view(), name='lab-by-id'),
-    path('lab-delete/', LaboratorioDeleteView.as_view(), name='lab-delete'),
-    path('lab-update/<int:pk>/', LaboratorioUpdateView.as_view(), name='lab-update'),
+    path('dispositivos/', DispositivosListCreateView.as_view(), name='disp-list-create'),       
+    path('dispositivos/<int:pk>/', DispositivosDetailView.as_view(), name='disp-detail'), 
+    path('laboratorios/<int:id_sala>/dispositivos/', DispositivosByLeccView.as_view(), name='disp-by-lecc'), 
 
-    path('disp-list/', DispositivosListView.as_view(), name='disp-list'),
-    path('disp-by-lecc/', DispositivosByLeccView.as_view(), name='disp-by-lecc'),
-    path('disp-by-id/', DispositivosByIDView.as_view(), name='disp-by-id'),
-    path('disp-delete/', DispositivosDeleteView.as_view(), name='disp-delete'),
-    path('disp-update/<int:pk>/', DispositivosUpdateView.as_view(), name='disp-update'),
-    path('disp-create/', DispositivosCreateView.as_view(), name='disp-create'),
-    
-    path('soft-delete/<int:id_software>/', SoftwareDeleteView.as_view(), name='soft-delete'),
-    path('soft-by-disp/', SoftwaresByDispositivosView.as_view(), name='soft-by-disp'),
-    path('soft-create/', SoftwareCreateView.as_view(), name='soft-create'),
+    path('softwares/create/', SoftwareCreateView.as_view(), name='soft-create'),   
+    path('softwares/<int:pk>/', SoftwareDeleteView.as_view(), name='soft-delete'), 
+    path('dispositivos/<int:id_dispositivo>/softwares/', SoftwaresByDispositivosView.as_view(), name='soft-by-disp'), 
 
 ]
 

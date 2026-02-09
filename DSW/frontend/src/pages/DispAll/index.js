@@ -21,32 +21,32 @@ function DispAll() {
   const navigate = useNavigate();
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [popupDispositivoId, setPopupDispositivoId] = useState('');
-  const [showDeletePopUp, setShowDeletePopUp] = useState(false); 
-  const [dispositivoToDelete, setDispositivoToDelete] = useState(null); 
+  const [showDeletePopUp, setShowDeletePopUp] = useState(false);
+  const [dispositivoToDelete, setDispositivoToDelete] = useState(null);
 
   const getItemsPerPage = () => {
     if (window.innerWidth > 1550) {
-      return 8; 
+      return 8;
     } else {
-      return 6; 
+      return 6;
     }
+  };
+  const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage());
+
+  useEffect(() => {
+    const handleResize = () => {
+      setItemsPerPage(getItemsPerPage());
     };
-    const [itemsPerPage, setItemsPerPage] = useState(getItemsPerPage()); 
-  
-    useEffect(() => {
-      const handleResize = () => {
-        setItemsPerPage(getItemsPerPage());
-      };
-      window.addEventListener('resize', handleResize);
-      return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleAdd = () => {
-    navigate('/dispadd', );
+    navigate('/dispadd',);
   };
-  
+
   const handleEdit = (idDisp) => {
-  navigate('/dispedit', { state: { dispId: idDisp } });
+    navigate('/dispedit', { state: { dispId: idDisp } });
   };
 
   const handleView = (idDisp) => {
@@ -72,7 +72,7 @@ function DispAll() {
       try {
         const dados = await fetchDispositivos();
         setDispositivos(dados);
-        console.log(dados);
+
         setError(null);
       } catch (err) {
         setError("Erro ao carregar dispositivos.");
@@ -86,8 +86,8 @@ function DispAll() {
       await deleteDispositivo(dispositivoToDelete);
       setDispositivos(prevData => prevData.filter(dispositivo => dispositivo.id_dispositivo !== dispositivoToDelete));
       setShowDeletePopUp(false);
-      setError(null); 
-      
+      setError(null);
+
     } catch (err) {
       setError("Erro ao excluir dispositivo: " + (err.response?.data?.detail || err.message));
     }
@@ -103,80 +103,80 @@ function DispAll() {
   const totalPages = Math.ceil(filteredDispositivos.length / itemsPerPage);
 
   return (
-        <>
-          <div className="header">
-            <h1 className="headerTitle">Dispositivos</h1> 
-            <div className="controlsContainer">
-              <div className="deviceInputContainer">
-                <span className="deviceInfo">Dispositivos: {filteredDispositivos.length}</span>
+    <>
+      <div className="header">
+        <h1 className="headerTitle">Dispositivos</h1>
+        <div className="controlsContainer">
+          <div className="deviceInputContainer">
+            <span className="deviceInfo">Dispositivos: {filteredDispositivos.length}</span>
 
-                <div className="containerInput">
-                  <CustomInput
-                    placeholder={`Pesquisar em ${labName || 'Sala'}`}
-                    value={filterText} 
-                    onChange={(e) => setFilterText(e.target.value)}
-                    className={`$inputField input-field320`}
-                  />
-                </div>
-                <div className="addButton">
-                  <CircleButton iconType="add" onClick={handleAdd}/>
-                </div>
-              </div>
-              
+            <div className="containerInput">
+              <CustomInput
+                placeholder={`Pesquisar em ${labName || 'Sala'}`}
+                value={filterText}
+                onChange={(e) => setFilterText(e.target.value)}
+                className={`$inputField input-field320`}
+              />
+            </div>
+            <div className="addButton">
+              <CircleButton iconType="add" onClick={handleAdd} />
             </div>
           </div>
 
-          <div className="formContainer">
-            {error && <p>{error}</p>}
+        </div>
+      </div>
 
-            {currentItems.length > 0 ? (
-              <div className="containerCard">
-                {currentItems.map((dispositivo) => {
-                  return dispositivo.is_computador ? (
-                    <CardComputadorAll
-                      key={dispositivo.id_dispositivo}
-                      tipo='Computador'
-                      sala={dispositivo.nome_sala}
-                      patrimonio={dispositivo.patrimonio}
-                      descricao={dispositivo.descricao}
-                      status={dispositivo.status}
-                      data={dispositivo.data_verificacao}
-                      onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
-                      onClickSoftware={() => handleOpenPopup(dispositivo.id_dispositivo)}
-                      onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)} 
-                      onClickCard={() => handleView(dispositivo.id_dispositivo)}
-                    />
-                  ) : (
-                    <CardDispositivosAll
-                      key={dispositivo.id_dispositivo}
-                      tipo={dispositivo.tipo}
-                      sala={dispositivo.nome_sala}
-                      patrimonio={dispositivo.patrimonio}
-                      modelo={dispositivo.modelo}
-                      status={dispositivo.status}
-                      data={dispositivo.data_verificacao}
-                      onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
-                      onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)} 
-                      onClickCard={() => handleView(dispositivo.id_dispositivo)}
-                    />
-                  );
-                })}
-              </div>
-            ) : (
-              <p></p>
-            )}
-            
-            <div className="paginationContainer">
-              <div className="pagination">
-                <Pagination
-                  currentPage={currentPage}
-                  totalPages={totalPages}
-                  onPageChange={setCurrentPage} 
+      <div className="formContainer">
+        {error && <p>{error}</p>}
+
+        {currentItems.length > 0 ? (
+          <div className="containerCard">
+            {currentItems.map((dispositivo) => {
+              return dispositivo.is_computador ? (
+                <CardComputadorAll
+                  key={dispositivo.id_dispositivo}
+                  tipo='Computador'
+                  sala={dispositivo.nome_sala}
+                  patrimonio={dispositivo.patrimonio}
+                  descricao={dispositivo.descricao}
+                  status={dispositivo.status}
+                  data={dispositivo.data_verificacao}
+                  onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
+                  onClickSoftware={() => handleOpenPopup(dispositivo.id_dispositivo)}
+                  onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)}
+                  onClickCard={() => handleView(dispositivo.id_dispositivo)}
                 />
-              </div>
-            </div>
+              ) : (
+                <CardDispositivosAll
+                  key={dispositivo.id_dispositivo}
+                  tipo={dispositivo.tipo}
+                  sala={dispositivo.nome_sala}
+                  patrimonio={dispositivo.patrimonio}
+                  modelo={dispositivo.modelo}
+                  status={dispositivo.status}
+                  data={dispositivo.data_verificacao}
+                  onClickEditar={() => handleEdit(dispositivo.id_dispositivo)}
+                  onClickDeletar={() => handleDelete(dispositivo.id_dispositivo)}
+                  onClickCard={() => handleView(dispositivo.id_dispositivo)}
+                />
+              );
+            })}
           </div>
-        
+        ) : (
+          <p></p>
+        )}
+
+        <div className="paginationContainer">
+          <div className="pagination">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+            />
+          </div>
+        </div>
+      </div>
+
       {isPopupOpen && (
         <PopUpTableSoftware
           idDispositivo={popupDispositivoId}
@@ -184,13 +184,13 @@ function DispAll() {
         />
       )}
       {showDeletePopUp && (
-                      <PopUpDelete
-                          onConfirm={confirmDelete}
-                          onClose={() => setShowDeletePopUp(false)}
-                          text={'dispositivo'}
-                      />
-                  )}
-      </>
+        <PopUpDelete
+          onConfirm={confirmDelete}
+          onClose={() => setShowDeletePopUp(false)}
+          text={'dispositivo'}
+        />
+      )}
+    </>
   );
 }
 

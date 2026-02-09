@@ -12,7 +12,7 @@ const UsuarioViewPopUp = ({ closePopup, usuarioId }) => {
         email: '',
         perfil: { nivel_acesso: '' },
     });
-    console.log(usuarioId)
+
     useEffect(() => {
         const carregarUsuario = async () => {
             if (!usuarioId) return;
@@ -63,7 +63,7 @@ const UsuarioViewPopUp = ({ closePopup, usuarioId }) => {
                             onChange={e => handleChange('username', e.target.value)}
                         />
                     </div>
-                    
+
                     <div className='usuario-input'>
                         <CustomInput
                             label="Primeiro Nome"
@@ -73,7 +73,7 @@ const UsuarioViewPopUp = ({ closePopup, usuarioId }) => {
                             onChange={e => handleChange('first_name', e.target.value)}
                         />
                     </div>
-                    
+
                     <div className='usuario-input'>
                         <CustomInput
                             label="Último Nome"
@@ -83,7 +83,7 @@ const UsuarioViewPopUp = ({ closePopup, usuarioId }) => {
                             onChange={e => handleChange('last_name', e.target.value)}
                         />
                     </div>
-                    
+
                     <div className='usuario-input'>
                         <CustomInput
                             label="E-mail"
@@ -108,7 +108,7 @@ const UsuarioViewPopUp = ({ closePopup, usuarioId }) => {
                                 width: 300,
                                 height: 50,
                                 fontSize: 'clamp(14px, 2vw, 18px)',
-                                pointerEvents: 'none' 
+                                pointerEvents: 'none'
                             }}
                             options={[
                                 { label: 'Admin', value: 'admin' },

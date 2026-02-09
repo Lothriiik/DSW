@@ -39,7 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'laboratorios',
-    'problemas',
+    'observacoes',
     'rest_framework',
     'corsheaders',
     'rest_framework_simplejwt',
@@ -203,3 +203,6 @@ SPECTACULAR_SETTINGS = {
         'persistAuthorization': True,
     },
 }
+
+# Email configuration
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

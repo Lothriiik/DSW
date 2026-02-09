@@ -21,7 +21,7 @@ api.interceptors.request.use(
 
 export const fetchSalas = async () => {
   try {
-    const response = await api.get('laboratorios/lab-list/');
+    const response = await api.get('laboratorios/laboratorios/');
     const data = response.data.Laboratorio;
     const formattedSalas = data.map((sala) => ({
       value: sala.id_sala,
@@ -30,24 +30,24 @@ export const fetchSalas = async () => {
     return formattedSalas;
   } catch (error) {
     console.error('Erro ao buscar as salas:', error);
-    throw error; 
+    throw error;
   }
 };
 
 export const createLaboratorio = async (labData) => {
   try {
-    const response = await api.post('laboratorios/lab-create/', labData);
-    return response.data; 
+    const response = await api.post('laboratorios/laboratorios/', labData);
+    return response.data;
   } catch (error) {
     console.error('Erro ao criar laboratório:', error);
-    throw error; 
+    throw error;
   }
 };
 
 export const fetchLaboratorioById = async (idSala) => {
   try {
-    const response = await api.get(`laboratorios/lab-by-id/?id_sala=${idSala}`);
-    return response.data.laboratorio[0];
+    const response = await api.get(`laboratorios/laboratorios/${idSala}/`);
+    return response.data; // Agora retorna o objeto direto
   } catch (error) {
     console.error(`Erro ao buscar laboratório com ID ${idSala}:`, error);
     throw error;
@@ -56,7 +56,7 @@ export const fetchLaboratorioById = async (idSala) => {
 
 export const fetchLaboratorios = async () => {
   try {
-    const response = await api.get('laboratorios/lab-list/');
+    const response = await api.get('laboratorios/laboratorios/');
     return response.data.Laboratorio;
   } catch (error) {
     console.error('Erro ao buscar laboratórios:', error);
@@ -66,18 +66,18 @@ export const fetchLaboratorios = async () => {
 
 export const deleteLaboratorio = async (laboratorioId) => {
   try {
-    const response = await api.delete(`laboratorios/lab-delete/?id_sala=${laboratorioId}`);
+    const response = await api.delete(`laboratorios/laboratorios/${laboratorioId}/`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao deletar o laboratório ${laboratorioId}:`, error);
-    throw error; 
+    throw error;
   }
 };
 
 export const updateLaboratorio = async (labId, data) => {
   try {
-    const response = await api.put(`laboratorios/lab-update/${labId}/`, data);
-    return response.data; 
+    const response = await api.put(`laboratorios/laboratorios/${labId}/`, data);
+    return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar o laboratório ${labId}:`, error);
     throw error;
@@ -88,27 +88,27 @@ export const updateLaboratorio = async (labId, data) => {
 
 export const fetchDispData = async (dispIdNumber) => {
   try {
-    const response = await api.get(`laboratorios/disp-by-id/?id_dispositivo=${dispIdNumber}`);
-    return response.data.Dispositivos[0]; 
+    const response = await api.get(`laboratorios/dispositivos/${dispIdNumber}/`);
+    return response.data; // Objeto direto
   } catch (error) {
     console.error('Erro ao buscar dados do dispositivo:', error);
-    throw error; 
+    throw error;
   }
 };
 
 export const updateDispositivo = async (dispId, data) => {
   try {
-    const response = await api.put(`laboratorios/disp-update/${dispId}/`, data);
-    return response.data; 
+    const response = await api.put(`laboratorios/dispositivos/${dispId}/`, data);
+    return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar o dispositivo ${dispId}:`, error);
-    throw error; 
+    throw error;
   }
 };
 
 export const createDispositivo = async (data) => {
   try {
-    const response = await api.post('laboratorios/disp-create/', data);
+    const response = await api.post('laboratorios/dispositivos/', data);
     return response.data;
   } catch (error) {
     console.error('Erro ao criar dispositivo:', error);
@@ -118,7 +118,7 @@ export const createDispositivo = async (data) => {
 
 export const deleteDispositivo = async (dispositivoId) => {
   try {
-    const response = await api.delete(`laboratorios/disp-delete/?id_dispositivo=${dispositivoId}`);
+    const response = await api.delete(`laboratorios/dispositivos/${dispositivoId}/`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao deletar o dispositivo ${dispositivoId}:`, error);
@@ -128,7 +128,7 @@ export const deleteDispositivo = async (dispositivoId) => {
 
 export const fetchDispositivos = async () => {
   try {
-    const response = await api.get('laboratorios/disp-list/');
+    const response = await api.get('laboratorios/dispositivos/');
     return response.data.dispositivos;
   } catch (error) {
     console.error('Erro ao buscar lista de dispositivos:', error);
@@ -138,7 +138,7 @@ export const fetchDispositivos = async () => {
 
 export const fetchDispositivosByLab = async (idSala) => {
   try {
-    const response = await api.get(`laboratorios/disp-by-lecc/?id_sala=${idSala}`);
+    const response = await api.get(`laboratorios/laboratorios/${idSala}/dispositivos/`);
     return response.data.Dispositivos;
   } catch (error) {
     console.error(`Erro ao buscar dispositivos para a sala ${idSala}:`, error);
@@ -148,9 +148,7 @@ export const fetchDispositivosByLab = async (idSala) => {
 
 export const fetchDispositivosBySala = async (salaId) => {
   try {
-    const response = await api.get('laboratorios/disp-by-lecc/', {
-      params: { id_sala: salaId },
-    });
+    const response = await api.get(`laboratorios/laboratorios/${salaId}/dispositivos/`);
     return response.data.Dispositivos;
   } catch (error) {
     console.error('Erro ao buscar os dispositivos:', error);
@@ -160,8 +158,8 @@ export const fetchDispositivosBySala = async (salaId) => {
 
 export const fetchSoftwareByDisp = async (dispositivoId) => {
   try {
-    const response = await api.get(`laboratorios/soft-by-disp/?id_dispositivo=${dispositivoId}`);
-    return response.data.Software; 
+    const response = await api.get(`laboratorios/dispositivos/${dispositivoId}/softwares/`);
+    return response.data.Software;
   } catch (error) {
     console.error('Erro ao buscar software:', error);
     throw error;
@@ -170,7 +168,7 @@ export const fetchSoftwareByDisp = async (dispositivoId) => {
 
 export const addSoftware = async (softwareData) => {
   try {
-    const response = await api.post('laboratorios/soft-create/', softwareData);
+    const response = await api.post('laboratorios/softwares/create/', softwareData);
     return response.data;
   } catch (error) {
     console.error('Erro ao adicionar software:', error);
@@ -180,11 +178,11 @@ export const addSoftware = async (softwareData) => {
 
 export const deleteSoftware = async (softwareId) => {
   try {
-    const response = await api.delete(`laboratorios/soft-delete/${softwareId}/`);
+    const response = await api.delete(`laboratorios/softwares/${softwareId}/`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao deletar o software ${softwareId}:`, error);
-    throw error; 
+    throw error;
   }
 };
 
@@ -192,7 +190,7 @@ export const deleteSoftware = async (softwareId) => {
 
 export const fetchObservacoes = async () => {
   try {
-    const response = await api.get('problemas/obs-list/');
+    const response = await api.get('observacoes/observacoes/');
     return response.data.Observacao;
   } catch (error) {
     console.error('Erro ao buscar observações:', error);
@@ -202,7 +200,7 @@ export const fetchObservacoes = async () => {
 
 export const deleteObservacao = async (observacaoId) => {
   try {
-    const response = await api.delete(`problemas/obs-delete/?id_observacao=${observacaoId}`);
+    const response = await api.delete(`observacoes/observacoes/${observacaoId}/`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao deletar a observação ${observacaoId}:`, error);
@@ -212,18 +210,18 @@ export const deleteObservacao = async (observacaoId) => {
 
 export const createObservacao = async (data) => {
   try {
-    const response = await api.post('problemas/obs-create/', data);
-    return response.data; 
+    const response = await api.post('observacoes/observacoes/', data);
+    return response.data;
   } catch (error) {
     console.error('Erro ao criar observação:', error);
-    throw error; 
+    throw error;
   }
 };
 
 export const fetchObservacaoById = async (obsId) => {
   try {
-    const response = await api.get(`problemas/obs-by-id/?id_observacao=${obsId}`);
-    return response.data.observacao[0]; 
+    const response = await api.get(`observacoes/observacoes/${obsId}/`);
+    return response.data; // Objeto direto
   } catch (error) {
     console.error('Erro ao buscar observação por ID:', error);
     throw error;
@@ -232,7 +230,7 @@ export const fetchObservacaoById = async (obsId) => {
 
 export const updateObservacao = async (obsId, data) => {
   try {
-    const response = await api.patch(`problemas/obs-update/${obsId}/`, data);
+    const response = await api.put(`observacoes/observacoes/${obsId}/`, data);
     return response.data;
   } catch (error) {
     console.error(`Erro ao atualizar a observação ${obsId}:`, error);
@@ -245,7 +243,7 @@ export const updateObservacao = async (obsId, data) => {
 export const login = async (username, password) => {
   try {
     const response = await api.post('auth/login/', { username, password });
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Erro no login:', error.response?.data);
     throw error;
@@ -255,7 +253,7 @@ export const login = async (username, password) => {
 export const fetchUsuarioInfo = async () => {
   try {
     const response = await api.get('auth/usuario-info/');
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar informações do usuário:', error.response?.data);
     throw error;
@@ -264,8 +262,8 @@ export const fetchUsuarioInfo = async () => {
 
 export const registerUser = async (userData) => {
   try {
-    const response = await api.post('auth/registrar/', userData);
-    return response.data; 
+    const response = await api.post('auth/usuarios/', userData);
+    return response.data;
   } catch (error) {
     console.error('Erro ao registrar usuário:', error);
     throw error;
@@ -274,8 +272,8 @@ export const registerUser = async (userData) => {
 
 export const fetchUsuarios = async () => {
   try {
-    const response = await api.get('auth/usuarios/listar/');
-    return response.data; 
+    const response = await api.get('auth/usuarios/');
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar a lista de usuários:', error);
     throw error;
@@ -284,8 +282,8 @@ export const fetchUsuarios = async () => {
 
 export const updateUsuario = async (id, dadosUsuario) => {
   try {
-    const response = await api.put(`auth/usuarios/${id}/editar/`, dadosUsuario);
-    return response.data; 
+    const response = await api.put(`auth/usuarios/${id}/`, dadosUsuario);
+    return response.data;
   } catch (error) {
     console.error('Erro ao atualizar o usuário:', error);
     throw error;
@@ -295,7 +293,7 @@ export const updateUsuario = async (id, dadosUsuario) => {
 export const fetchUsuarioPorId = async (id) => {
   try {
     const response = await api.get(`auth/usuarios/${id}/`);
-    return response.data; 
+    return response.data;
   } catch (error) {
     console.error('Erro ao buscar o usuário:', error);
     throw error;
@@ -304,7 +302,7 @@ export const fetchUsuarioPorId = async (id) => {
 
 export const deleteUsuario = async (userId) => {
   try {
-    const response = await api.delete(`auth/usuarios/${userId}/excluir/`);
+    const response = await api.delete(`auth/usuarios/${userId}/`);
     return response.data;
   } catch (error) {
     console.error(`Erro ao deletar o usuário ${userId}:`, error);
@@ -318,6 +316,26 @@ export const redefinirSenha = async (dados) => {
     return response.data;
   } catch (error) {
     console.error("Erro ao redefinir senha:", error);
+    throw error;
+  }
+};
+
+export const requestPasswordReset = async (email) => {
+  try {
+    const response = await api.post('auth/password-reset/', { email });
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao solicitar redefinição de senha:", error);
+    throw error;
+  }
+};
+
+export const confirmPasswordReset = async (data) => {
+  try {
+    const response = await api.post('auth/password-reset/confirm/', data);
+    return response.data;
+  } catch (error) {
+    console.error("Erro ao confirmar redefinição de senha:", error);
     throw error;
   }
 };
